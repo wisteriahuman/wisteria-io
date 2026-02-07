@@ -1,39 +1,45 @@
 ---
 const projects = [
   {
-    title: 'P2HACKS 2025',
-    desc: 'ユーザーの日記からAIで画像を生成するアプリ。バックエンド担当。DB設計およびAI画像生成バッチ処理を実装。GPT-4.1でシーン記述を生成し、Geminiで画像生成するマルチLLMワークフローを構築。',
+    title: 'リフレクト新世界 / FUtureNova / P2HACKS 2025',
+    desc: 'チーム「FUtureNova」として学内ハッカソン「P2HACKS2025」に参加。バックエンド担当。DB設計およびAI画像生成バッチ処理を実装。GPT-4.1とGeminiを組み合わせたマルチLLMワークフローを構築。',
     tech: ['TypeScript', 'Hono', 'Supabase', 'Drizzle ORM', 'OpenAI API', 'Gemini API'],
     award: 'Directorz賞',
-    link: 'https://github.com/p2hacks2025/pre-03',
+    github: 'https://github.com/p2hacks2025/pre-03',
+    period: '2025/12/13 - 2025/12/21',
   },
   {
-    title: 'P2HACKS 2024',
-    desc: 'バックエンド担当。画像解析APIの実装を担当。',
+    title: 'ぴこるー / #TweetAvalanche / P2HACKS 2024',
+    desc: 'チーム「#TweetAvalanche」として学内ハッカソン「P2HACKS2024」に参加。バックエンド担当。画像解析APIの実装を担当。',
     tech: ['Python', 'Flask'],
     award: 'サイバーエージェント賞',
-    link: 'https://github.com/p2hacks2024/pre-03',
+    github: 'https://github.com/p2hacks2024/pre-03',
+    period: '2024/12/7 - 2024/12/15',
   },
   {
-    title: 'JPHACKS 2025 札幌',
-    desc: 'バックエンド担当。DB設計（共同）およびAPI実装。',
+    title: 'パキッとクネクネタスク / FUtureNova / JPHACKS 2025',
+    desc: 'チーム「FUtureNova」として国内最大級のハッカソン「JPHACKS 2025」札幌に参加。バックエンド担当。DB設計（共同）およびAPI実装。',
     tech: ['TypeScript', 'tRPC', 'Next.js'],
     award: null,
-    link: 'https://github.com/jphacks/sp_2502',
+    github: 'https://github.com/jphacks/sp_2502',
+    period: '2025/10/18 - 2025/10/19',
   },
   {
-    title: '学内ハッカソン FISH',
+    title: 'ルート√X / 廃人X / 学内ハッカソン FISH',
     desc: '学内課題解決ハッカソン。バックエンド担当。来訪者向けルート検索APIを実装。優勝後、運用に向けて開発を継続中。',
     tech: ['Python', 'Flask', 'FastAPI'],
     award: '優勝',
+    github: null,
+    period: '2024/10/18 - 2024/10/20',
     link: 'https://www.fun.ac.jp/activity/25782',
   },
   {
-    title: 'fun-developers-hub',
+    title: 'FUN Developers Hub / 高度ICT演習',
     desc: '学内演習。Go + Echoを用いたバックエンド開発に参加。エラーハンドリング改善やロガー実装に取り組んだ。',
     tech: ['Go', 'Echo', 'zerolog'],
     award: null,
-    link: 'https://github.com/fun-developers-hub',
+    github: 'https://github.com/fun-developers-hub',
+    period: '2025/4 - 現在',
   },
 ];
 ---
@@ -41,28 +47,38 @@ const projects = [
 <section id="projects" class="py-24 px-6">
   <div class="max-w-5xl mx-auto space-y-8">
     <h2 class="text-3xl font-bold text-white">Projects</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="space-y-6">
       {projects.map(p => (
-        <a href={p.link} target="_blank" rel="noopener"
-          class="group bg-bg-card rounded-xl p-6 hover:bg-bg-card-hover transition-all hover:-translate-y-1 block">
-          <div class="flex items-start justify-between mb-3">
-            <h3 class="text-white font-semibold text-lg group-hover:text-accent transition-colors">{p.title}</h3>
-            <svg class="w-5 h-5 text-text-muted group-hover:text-accent transition-colors shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
+        <div class="bg-bg-card rounded-xl p-6 hover:bg-bg-card-hover transition-colors">
+          <div class="flex items-start justify-between mb-2">
+            <h3 class="text-white font-semibold text-lg">{p.title}</h3>
+            {p.award && (
+              <span class="inline-block px-2.5 py-0.5 bg-primary/20 text-primary-light text-xs rounded-full shrink-0 ml-3">
+                🏆 {p.award}
+              </span>
+            )}
           </div>
-          {p.award && (
-            <span class="inline-block px-2.5 py-0.5 bg-primary/20 text-primary-light text-xs rounded-full mb-3">
-              🏆 {p.award}
-            </span>
-          )}
-          <p class="text-text-muted text-sm leading-relaxed mb-4">{p.desc}</p>
-          <div class="flex flex-wrap gap-2">
+          <p class="text-text-muted text-sm leading-relaxed mb-3">{p.desc}</p>
+          <div class="flex flex-wrap gap-2 mb-3">
             {p.tech.map(t => (
               <span class="px-2 py-0.5 bg-white/5 text-text-muted text-xs rounded border border-border">{t}</span>
             ))}
           </div>
-        </a>
+          <div class="flex items-center gap-4 text-sm">
+            {p.github && (
+              <a href={p.github} target="_blank" rel="noopener" class="text-accent hover:underline inline-flex items-center gap-1">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                GitHub
+              </a>
+            )}
+            {p.link && (
+              <a href={p.link} target="_blank" rel="noopener" class="text-accent hover:underline inline-flex items-center gap-1">
+                🔗 関連サイト
+              </a>
+            )}
+            <span class="text-text-muted/60 text-xs ml-auto">{p.period}</span>
+          </div>
+        </div>
       ))}
     </div>
   </div>
