@@ -1,0 +1,48 @@
+---
+const timeline = [
+  {
+    period: '2024/9 〜 現在',
+    title: 'ハコレコドットコム株式会社',
+    subtitle: 'アルバイト — Webエンジニア',
+    desc: 'Next.js / React を用いたWeb制作・保守運用を担当。',
+  },
+  {
+    period: '2025',
+    title: 'ICPC 2025 アジア横浜大会',
+    subtitle: '競技プログラミング',
+    desc: 'ACM-ICPC アジア横浜地区大会に出場。',
+  },
+  {
+    period: '2024 〜 2025',
+    title: 'ハッカソン 複数受賞',
+    subtitle: 'P2HACKS / JPHACKS / FISH',
+    desc: 'バックエンド担当として複数のハッカソンに参加。Directorz賞、サイバーエージェント賞、優勝を獲得。',
+  },
+  {
+    period: '〜 高校',
+    title: 'ハンドボール',
+    subtitle: 'GK — インターハイ出場',
+    desc: '小学校から高校までハンドボールに打ち込み、キーパーとしてインターハイに出場。',
+  },
+];
+---
+
+<section id="experience" class="py-24 px-6 bg-bg-card/30">
+  <div class="max-w-3xl mx-auto space-y-8">
+    <h2 class="text-3xl font-bold text-white">Experience</h2>
+    <div class="space-y-0">
+      {timeline.map((item, i) => (
+        <div class="relative pl-8 pb-10 last:pb-0">
+          <div class="absolute left-0 top-1.5 w-3 h-3 bg-primary rounded-full ring-4 ring-bg-dark"></div>
+          {i < timeline.length - 1 && (
+            <div class="absolute left-[5px] top-4 w-0.5 h-full bg-border"></div>
+          )}
+          <p class="text-accent text-sm font-[JetBrains_Mono]">{item.period}</p>
+          <h3 class="text-white font-semibold text-lg mt-1">{item.title}</h3>
+          <p class="text-primary-light text-sm">{item.subtitle}</p>
+          <p class="text-text-muted text-sm mt-2">{item.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

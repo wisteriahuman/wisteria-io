@@ -1,0 +1,35 @@
+---
+---
+
+<section id="about" class="py-24 px-6">
+  <div class="max-w-3xl mx-auto space-y-8">
+    <h2 class="text-3xl font-bold text-white">About</h2>
+    <div class="space-y-4 text-text-muted leading-relaxed">
+      <p>
+        公立はこだて未来大学の学生です。バックエンドエンジニアを志望しており、
+        Go・TypeScript・Python を中心にAPI設計・実装を行っています。
+      </p>
+      <p>
+        AtCoder水色（レート1351）、ICPC 2025 アジア横浜大会に出場。
+        ハッカソンではバックエンドを担当し、複数回の受賞経験があります。
+      </p>
+      <p>
+        開発環境は <span class="text-accent font-[JetBrains_Mono] text-sm">Garuda Linux + Sway + Neovim</span>。
+        CLI中心のワークフローで効率的に開発しています。
+      </p>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
+      {[
+        { label: 'AtCoder', value: '水色' },
+        { label: 'ICPC', value: 'Asia横浜' },
+        { label: 'ハッカソン受賞', value: '3回' },
+        { label: 'メイン言語', value: 'Go / TS' },
+      ].map(item => (
+        <div class="bg-bg-card rounded-lg p-4 text-center">
+          <p class="text-2xl font-bold text-white">{item.value}</p>
+          <p class="text-text-muted text-sm mt-1">{item.label}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

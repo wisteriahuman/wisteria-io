@@ -1,0 +1,69 @@
+---
+const projects = [
+  {
+    title: 'P2HACKS 2025',
+    desc: 'マルチLLMワークフロー。複数のLLMを組み合わせたバックエンドシステムを設計・実装。',
+    tech: ['TypeScript', 'Hono', 'Supabase'],
+    award: 'Directorz賞',
+    link: 'https://github.com/p2hacks2025/pre-03',
+  },
+  {
+    title: 'P2HACKS 2024',
+    desc: '画像解析APIを実装。機械学習モデルを活用した画像処理パイプラインを構築。',
+    tech: ['Python', 'Flask'],
+    award: 'サイバーエージェント賞',
+    link: 'https://github.com/p2hacks2024/pre-03',
+  },
+  {
+    title: 'JPHACKS 2025 札幌',
+    desc: 'T3 Stackを用いたフルスタック開発。tRPCによる型安全なAPI設計。',
+    tech: ['TypeScript', 'tRPC', 'Next.js'],
+    award: null,
+    link: 'https://github.com/jphacks/sp_2502',
+  },
+  {
+    title: '学内ハッカソン FISH',
+    desc: '来訪者向けルート検索API。Flask→FastAPIへのリアーキテクト。',
+    tech: ['Python', 'FastAPI'],
+    award: '優勝',
+    link: 'https://www.fun.ac.jp/activity/25782',
+  },
+  {
+    title: 'fun-developers-hub',
+    desc: 'Go + Echo によるバックエンド開発。RESTful API設計。',
+    tech: ['Go', 'Echo'],
+    award: null,
+    link: 'https://github.com/fun-developers-hub',
+  },
+];
+---
+
+<section id="projects" class="py-24 px-6">
+  <div class="max-w-5xl mx-auto space-y-8">
+    <h2 class="text-3xl font-bold text-white">Projects</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {projects.map(p => (
+        <a href={p.link} target="_blank" rel="noopener"
+          class="group bg-bg-card rounded-xl p-6 hover:bg-bg-card-hover transition-all hover:-translate-y-1 block">
+          <div class="flex items-start justify-between mb-3">
+            <h3 class="text-white font-semibold text-lg group-hover:text-accent transition-colors">{p.title}</h3>
+            <svg class="w-5 h-5 text-text-muted group-hover:text-accent transition-colors shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </div>
+          {p.award && (
+            <span class="inline-block px-2.5 py-0.5 bg-primary/20 text-primary-light text-xs rounded-full mb-3">
+              🏆 {p.award}
+            </span>
+          )}
+          <p class="text-text-muted text-sm leading-relaxed mb-4">{p.desc}</p>
+          <div class="flex flex-wrap gap-2">
+            {p.tech.map(t => (
+              <span class="px-2 py-0.5 bg-white/5 text-text-muted text-xs rounded border border-border">{t}</span>
+            ))}
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

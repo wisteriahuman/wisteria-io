@@ -1,0 +1,62 @@
+---
+const categories = [
+  {
+    title: 'Languages',
+    icon: '⌨️',
+    skills: ['Go', 'TypeScript', 'Python'],
+  },
+  {
+    title: 'Backend',
+    icon: '🔧',
+    skills: ['Echo', 'Hono', 'Flask', 'FastAPI'],
+  },
+  {
+    title: 'Frontend',
+    icon: '🎨',
+    skills: ['Next.js', 'React', 'Astro'],
+  },
+  {
+    title: 'Database',
+    icon: '🗄️',
+    skills: ['PostgreSQL', 'Supabase', 'Drizzle ORM'],
+  },
+  {
+    title: 'Infrastructure',
+    icon: '☁️',
+    skills: ['Docker', 'Cloudflare'],
+  },
+  {
+    title: 'AI / ML',
+    icon: '🤖',
+    skills: ['OpenAI API', 'Gemini API', 'PyTorch'],
+  },
+  {
+    title: 'Tools',
+    icon: '🛠️',
+    skills: ['Neovim', 'tmux', 'Git'],
+  },
+];
+---
+
+<section id="skills" class="py-24 px-6 bg-bg-card/30">
+  <div class="max-w-5xl mx-auto space-y-8">
+    <h2 class="text-3xl font-bold text-white">Skills</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {categories.map(cat => (
+        <div class="bg-bg-card rounded-xl p-6 hover:bg-bg-card-hover transition-colors">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-2xl">{cat.icon}</span>
+            <h3 class="text-white font-semibold">{cat.title}</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            {cat.skills.map(s => (
+              <span class="px-3 py-1 bg-white/5 text-text-muted text-sm rounded-full border border-border">
+                {s}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
