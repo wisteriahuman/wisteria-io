@@ -15,8 +15,8 @@ wisteria のポートフォリオサイト。
 このサイトは [Claude](https://claude.ai) (Anthropic) を活用して開発しました。
 
 ```bash
-npm install
-npx astro dev
+bun install
+bun astro dev
 ```
 
 ## Deploy
