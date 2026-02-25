@@ -6,9 +6,10 @@ interface Props {
   description: string;
   pubDate: Date;
   tags: string[];
+  slug: string;
 }
 
-const { title, description, pubDate, tags } = Astro.props;
+const { title, description, pubDate, tags, slug } = Astro.props;
 
 const formattedDate = pubDate.toLocaleDateString('ja-JP', {
   year: 'numeric',
@@ -17,7 +18,13 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
 });
 ---
 
-<Layout title={`${title} | wisteria`}>
+<Layout
+  title={`${title} | wisteria`}
+  description={description}
+  image={`/og/${slug}.png`}
+  url={`/blog/${slug}`}
+  type="article"
+>
   <main class="min-h-screen pt-20 pb-24 px-6">
     <article class="max-w-3xl mx-auto">
       <a

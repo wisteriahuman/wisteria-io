@@ -3,9 +3,23 @@ import '../styles/global.css'
 
 interface Props {
   title?: string;
+  description?: string;
+  image?: string;
+  url?: string;
+  type?: string;
 }
 
-const { title = 'wisteria | Portfolio' } = Astro.props;
+const {
+  title = 'wisteria | Portfolio',
+  description = 'wisteria (藤井 優気) - Software Engineer',
+  image,
+  url,
+  type = 'website',
+} = Astro.props;
+
+const siteUrl = 'https://wisteria-io.com';
+const ogImage = image ? `${siteUrl}${image}` : undefined;
+const ogUrl = url ? `${siteUrl}${url}` : siteUrl;
 ---
 
 <!doctype html>
@@ -13,8 +27,20 @@ const { title = 'wisteria | Portfolio' } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="wisteria (藤井 優気) - Software Engineer" />
+    <meta name="description" content={description} />
     <link rel="icon" type="image/jpeg" href="/favicon.jpg" />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={ogUrl} />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="wisteria" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
