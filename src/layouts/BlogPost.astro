@@ -1,0 +1,119 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  tags: string[];
+}
+
+const { title, description, pubDate, tags } = Astro.props;
+
+const formattedDate = pubDate.toLocaleDateString('ja-JP', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<Layout title={`${title} | wisteria`}>
+  <main class="min-h-screen pt-20 pb-24 px-6">
+    <article class="max-w-3xl mx-auto">
+      <a
+        href="/blog"
+        class="inline-flex items-center gap-2 text-text-muted hover:text-accent transition-colors text-sm mb-8"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        記事一覧に戻る
+      </a>
+
+      <header class="mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">{title}</h1>
+        <div class="flex flex-wrap items-center gap-4 text-sm text-text-muted mb-4">
+          <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+        </div>
+        {tags.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {tags.map(tag => (
+              <span class="px-3 py-1 bg-white/5 text-text-muted text-sm rounded-full border border-border">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </header>
+
+      <div class="blog-content">
+        <slot />
+      </div>
+    </article>
+  </main>
+</Layout>
+
+<style is:global>
+  @reference "../styles/global.css";
+
+  .blog-content {
+    @apply text-text-main leading-relaxed;
+  }
+
+  .blog-content h2 {
+    @apply text-2xl font-bold text-white mt-12 mb-4;
+  }
+
+  .blog-content h3 {
+    @apply text-xl font-semibold text-white mt-8 mb-3;
+  }
+
+  .blog-content p {
+    @apply mb-4;
+  }
+
+  .blog-content ul,
+  .blog-content ol {
+    @apply mb-4 pl-6;
+  }
+
+  .blog-content ul {
+    @apply list-disc;
+  }
+
+  .blog-content ol {
+    @apply list-decimal;
+  }
+
+  .blog-content li {
+    @apply mb-2;
+  }
+
+  .blog-content a {
+    @apply text-accent hover:underline;
+  }
+
+  .blog-content code {
+    @apply font-[JetBrains_Mono] text-sm bg-bg-card px-1.5 py-0.5 rounded;
+  }
+
+  .blog-content pre {
+    @apply my-6 p-4 rounded-xl overflow-x-auto;
+  }
+
+  .blog-content pre code {
+    @apply bg-transparent p-0;
+  }
+
+  .blog-content blockquote {
+    @apply border-l-4 border-primary pl-4 my-4 text-text-muted italic;
+  }
+
+  .blog-content hr {
+    @apply my-8 border-border;
+  }
+
+  .blog-content img {
+    @apply rounded-xl my-6;
+  }
+</style>
