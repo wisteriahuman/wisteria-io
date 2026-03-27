@@ -4,7 +4,7 @@
 
 ## 構成
 
-- `src/components/` — 各セクションのコンポーネント（Hero, About, Skills, Projects, Experience, Contact, Nav）
+- `src/components/` — 各セクションのコンポーネント（Hero, About, Skills, Projects, Experience, Links, Nav）
 - `src/layouts/Layout.astro` — 共通レイアウト
 - `src/styles/global.css` — TailwindCSS + カスタムテーマ
 - `serve.cjs` — 静的ファイル配信サーバー
