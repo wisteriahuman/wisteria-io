@@ -60,6 +60,47 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
   </main>
 </Layout>
 
+<script>
+  import mermaid from 'mermaid';
+
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: 'base',
+    themeVariables: {
+      background: '#1e293b',
+      primaryColor: '#334155',
+      primaryTextColor: '#e2e8f0',
+      primaryBorderColor: '#6366f1',
+      secondaryColor: '#1e293b',
+      secondaryTextColor: '#e2e8f0',
+      secondaryBorderColor: '#818cf8',
+      tertiaryColor: '#1e293b',
+      lineColor: '#94a3b8',
+      textColor: '#e2e8f0',
+      fontFamily: 'Inter, Noto Sans JP, system-ui, sans-serif',
+      fontSize: '14px',
+      nodeBorder: '#6366f1',
+      nodeTextColor: '#e2e8f0',
+      edgeLabelBackground: '#1e293b',
+      clusterBkg: '#1e293b',
+      clusterBorder: '#334155',
+    },
+  });
+
+  const codeBlocks = document.querySelectorAll('pre[data-language="mermaid"] > code');
+  for (const code of codeBlocks) {
+    const pre = code.parentElement;
+    if (!pre || pre.tagName !== 'PRE') continue;
+
+    const container = document.createElement('div');
+    container.classList.add('mermaid');
+    container.textContent = code.textContent ?? '';
+    pre.replaceWith(container);
+  }
+
+  await mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
+</script>
+
 <style is:global>
   @reference "../styles/global.css";
 
@@ -122,5 +163,9 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
 
   .blog-content img {
     @apply rounded-xl my-6;
+  }
+
+  .blog-content .mermaid {
+    @apply flex justify-center bg-bg-card p-8 rounded-xl my-6 overflow-x-auto border border-border;
   }
 </style>
