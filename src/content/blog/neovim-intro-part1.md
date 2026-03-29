@@ -218,4 +218,4 @@ Neovimには対話的なチュートリアルが組み込まれている。Neovi
 
 この段階ではVSCodeの方が快適に感じると思う。それでいい。まずは普段のコード編集だけNeovimでやってみて、少しずつ慣れていこう。
 
-次のPart 2では、Neovimの設定ファイル `init.lua` の構造と、設定に必要なLuaの基礎を解説する。
+次の[Part 2](/blog/neovim-intro-part2)では、Neovimの設定ファイル `init.lua` の構造と、設定に必要なLuaの基礎を解説する。
