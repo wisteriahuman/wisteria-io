@@ -60,11 +60,22 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
   </main>
 </Layout>
 
-<script>
-  import mermaid from 'mermaid';
-
+<script is:inline src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script is:inline>
+  document.querySelectorAll('pre[data-language="mermaid"]').forEach(function(pre) {
+    var code = pre.querySelector('code');
+    if (!code) return;
+    var lines = code.querySelectorAll('.line');
+    var mermaidCode = Array.from(lines).map(function(line) {
+      return line.textContent;
+    }).join('\n');
+    var container = document.createElement('div');
+    container.className = 'mermaid';
+    container.textContent = mermaidCode;
+    pre.replaceWith(container);
+  });
   mermaid.initialize({
-    startOnLoad: false,
+    startOnLoad: true,
     theme: 'base',
     themeVariables: {
       background: '#1e293b',
@@ -86,19 +97,6 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
       clusterBorder: '#334155',
     },
   });
-
-  const codeBlocks = document.querySelectorAll('pre[data-language="mermaid"] > code');
-  for (const code of codeBlocks) {
-    const pre = code.parentElement;
-    if (!pre || pre.tagName !== 'PRE') continue;
-
-    const container = document.createElement('div');
-    container.classList.add('mermaid');
-    container.textContent = code.textContent ?? '';
-    pre.replaceWith(container);
-  }
-
-  await mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
 </script>
 
 <style is:global>
