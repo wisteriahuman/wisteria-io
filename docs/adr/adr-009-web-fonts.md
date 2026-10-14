@@ -36,3 +36,4 @@
 
 ## 議論 (Discussion)
 - 計測はローカルの preview に対して Lighthouse 12 のモバイル設定で行った。本番では Cloudflare を経由するため、公開後に改めて測る
+- 公開後に本番のトップを5回測ると、Performance は 88〜100（中央値 99）とばらついた。遅い回は LCP が 2.9 秒で、描画前にサイトの CSS を取りに行く往復が Tunnel 越しに遅れるのが原因とみて、CSS を HTML に埋め込んだ（`build.inlineStylesheets: 'always'`）
