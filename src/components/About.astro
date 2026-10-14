@@ -1,4 +1,9 @@
 ---
+const machines = [
+  { name: 'Surface', note: '入学時の推奨機', history: 'Windows → Ubuntu → CachyOS → Garuda → 今は Ubuntu Server' },
+  { name: 'DAIV', note: 'マウスコンピューター', history: 'Pop!_OS → コーヒーをこぼして故障' },
+  { name: 'MacBook Air・Mac mini', note: '今の普段使い', history: 'Mac mini はこのサイトの配信も担当' },
+];
 ---
 
 <section id="about" class="py-24 px-6">
@@ -6,7 +11,7 @@
     <h2 class="text-3xl font-bold text-white">About</h2>
     <div class="space-y-4 text-text-muted leading-relaxed">
       <p>
-        公立はこだて未来大学 システム情報科学部 情報アーキテクチャ学科 情報システムコース 3年。
+        公立はこだて未来大学 システム情報科学部 情報アーキテクチャ学科 情報システムコース。
         バックエンド開発と競技プログラミングが好きです。
       </p>
       <p>
@@ -15,8 +20,17 @@
       </p>
       <p>
         エディタは <span class="text-accent font-[JetBrains_Mono] text-sm">Neovim</span>。
-        Surface では Garuda Linux + Sway + tmux、Mac mini もサブ環境として使っています。
+        開発環境は <span class="text-accent font-[JetBrains_Mono] text-sm">Nix</span> で管理しています。
+        マシンごとの OS の遍歴はこんな感じです。
       </p>
+      <ul class="space-y-3">
+        {machines.map((m) => (
+          <li class="bg-bg-card rounded-xl px-5 py-4">
+            <p class="text-white font-semibold">{m.name}<span class="ml-2 text-text-muted text-sm font-normal">{m.note}</span></p>
+            <p class="text-sm mt-1">{m.history}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   </div>
 </section>

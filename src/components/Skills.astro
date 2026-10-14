@@ -1,48 +1,51 @@
 ---
-const categories = [
+import Icon from './Icon.astro';
+import type { IconName } from './Icon.astro';
+
+const categories: { title: string; icon: IconName; skills: string[] }[] = [
   {
     title: 'Languages',
-    icon: '⌨️',
+    icon: 'code',
     skills: ['Go', 'TypeScript', 'Python', 'C/C++', 'Java', 'PHP', 'Processing', 'HTML', 'CSS/SCSS'],
   },
   {
     title: 'Backend',
-    icon: '🔧',
+    icon: 'server',
     skills: ['Echo', 'Gin', 'Hono', 'Flask', 'FastAPI', 'Django'],
   },
   {
     title: 'Frontend',
-    icon: '🎨',
+    icon: 'layout',
     skills: ['Next.js', 'React', 'WordPress'],
   },
   {
     title: 'CSS / UI',
-    icon: '🎀',
+    icon: 'palette',
     skills: ['Tailwind CSS', 'MUI', 'shadcn/ui'],
   },
   {
     title: 'Database',
-    icon: '🗄️',
+    icon: 'database',
     skills: ['PostgreSQL', 'MySQL', 'Redis', 'Supabase', 'Drizzle ORM', 'SQLAlchemy'],
   },
   {
     title: 'Infrastructure',
-    icon: '☁️',
+    icon: 'cloud',
     skills: ['Docker', 'Cloudflare'],
   },
   {
     title: 'AI / ML',
-    icon: '🤖',
+    icon: 'cpu',
     skills: ['PyTorch', 'scikit-learn', 'NumPy', 'Matplotlib'],
   },
   {
     title: 'Linux',
-    icon: '🐧',
-    skills: ['Garuda', 'Pop!_OS', 'Ubuntu'],
+    icon: 'terminal',
+    skills: ['Ubuntu', 'Pop!_OS', 'CachyOS', 'Garuda'],
   },
   {
     title: 'Tools',
-    icon: '🛠️',
+    icon: 'wrench',
     skills: ['Neovim', 'tmux', 'Git', 'Sway'],
   },
 ];
@@ -55,7 +58,7 @@ const categories = [
       {categories.map(cat => (
         <div class="bg-bg-card rounded-xl p-6 hover:bg-bg-card-hover transition-colors">
           <div class="flex items-center gap-3 mb-4">
-            <span class="text-2xl">{cat.icon}</span>
+            <Icon name={cat.icon} class="w-6 h-6 text-primary-light" />
             <h3 class="text-white font-semibold">{cat.title}</h3>
           </div>
           <div class="flex flex-wrap gap-2">

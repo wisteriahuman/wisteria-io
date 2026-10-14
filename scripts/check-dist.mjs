@@ -38,7 +38,8 @@ const about = html.match(/<section id="about"[\s\S]*?<\/section>/)?.[0] ?? '';
 check(!about.includes('3年'), 'About に「3年」');
 check(about.includes('Ubuntu Server'), 'About に Ubuntu Server');
 
-check(!/\p{Extended_Pictographic}/u.test(html.replace(/<script[\s\S]*?<\/script>/g, '')), 'トップに絵文字が残っている');
+// © などの記号は除き、絵文字として表示される文字だけを見る
+check(!/\p{Emoji_Presentation}|\p{Extended_Pictographic}\uFE0F/u.test(html.replace(/<script[\s\S]*?<\/script>/g, '')), 'トップに絵文字が残っている');
 check(!html.includes('family=Noto+Sans+JP'), 'ページで Noto Sans JP を読み込んでいる');
 check(/<noscript>[^]*fonts\.googleapis\.com[^]*<\/noscript>/.test(html), 'noscript のフォント読み込み');
 
