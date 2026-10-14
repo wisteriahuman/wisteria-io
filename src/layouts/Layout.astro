@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css'
+import { profile } from '../data/profile';
 
 interface Props {
   title?: string;
@@ -10,15 +11,15 @@ interface Props {
 }
 
 const {
-  title = 'wisteria | Portfolio',
-  description = 'wisteria (藤井 優気) - Software Engineer',
-  image,
+  title = `${profile.name} (${profile.handle}) | ポートフォリオ`,
+  description = profile.tagline,
+  image = '/og.png',
   url,
   type = 'website',
 } = Astro.props;
 
 const siteUrl = 'https://wisteria-io.com';
-const ogImage = image ? `${siteUrl}${image}` : undefined;
+const ogImage = `${siteUrl}${image}`;
 const ogUrl = url ? `${siteUrl}${url}` : siteUrl;
 ---
 
@@ -35,12 +36,14 @@ const ogUrl = url ? `${siteUrl}${url}` : siteUrl;
     <meta property="og:url" content={ogUrl} />
     <meta property="og:type" content={type} />
     <meta property="og:site_name" content="wisteria" />
-    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
-    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    {ogImage && <meta name="twitter:image" content={ogImage} />}
+    <meta name="twitter:image" content={ogImage} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
