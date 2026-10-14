@@ -65,16 +65,18 @@ export const highlights: Highlight[];
 - 経歴の時系列の並びと、チップの並びは別に持つ（時系列では ICPC がハッカソンより上に来るため）
 
 ### `src/data/profile.ts`
-名前・一行・所属を置く。Hero・`<title>`・description・OGP がここを読む。
+名前・所属・競技プログラミングの評価と、description の文を置く。Hero・`<title>`・description・OGP がここを読む。
 
 - name: `藤井 優気`、handle: `wisteria`
-- tagline: `課題を見つけ、技術を選び、作りきる。`（ユーザーが選んだ文。変えない）
+- ratings: `AtCoder 水色`・`paiza Sランク`（チップの下に小さく出す）
+- summary: 所属と `highlights` のラベルから作る description の文
+- 姿勢の一行は置かない（2026-10-15 に外した。理由は design/top-page.md）
 - affiliation: `28卒・公立はこだて未来大学`
 
 ## 画面
 
 ### Hero（`Hero.astro`）
-design/top-page.md の最初の画面どおり。上から、小さいアバター（64px）・名前（h1）・一行・所属・実績チップ3つ・GitHub / X / AtCoder。
+design/top-page.md の最初の画面どおり。上から、小さいアバター（64px）・名前（h1）・所属・実績チップ3つ・評価・GitHub / X / AtCoder。
 
 - チップは `<a href="#career-<id>">`。トロフィーの SVG を前に置く。高さ 36px 以上、間隔 8px
 - 固定ナビに隠れないよう、経歴の各項目に `scroll-margin-top` を付ける
@@ -111,13 +113,13 @@ design/top-page.md の最初の画面どおり。上から、小さいアバタ�
 - デザインは今のブログ OGP を土台にする: 背景 `#0f172a`、上にインディゴの短い線、下に「藤井 優気 (wisteria)」と `wisteria-io.com`
 
 ### トップ（`src/pages/og.png.ts` → `/og.png`）
-名前・一行・実績チップ3つ（`highlights` から）を載せる。
+名前・所属・実績チップ3つ（`highlights` から）・評価を載せる。
 
 ### ブログ（`src/pages/og/[...slug].png.ts`）
 同じデザインで、記事タイトル＋サイト名にする（タグは載せない）。画像の URL は今と同じ `/og/<slug>.png`。
 
 ### メタ（`Layout.astro`）
-- 既定の title: `藤井 優気 (wisteria) | ポートフォリオ`、description: 一行
+- 既定の title: `藤井 優気 (wisteria) | ポートフォリオ`、description: summary
 - 既定の og:image を `/og.png` にする（トップとブログ一覧が使う）。`og:image:width`・`height` を足す
 - ブログ記事は今どおり記事ごとの画像とタイトル
 
@@ -138,7 +140,7 @@ design/top-page.md の最初の画面どおり。上から、小さいアバタ�
 1. `npx astro build` が通る（CI と同じコマンド）
 2. ビルド結果の検査（使い捨てのスクリプト）:
    - `dist/index.html` の title・description・og:image が上の値
-   - Hero に名前・一行・28卒・チップ3つがあり、各チップの `#career-<id>` に対応する要素がある
+   - Hero に名前・28卒・チップ3つ・評価があり、一行が無く、各チップの `#career-<id>` に対応する要素がある
    - 作品が5件（ハッカソン4件と FUN Developers Hub）で、yajiuma.nvim がない
    - ページ内に絵文字が残っていない
    - About に「3年」がなく、「Ubuntu Server」がある

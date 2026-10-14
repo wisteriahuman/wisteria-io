@@ -58,7 +58,7 @@
 
 今の Astro と配信のまま、中身を作り直す（→ [design/top-page.md](../design/top-page.md)）。
 
-- スマホの最初の画面：名前・一行・28卒・実績3つ
+- スマホの最初の画面：名前・28卒・実績3つ
 - OGP の作り直し（デザインと文）
 - 作品の整理（ハッカソン4件と FUN Developers Hub）
 - スライドに QR と URL

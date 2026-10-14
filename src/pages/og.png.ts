@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { renderOgImage, ogText } from '../lib/og';
-import { profile } from '../data/profile';
+import { profile, ratings } from '../data/profile';
 import { highlights } from '../data/career';
 
 const { div, colors } = ogText;
@@ -8,8 +8,7 @@ const { div, colors } = ogText;
 export const GET: APIRoute = () =>
   renderOgImage([
     div({ fontSize: '72px', fontWeight: 700, color: colors.white }, profile.name),
-    div({ marginTop: '12px', fontSize: '44px', fontWeight: 700, color: colors.text }, profile.tagline),
-    div({ marginTop: '16px', fontSize: '28px', color: colors.muted }, profile.affiliation),
+    div({ marginTop: '16px', fontSize: '34px', color: colors.text }, profile.affiliation),
     div(
       { marginTop: '40px', flexWrap: 'wrap', gap: '14px' },
       highlights.map((h) =>
@@ -26,4 +25,5 @@ export const GET: APIRoute = () =>
         ),
       ),
     ),
+    div({ marginTop: '24px', fontSize: '26px', color: colors.muted }, ratings.join('・')),
   ]);

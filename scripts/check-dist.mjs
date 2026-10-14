@@ -7,17 +7,19 @@ const read = (path) => readFileSync(new URL(`../dist/${path}`, import.meta.url),
 const exists = (path) => existsSync(new URL(`../dist/${path}`, import.meta.url));
 
 const html = read('index.html');
-const tagline = '課題を見つけ、技術を選び、作りきる。';
+const summary = '28卒・公立はこだて未来大学。Go College ベストエンジニアリング賞・ハッカソン受賞3回・ICPC 2025 横浜';
 
 check(html.includes('<title>藤井 優気 (wisteria) | ポートフォリオ</title>'), 'title');
-check(html.includes(`<meta name="description" content="${tagline}"`), 'description');
+check(html.includes(`<meta name="description" content="${summary}"`), 'description');
 check(html.includes('<meta property="og:image" content="https://wisteria-io.com/og.png"'), 'og:image');
 check(exists('og.png'), '/og.png が無い');
 
 const hero = html.match(/<section id="top"[\s\S]*?<\/section>/)?.[0] ?? '';
 check(hero.includes('藤井 優気'), 'Hero に名前');
-// 一行は読点で折り返すため span に分かれている。タグを除いて照合する
-check(hero.replace(/<[^>]+>/g, '').includes(tagline), 'Hero に一行');
+// 姿勢の一行は置かない（事実だけで伝える）
+check(!html.includes('作りきる'), '一行が残っている');
+const heroText = hero.replace(/<[^>]+>/g, '');
+check(heroText.includes('AtCoder 水色') && heroText.includes('paiza Sランク'), 'Hero に AtCoder 水色・paiza Sランク');
 check(hero.includes('28卒・公立はこだて未来大学'), 'Hero に所属');
 const chips = [...hero.matchAll(/href="#(career-[\w-]+)"/g)].map((m) => m[1]);
 check(chips.length === 3, `チップが3つ（実際: ${chips.length}）`);

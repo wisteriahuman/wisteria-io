@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css'
-import { profile } from '../data/profile';
+import { profile, summary } from '../data/profile';
 
 interface Props {
   title?: string;
@@ -12,7 +12,7 @@ interface Props {
 
 const {
   title = `${profile.name} (${profile.handle}) | ポートフォリオ`,
-  description = profile.tagline,
+  description = summary,
   image = '/og.png',
   url,
   type = 'website',
