@@ -11,7 +11,8 @@ export default defineConfig({
   devToolbar: { enabled: false },
   markdown: {
     shikiConfig: {
-      theme: 'github-dark',
+      // github-dark はコメントの色のコントラストが足りないため、github-dark-default を使う
+      theme: 'github-dark-default',
     },
   },
   vite: {

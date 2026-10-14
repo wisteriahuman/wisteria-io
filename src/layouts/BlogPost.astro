@@ -60,43 +60,64 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
   </main>
 </Layout>
 
-<script is:inline src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
 <script is:inline>
-  document.querySelectorAll('pre[data-language="mermaid"]').forEach(function(pre) {
-    var code = pre.querySelector('code');
-    if (!code) return;
-    var lines = code.querySelectorAll('.line');
-    var mermaidCode = Array.from(lines).map(function(line) {
-      return line.textContent;
-    }).join('\n');
-    var container = document.createElement('div');
-    container.className = 'mermaid';
-    container.textContent = mermaidCode;
-    pre.replaceWith(container);
-  });
-  mermaid.initialize({
-    startOnLoad: true,
-    theme: 'base',
-    themeVariables: {
-      background: '#1e293b',
-      primaryColor: '#334155',
-      primaryTextColor: '#e2e8f0',
-      primaryBorderColor: '#6366f1',
-      secondaryColor: '#1e293b',
-      secondaryTextColor: '#e2e8f0',
-      secondaryBorderColor: '#818cf8',
-      tertiaryColor: '#1e293b',
-      lineColor: '#94a3b8',
-      textColor: '#e2e8f0',
-      fontFamily: 'Inter, Noto Sans JP, system-ui, sans-serif',
-      fontSize: '14px',
-      nodeBorder: '#6366f1',
-      nodeTextColor: '#e2e8f0',
-      edgeLabelBackground: '#1e293b',
-      clusterBkg: '#1e293b',
-      clusterBorder: '#334155',
-    },
-  });
+  // 図のある記事でだけ mermaid（約850KB）を読み込む
+  (function () {
+    var blocks = document.querySelectorAll('pre[data-language="mermaid"]');
+    if (blocks.length === 0) return;
+    blocks.forEach(function (pre) {
+      var code = pre.querySelector('code');
+      if (!code) return;
+      var lines = code.querySelectorAll('.line');
+      var mermaidCode = Array.from(lines).map(function (line) {
+        return line.textContent;
+      }).join('\n');
+      var container = document.createElement('div');
+      container.className = 'mermaid';
+      container.textContent = mermaidCode;
+      pre.replaceWith(container);
+    });
+    // 最初の表示を止めないよう、図が画面に近づいてから読み込む
+    var containers = document.querySelectorAll('.mermaid');
+    var observer = new IntersectionObserver(function (entries) {
+      if (!entries.some(function (e) { return e.isIntersecting; })) return;
+      observer.disconnect();
+      load();
+    }, { rootMargin: '600px 0px' });
+    containers.forEach(function (c) { observer.observe(c); });
+
+    function load() {
+    var script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js';
+    script.onload = function () {
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'base',
+        themeVariables: {
+          background: '#1e293b',
+          primaryColor: '#334155',
+          primaryTextColor: '#e2e8f0',
+          primaryBorderColor: '#6366f1',
+          secondaryColor: '#1e293b',
+          secondaryTextColor: '#e2e8f0',
+          secondaryBorderColor: '#818cf8',
+          tertiaryColor: '#1e293b',
+          lineColor: '#94a3b8',
+          textColor: '#e2e8f0',
+          fontFamily: 'Inter, Hiragino Sans, Noto Sans CJK JP, system-ui, sans-serif',
+          fontSize: '14px',
+          nodeBorder: '#6366f1',
+          nodeTextColor: '#e2e8f0',
+          edgeLabelBackground: '#1e293b',
+          clusterBkg: '#1e293b',
+          clusterBorder: '#334155',
+        },
+      });
+      mermaid.run();
+    };
+    document.head.appendChild(script);
+    }
+  })();
 </script>
 
 <style is:global>
@@ -136,7 +157,7 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
   }
 
   .blog-content a {
-    @apply text-accent hover:underline;
+    @apply text-accent underline underline-offset-2;
   }
 
   .blog-content code {
