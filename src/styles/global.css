@@ -12,6 +12,16 @@
   --color-border: #334155;
 }
 
+/* Inter が届く前に使う Arial の寸法を Inter に合わせ、差し替えでレイアウトが動かないようにする（ADR-009） */
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial'), local('ArialMT');
+  size-adjust: 107.12%;
+  ascent-override: 90.44%;
+  descent-override: 22.52%;
+  line-gap-override: 0%;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -19,7 +29,7 @@ html {
 body {
   background-color: var(--color-bg-dark);
   color: var(--color-text-main);
-  font-family: 'Inter', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans CJK JP', 'Noto Sans JP', 'Yu Gothic', 'Meiryo', system-ui, sans-serif;
+  font-family: 'Inter', 'Inter Fallback', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans CJK JP', 'Noto Sans JP', 'Yu Gothic', 'Meiryo', system-ui, sans-serif;
 }
 
 ::selection {

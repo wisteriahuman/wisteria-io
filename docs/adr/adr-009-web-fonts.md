@@ -11,16 +11,19 @@
 ## 決定事項 (Decision)
 - ページでは Noto Sans JP の Web フォントを読み込まない。日本語は端末のフォント（iOS・Mac はヒラギノ、Android は Noto Sans CJK、Windows は游ゴシック）で描く
 - Inter と JetBrains Mono は `rel="preload"` で取得し、読み込み後に stylesheet に切り替える。JS が無い環境のために `<noscript>` で通常の読み込みを残す
+- 英字のフォントは `font-display: optional` にし、Inter が届く前は寸法を Inter に合わせた Arial（`size-adjust` などで調整した `Inter Fallback`）で描く。フォントの差し替えでレイアウトが動かないようにするため
 - OGP 画像は今どおり、ビルド時に取得した Noto Sans JP で描く
 
 ### 理由 (Reasons)
-- 変更後の計測で Performance・Accessibility・Best Practices・SEO がすべて 100 になった
+- 変更後の計測で、トップは Performance・Accessibility・Best Practices・SEO がすべて 100 になった（CLS 0）
+- ブログ記事も着手前より良くなった（errors-are-values: Performance 94→97、neovim-intro-part1: 92→96）
+- 非同期で読み込むだけだと、ブログ記事で Inter への差し替え時に文字が動き、CLS が 0.031 から 0.139 に悪化した。optional と寸法を合わせた代替フォントで 0.043 まで戻した
 - Android の端末のフォントは Noto Sans CJK で、Noto Sans JP とほぼ同じ形になる。iOS・Mac のヒラギノも読みやすさは変わらない
 - 英字の見た目（Inter・JetBrains Mono）は保てる
 
 ### 受け入れるトレードオフ (Accepted Trade-offs)
 - 日本語の見た目が端末によって少し変わる
-- 英字は最初に端末のフォントで描かれ、読み込み後に Inter に切り替わる。わずかに見た目が動く
+- 初めて開いたときに Inter が間に合わなければ、そのページは Arial で描かれる。2回目以降はキャッシュから Inter で描かれる
 
 ## 検討した別の選択肢 (Alternatives Considered)
 - **すべて端末のフォントにする**: 最も速く外部への通信もなくなるが、英字の見た目が変わる。デザインの見直しは段階②でアイデアソンを経て決めるため見送った

@@ -22,6 +22,9 @@ export const GET: APIRoute = async ({ props }) => {
         fontWeight: 700,
         color: colors.white,
         lineHeight: 1.4,
+        // 長いタイトルでも下の名前と URL を押し出さないよう3行で切る
+        display: 'block',
+        lineClamp: 3,
       },
       title,
     ),

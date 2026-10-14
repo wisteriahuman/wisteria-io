@@ -11,6 +11,9 @@ export type CareerItem = {
 
 // 受賞の件数と内訳は作品の受賞から作る。受賞が増えたら projects.ts だけを直す
 const awarded = projects.filter((p) => p.award);
+const hackathonTitle = `ハッカソン受賞${awarded.length}回`;
+const awardYears = awarded.map((p) => Number(p.period.slice(0, 4)));
+const hackathonPeriod = `${Math.min(...awardYears)} 〜 ${Math.max(...awardYears)}`;
 
 export const career: CareerItem[] = [
   {
@@ -43,8 +46,8 @@ export const career: CareerItem[] = [
   },
   {
     id: 'hackathons',
-    period: '2024 〜 2025',
-    title: `ハッカソン受賞${awarded.length}回`,
+    period: hackathonPeriod,
+    title: hackathonTitle,
     subtitle: 'バックエンド担当',
     desc: awarded.map((p) => `${p.event} ${p.award}`).join('・'),
   },
@@ -73,6 +76,6 @@ export type Highlight = {
 // 最初の画面のチップとトップの OGP に、この順で出す
 export const highlights: Highlight[] = [
   { id: 'go-college', label: 'Go College ベストエンジニアリング賞' },
-  { id: 'hackathons', label: `ハッカソン受賞${awarded.length}回` },
+  { id: 'hackathons', label: hackathonTitle },
   { id: 'icpc', label: 'ICPC 2025 横浜' },
 ];

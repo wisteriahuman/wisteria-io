@@ -102,7 +102,7 @@ design/top-page.md の最初の画面どおり。上から、小さいアバタ�
 - アルゴ式のインターンは終了済み。期間を `2026/2 〜 2026/7` にする。説明は空のまま（空のときは説明の行を出さない）
 
 ### アイコン
-`src/components/Icon.astro` に、使う SVG（Lucide の形、MIT）だけを名前で引けるようにまとめる。依存は足さない。
+`src/components/Icon.astro` に、使う SVG（Lucide の形、ISC License）だけを名前で引けるようにまとめる。依存は足さない。
 
 ## OGP
 
