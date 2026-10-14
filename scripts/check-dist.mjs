@@ -1,4 +1,4 @@
-// ビルド結果（dist/）が段階①の仕様を満たすか確かめる。npx astro build の後に実行する
+// ビルド結果（dist/）が段階①の仕様を満たすか確かめる。pnpm build の後に pnpm check で実行する
 import { readFileSync, existsSync } from 'node:fs';
 
 const failures = [];

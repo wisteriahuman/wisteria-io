@@ -15,10 +15,12 @@ wisteria のポートフォリオサイト。
 このサイトは [Claude](https://claude.ai) (Anthropic) を活用して開発しました。
 
 ```bash
-bun install
-bun astro dev
+pnpm install
+pnpm dev
 ```
+
+ビルド結果が段階①の仕様を満たすかは `pnpm build && pnpm check` で確かめる。
 
 ## Deploy
 
-`main` ブランチへの push で GitHub Actions が自動ビルド・デプロイします。
+`main` ブランチへの push で GitHub Actions が自動ビルド・検査・デプロイします。

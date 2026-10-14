@@ -3,7 +3,7 @@
 | 番号 | タイトル | ステータス |
 |---|---|---|
 | [ADR-001](./adr-001-astro.md) | 作り直しでも Astro を続投する | 提案中 |
-| [ADR-002](./adr-002-package-manager.md) | パッケージマネージャを pnpm に統一する | 提案中 |
+| [ADR-002](./adr-002-package-manager.md) | パッケージマネージャを pnpm に統一する | 採用 |
 | [ADR-003](./adr-003-ai-assisted-development.md) | 判断は自分、実装は AI エージェントに任せる | 採用 |
 | [ADR-004](./adr-004-documentation-structure.md) | ドキュメントを用途別に分け、テンプレートで書く | 採用 |
 | [ADR-005](./adr-005-japanese-only.md) | 日本語のみで作る | 採用 |

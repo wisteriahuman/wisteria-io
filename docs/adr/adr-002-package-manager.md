@@ -1,7 +1,7 @@
 # ADR-002: パッケージマネージャを pnpm に統一する
 
-- ステータス: 提案中
-- 日付: 2026-10-14
+- ステータス: 採用
+- 日付: 2026-10-15
 
 ## 背景・課題 (Background/Problem)
 - パッケージマネージャが3つ混在している
@@ -33,3 +33,6 @@
 ## 議論 (Discussion)
 - 配信サーバーを bun にするかは、ホスティングの ADR で改めて決める
 - 移行作業: `bun.lock` と `package-lock.json` を削除し `pnpm-lock.yaml` だけを置く。CI を `pnpm install --frozen-lockfile` と `pnpm build` に変える。README の手順を書き換える
+- 2026-10-15 に移行した。依存のバージョンが変わらないよう、`pnpm import` で `package-lock.json` から lockfile を作った
+- pnpm 10 は依存のインストールスクリプトを既定で止めるため、`pnpm.onlyBuiltDependencies` で esbuild と sharp だけを許した
+- runner の Mac mini に pnpm が入っている前提にせず、CI では `pnpm/action-setup` で `packageManager` のバージョンを用意する

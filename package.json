@@ -16,5 +16,12 @@
     "satori": "^0.19.2",
     "sharp": "^0.34.5",
     "tailwindcss": "^4.1.18"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
   }
 }

@@ -10,11 +10,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # バージョンは package.json の packageManager に従う（ADR-002）
+      - uses: pnpm/action-setup@v4
+
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: npx astro build
+        run: pnpm build
+
+      - name: Check
+        run: pnpm check
 
       - name: Deploy
         run: |
