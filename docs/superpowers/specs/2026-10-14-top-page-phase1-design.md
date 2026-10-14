@@ -12,7 +12,7 @@
 - 最初の画面（Hero）の作り直し
 - 実績のデータを1ファイルにまとめ、最初の画面・経歴・トップの OGP をそこから作る
 - セクションとナビの並べ替え
-- 作品をハッカソン4件に絞る
+- 作品をハッカソン4件と FUN Developers Hub に絞る
 - About の記述の修正
 - トップの OGP 画像の新設と、ブログの OGP のデザイン統一
 - 絵文字アイコンの SVG 化
@@ -26,7 +26,7 @@
 ## データ
 
 ### `src/data/projects.ts`
-作品（ハッカソン4件）を置く。`Projects.astro` の配列をここへ移し、`event`（大会名）を足す。
+作品（ハッカソン4件と FUN Developers Hub）を置く。`Projects.astro` の配列をここへ移し、`event`（大会名）を足す。
 
 ```ts
 export type Project = {
@@ -42,7 +42,7 @@ export type Project = {
 };
 ```
 
-並びは受賞の強い順: FISH（優勝）→ P2HACKS 2025（Directorz賞）→ P2HACKS 2024（サイバーエージェント賞）→ JPHACKS 2025。FUN Developers Hub（演習）は外す。
+並びは受賞の強い順: FISH（優勝）→ P2HACKS 2025（Directorz賞）→ P2HACKS 2024（サイバーエージェント賞）→ JPHACKS 2025 → FUN Developers Hub（演習。`event` は `高度ICT演習`）。
 
 ### `src/data/career.ts`
 経歴（インターン・アルバイト・受賞・大会・学歴）と、最初の画面に出す実績3つを置く。
@@ -92,7 +92,14 @@ design/top-page.md の最初の画面どおり。上から、小さいアバタ�
 
 ### About（`About.astro`）
 - 「3年」を削除する
-- 環境の文を「エディタは Neovim。開発環境は Nix で管理し、Mac と Surface（Ubuntu）を使っています。」に直す（ペルソナの記述に合わせる）
+- 環境の文を、マシンごとの OS の遍歴に書き直す。日付は入れず並び順だけ書く
+  - エディタは Neovim。開発環境は Nix で管理している
+  - Surface（入学時の推奨機）: Windows → Ubuntu → CachyOS → Garuda → 今は Ubuntu Server
+  - DAIV（マウスコンピューター）: Pop!_OS → コーヒーをこぼして故障
+  - MacBook Air・Mac mini: 今の普段使い。Mac mini はこのサイトの配信も担当
+
+### 経歴の修正
+- アルゴ式のインターンは終了済み。期間を `2026/2 〜 2026/7` にする。説明は空のまま（空のときは説明の行を出さない）
 
 ### アイコン
 `src/components/Icon.astro` に、使う SVG（Lucide の形、MIT）だけを名前で引けるようにまとめる。依存は足さない。
@@ -132,9 +139,9 @@ design/top-page.md の最初の画面どおり。上から、小さいアバタ�
 2. ビルド結果の検査（使い捨てのスクリプト）:
    - `dist/index.html` の title・description・og:image が上の値
    - Hero に名前・一行・28卒・チップ3つがあり、各チップの `#career-<id>` に対応する要素がある
-   - 作品が4件で、FUN Developers Hub と yajiuma.nvim がない
+   - 作品が5件（ハッカソン4件と FUN Developers Hub）で、yajiuma.nvim がない
    - ページ内に絵文字が残っていない
-   - About に「3年」「Garuda」がない
+   - About に「3年」がなく、「Ubuntu Server」がある
    - ブログ記事7件の URL と OGP 画像が今と同じパスで出ている
 3. 375×667 でスクリーンショットを撮り、最初の画面に名前〜リンクが収まっていることを目で確かめる。PC 幅（1280）も撮る
 4. `/og.png` とブログの OGP 1枚を画像で確かめる
