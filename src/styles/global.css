@@ -19,7 +19,7 @@ html {
 body {
   background-color: var(--color-bg-dark);
   color: var(--color-text-main);
-  font-family: 'Inter', 'Noto Sans JP', system-ui, sans-serif;
+  font-family: 'Inter', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans CJK JP', 'Noto Sans JP', 'Yu Gothic', 'Meiryo', system-ui, sans-serif;
 }
 
 ::selection {

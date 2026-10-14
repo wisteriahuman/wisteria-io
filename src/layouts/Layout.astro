@@ -19,6 +19,7 @@ const {
 } = Astro.props;
 
 const siteUrl = 'https://wisteria-io.com';
+const fontsUrl = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap';
 const ogImage = `${siteUrl}${image}`;
 const ogUrl = url ? `${siteUrl}${url}` : siteUrl;
 ---
@@ -46,7 +47,9 @@ const ogUrl = url ? `${siteUrl}${url}` : siteUrl;
     <meta name="twitter:image" content={ogImage} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <!-- 日本語は端末のフォントで描き、英字のフォントは描画を止めずに読み込む（ADR-009） -->
+    <link rel="preload" as="style" href={fontsUrl} onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href={fontsUrl} /></noscript>
     <title>{title}</title>
   </head>
   <body class="antialiased">
