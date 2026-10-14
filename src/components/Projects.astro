@@ -10,7 +10,7 @@ import { projects } from '../data/projects';
       {projects.map(p => (
         <div data-project class="bg-bg-card rounded-xl p-6 hover:bg-bg-card-hover transition-colors">
           <div class="flex items-start justify-between mb-2">
-            <h3 class="text-white font-semibold text-lg">{p.title}</h3>
+            <h3 class="min-w-0 break-words text-white font-semibold text-lg">{p.title}</h3>
             {p.award && (
               <span class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-primary/30 text-white text-xs rounded-full shrink-0 ml-3">
                 <Icon name="trophy" class="w-3.5 h-3.5" />{p.award}
@@ -23,7 +23,7 @@ import { projects } from '../data/projects';
               <span class="px-2 py-0.5 bg-white/5 text-text-muted text-xs rounded border border-border">{t}</span>
             ))}
           </div>
-          <div class="flex items-center gap-4 text-sm">
+          <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
             {p.github && (
               <a href={p.github} target="_blank" rel="noopener" class="text-accent hover:underline inline-flex items-center gap-1">
                 <Icon name="github" />

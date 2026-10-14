@@ -16,7 +16,8 @@ check(exists('og.png'), '/og.png が無い');
 
 const hero = html.match(/<section id="top"[\s\S]*?<\/section>/)?.[0] ?? '';
 check(hero.includes('藤井 優気'), 'Hero に名前');
-check(hero.includes(tagline), 'Hero に一行');
+// 一行は読点で折り返すため span に分かれている。タグを除いて照合する
+check(hero.replace(/<[^>]+>/g, '').includes(tagline), 'Hero に一行');
 check(hero.includes('28卒・公立はこだて未来大学'), 'Hero に所属');
 const chips = [...hero.matchAll(/href="#(career-[\w-]+)"/g)].map((m) => m[1]);
 check(chips.length === 3, `チップが3つ（実際: ${chips.length}）`);
