@@ -125,7 +125,8 @@ E で使う。中身は次のとおり（`src/data/goals.ts`）。
 - 等幅（JetBrains Mono）は、ロゴと「この部分の作り」のラベルにだけ使う。読み込み前に明朝へ落ちないよう、並びの最後に `monospace` を足す
 
 ### 動き
-- セクションが浮き上がる動きはやめる（`.reveal` を消す）。動くのは E の About の場面だけ
+- セクションが浮き上がる動きはやめる（`.reveal` を消す）
+- 次の紙（`.page + .page`）が下から入るとき、リングを軸に `rotateX(14deg)` から平らになる（`animation-timeline: view()`、`entry 0% entry 40vh`）。`@media screen and (prefers-reduced-motion: no-preference)` と `@supports` の中だけ。ほかに動くのは E の About の場面だけ
 - 見た目を変えるのは、トップ・ブログ一覧・記事・OGP 画像の配色。中身と順番は変えない
 
 ### 確かめ方

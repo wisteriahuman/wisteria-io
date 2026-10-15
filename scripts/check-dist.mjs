@@ -121,7 +121,16 @@ for (const page of [
   check(sheets >= (page === 'index.html' ? 6 : 1), `${page} の紙が足りない（${sheets}枚）`);
   check(!/page-left|page-right|class="spread/.test(body), `${page} に見開きが残っている`);
 }
-check(!/\.reveal\b|animation-timeline/.test(html), '浮き上がる動きが残っている');
+check(!/\.reveal\b/.test(html), '浮き上がる動きが残っている');
+// 紙が机に置かれる動き（ADR-016）は、画面・動きを減らさない設定・対応するブラウザの中だけ。印刷では動かさない
+check(
+  // @supports の条件と、.page+.page の指定の2か所だけ
+  (html.match(/animation-timeline/g) ?? []).length === 2 &&
+    /@media screen and \(prefers-reduced-motion: ?no-preference\)\{@supports \(animation-timeline: ?view\(\)\)\{\.page\+\.page\{[^}]*animation-timeline:view\(\)/.test(
+      html,
+    ),
+  '紙が机に置かれる動きが、画面と動きを減らさない設定の中だけに無い',
+);
 // 赤い余白線は日本の大学ノートに無い。蛍光ペンの見本の切り替えは色を決めたので消す
 check(!/--color-margin|data-marker|marker=yellow/.test(html), '赤い余白線か蛍光ペンの見本の切り替えが残っている');
 check(/Date \d{4}\.\d{2}\.\d{2}/.test(html.replace(/<[^>]+>/g, '')), 'トップに Date の欄が無い');

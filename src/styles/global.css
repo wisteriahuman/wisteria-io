@@ -55,6 +55,28 @@ body {
     "Yu Gothic", "Meiryo", system-ui, sans-serif;
 }
 
+/* 次の紙が下から入ってくるとき、リングを軸に少し傾いた状態から机に置かれる（ADR-016）。
+   読んでいる紙は動かさない。動きを減らす設定・印刷・対応しないブラウザでは、並べた形のまま出す */
+@media screen and (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .page + .page {
+      transform-origin: 50% 0;
+      animation: lay-down linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40vh;
+    }
+  }
+}
+
+@keyframes lay-down {
+  from {
+    transform: perspective(1200px) rotateX(14deg);
+  }
+  to {
+    transform: none;
+  }
+}
+
 ::selection {
   background-color: var(--color-marker);
   color: var(--color-ink);
