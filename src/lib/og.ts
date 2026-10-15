@@ -78,5 +78,5 @@ export async function renderOgImage(body: SatoriNode[]): Promise<Response> {
   );
 
   const png = await sharp(Buffer.from(svg)).png().toBuffer();
-  return new Response(png, { headers: { 'Content-Type': 'image/png' } });
+  return new Response(new Uint8Array(png), { headers: { 'Content-Type': 'image/png' } });
 }
