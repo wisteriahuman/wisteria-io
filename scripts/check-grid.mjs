@@ -38,10 +38,20 @@ try {
           });
         }, rootSize);
       }
-      for (const path of pages) {
-        const label = `${width}px 文字${rootSize}px ${path}`;
+      // この部分の作り（details）は、閉じた状態と開いた状態の両方で測る
+      for (const [path, open] of pages.flatMap((p) => [
+        [p, false],
+        [p, true],
+      ])) {
+        const label = `${width}px 文字${rootSize}px ${path}${open ? ' 開いた' : ''}`;
         await page.goto(`${base}${path}`);
         await page.evaluate(() => document.fonts.ready);
+        if (open)
+          await page.evaluate(() =>
+            document.querySelectorAll('details').forEach((d) => {
+              d.open = true;
+            }),
+          );
         const result = await page.evaluate(
           ({ TOLERANCE, rootSize }) => {
             // 罫線の間隔は本文の行の高さ。ページから読む
