@@ -74,7 +74,7 @@ About の入口に、スクロールで動く場面を1つだけ置く。作っ�
 - 文面は `src/data/profile.ts` の要約から作る: 「藤井 優気（28卒・公立はこだて未来大学）Go College ベストエンジニアリング賞・ハッカソン受賞3回・ICPC 2025 横浜 https://wisteria-io.com」
 
 **staging**
-- このリポジトリから出た PR（fork でないもの）は、verify が通ったら `staging.wisteria-io.com` に出す。最後に push された PR で上書きする
+- このリポジトリから出た PR（fork でないもの）は、verify が通ったら `staging.wisteria-io.com` に出す。最後に verify を終えた PR で上書きする
 - staging は検索に載せない（noindex）
 - fork からの PR は、今まで通り自宅の機械で動かさない
 

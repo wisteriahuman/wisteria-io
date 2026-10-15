@@ -9,7 +9,7 @@
 - 2026-10-17 のイベントの前後は、本番を崩したくない
 
 ## 決定事項 (Decision)
-- このリポジトリから出た PR（fork でないもの）は、verify が通ったら self-hosted runner で `staging.wisteria-io.com` に配置する。最後に push された PR で上書きする
+- このリポジトリから出た PR（fork でないもの）は、verify が通ったら self-hosted runner で `staging.wisteria-io.com` に配置する。最後に verify を終えた PR で上書きする
 - staging は `serve.cjs` の2つ目のプロセス（ポート 4322、`/Users/wisteria/portfolio-staging`）で配り、すべての応答に `X-Robots-Tag: noindex, nofollow` を付け、`/robots.txt` は `Disallow: /` を返す
 - Cloudflare Tunnel の設定に hostname を足して公開する
 - fork からの PR では staging の job を動かさない（`github.event.pull_request.head.repo.full_name == github.repository`）
@@ -21,7 +21,7 @@
 
 ### 受け入れるトレードオフ (Accepted Trade-offs)
 - staging は URL を知っていれば誰でも見られる（検索には載らない）
-- PR が複数あるときは、最後に push したものしか見られない
+- PR が複数あるときは、最後に verify を終えたものしか見られない（push の順ではない。古い job を再実行しても上書きされる）
 - launchd の設定は Mac mini に手で入れる。段階②-c で配信基盤ごと置き換えるまでのつなぎとする
 
 ## 検討した別の選択肢 (Alternatives Considered)

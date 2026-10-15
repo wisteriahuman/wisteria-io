@@ -21,7 +21,7 @@
 ```bash
 pnpm install
 pnpm dev
-pnpm verify   # 型検査・リント・ビルド・ビルド結果の検査・Lighthouse
+pnpm verify   # 型検査・リント・ビルド・ビルド結果の検査・単体の検査・Lighthouse
 ```
 
 環境の用意は [docs/guides/setup.md](docs/guides/setup.md)、変更の入れ方は [docs/guides/development-flow.md](docs/guides/development-flow.md)。

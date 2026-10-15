@@ -42,6 +42,11 @@ function createServer({ dist, noindex }) {
       send(res, 400, 'text/plain', 'Bad Request');
       return;
     }
+    // ヌル文字があると fs が例外を投げてプロセスごと落ちるので、先に断る
+    if (urlPath.includes('\0')) {
+      send(res, 400, 'text/plain', 'Bad Request');
+      return;
+    }
     if (noindex && urlPath === '/robots.txt') {
       send(res, 200, 'text/plain', DISALLOW_ALL);
       return;
@@ -49,9 +54,15 @@ function createServer({ dist, noindex }) {
     if (urlPath.endsWith('/')) urlPath += 'index.html';
     if (!path.extname(urlPath)) urlPath += '/index.html';
 
-    const filePath = path.join(root, urlPath);
     // root と同じ文字で始まる隣のディレクトリに出られないよう、区切り文字まで含めて比べる
-    if (filePath !== root && !filePath.startsWith(root + path.sep)) {
+    const inside = (file) => file.startsWith(root + path.sep);
+    const notFound = () =>
+      fs.readFile(path.join(root, '404.html'), (_, d404) => {
+        send(res, 404, 'text/html', d404 || 'Not Found');
+      });
+
+    const filePath = path.join(root, urlPath);
+    if (!inside(filePath)) {
       send(res, 403, 'text/plain', 'Forbidden');
       return;
     }
@@ -61,15 +72,18 @@ function createServer({ dist, noindex }) {
         send(res, 200, typeOf(filePath), data);
         return;
       }
+      // /about/index.html が無ければ /about.html を探す。/ のときは <root>.html になり外に出るので探さない
       const alt = filePath.replace(/\/index\.html$/, '.html');
+      if (!inside(alt)) {
+        notFound();
+        return;
+      }
       fs.readFile(alt, (err2, data2) => {
         if (!err2) {
           send(res, 200, typeOf(alt), data2);
           return;
         }
-        fs.readFile(path.join(root, '404.html'), (_, d404) => {
-          send(res, 404, 'text/html', d404 || 'Not Found');
-        });
+        notFound();
       });
     });
   });

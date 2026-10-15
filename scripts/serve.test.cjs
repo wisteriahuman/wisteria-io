@@ -100,3 +100,22 @@ test('dist の外（同じ文字で始まる隣のディレクトリ）には出
     assert.notEqual(res.body, 'secret', p);
   }
 });
+
+test('ヌル文字を含む URL は 400 を返し、サーバーは落ちない', async () => {
+  const get = await startRaw();
+  const res = await get('/%00');
+  assert.equal(res.status, 400);
+  const after = await get('/blog/');
+  assert.equal(after.status, 200);
+});
+
+test('index.html が無いときも、dist の外の <dist>.html は返さない', async () => {
+  const empty = path.join(root, 'empty');
+  fs.mkdirSync(empty);
+  fs.writeFileSync(`${empty}.html`, 'outside');
+  const server = createServer({ dist: empty, noindex: false });
+  servers.push(server);
+  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+  const res = await fetch(`http://127.0.0.1:${server.address().port}/`);
+  assert.notEqual(await res.text(), 'outside');
+});

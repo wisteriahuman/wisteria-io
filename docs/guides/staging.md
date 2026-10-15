@@ -11,7 +11,7 @@ PR の見た目を、本番に出す前に `https://staging.wisteria-io.com` で
 
 ### 使い方
 - このリポジトリにブランチを push して PR を出すと、verify の後に staging の job が動き、`https://staging.wisteria-io.com` に出る
-- 出るのは最後に push した PR。どの PR が出ているかは、Actions の staging の job のログ（`Staged PR #N`）で分かる
+- 出るのは最後に verify を終えた PR（push の順ではない。古い job を再実行しても上書きされる）。どの PR が出ているかは、Actions の staging の job のログ（`Staged PR #N`）で分かる
 - fork からの PR では staging の job は動かない
 
 ### Mac mini への設定（一度だけ。本人の確認を取ってから行う）
