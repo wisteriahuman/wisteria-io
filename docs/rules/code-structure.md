@@ -17,6 +17,7 @@
 | `src/assets/` | ビルド時に最適化する画像 | `astro:assets` の `<Image />` で使う |
 | `public/` | そのまま配る静的ファイル | 外部から URL で参照されうるので、消す前に確かめる |
 | `scripts/` | 開発用のスクリプト | 例: ビルド結果の検査（`check-dist.mjs`）。仕様を変えたら検査も直す |
+| `deploy/` | 自宅の機械に入れる設定 | 例: staging の launchd の設定（`deploy/launchd/`）。入れ方は [staging](../guides/staging.md) |
 | `docs/` | 要件・判断・設計・手順・ルール | 構成は [docs/README.md](../README.md) |
 
 - 絵文字をアイコンに使わない。SVG を `Icon.astro` に足す
