@@ -1,8 +1,10 @@
 import { execSync } from 'node:child_process';
 
-// ページの上の「Date」の欄に書く、最後に更新した日（ADR-016）。git が使えないときはビルドを止める
-export const lastUpdated = execSync('git log -1 --format=%cs', { encoding: 'utf8' }).trim().replaceAll('-', '.');
-
-// 日付をノートの Date の欄の書き方（2026.03.29）にする
+// 日付をノートの Date の欄の書き方（2026.03.29）にする。CI は UTC で動くので、日本の日付にそろえる
 export const noteDate = (date: Date) =>
-  `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
+  new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' })
+    .format(date)
+    .replaceAll('-', '.');
+
+// ページの上の「Date」の欄に書く、最後に更新した日（ADR-016）。git が使えないときはビルドを止める
+export const lastUpdated = noteDate(new Date(Number(execSync('git log -1 --format=%ct', { encoding: 'utf8' })) * 1000));
