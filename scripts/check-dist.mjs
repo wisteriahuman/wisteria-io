@@ -127,6 +127,9 @@ check(!/animation-timeline/.test(html), '紙が動く指定が残っている');
 check(!/--color-ring/.test(html), 'リングが残っている');
 // 紙の上の端には、リングから破り取ったちぎれ跡を残す
 check(/\.page:before\{[^}]*url\("?data:image\/svg\+xml/.test(html), '紙の上の端に破り取った跡が無い');
+// 破れ方は紙ごとに違う（同じ形の繰り返しは機械が作ったように見える）
+const torn = new Set([...html.matchAll(/--torn:\s*url\(([^)]*)\)/g)].map((m) => m[1]));
+check(torn.size >= 6, `破り取った跡が紙ごとに違わない（${torn.size}通り）`);
 // 赤い余白線は日本の大学ノートに無い。蛍光ペンの見本の切り替えは色を決めたので消す
 check(!/--color-margin|data-marker|marker=yellow/.test(html), '赤い余白線か蛍光ペンの見本の切り替えが残っている');
 check(/Date \d{4}\.\d{2}\.\d{2}/.test(html.replace(/<[^>]+>/g, '')), 'トップに Date の欄が無い');

@@ -1,6 +1,7 @@
 ---
 import PageHead from '../components/PageHead.astro';
 import { noteDate } from '../lib/last-updated';
+import { tornEdge } from '../lib/torn-edge';
 import Layout from './Layout.astro';
 
 interface Props {
@@ -29,7 +30,7 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
   type="article"
 >
   <main class="pad">
-    <article class="page">
+    <article class="page" style={`--torn: ${tornEdge(200 + no)}`}>
       <PageHead no={no} date={noteDate(pubDate)} />
       <p class="mt-7"><a href="/blog" class="text-pen underline underline-offset-4">記事一覧に戻る</a></p>
       <header class="mt-7 mb-14">

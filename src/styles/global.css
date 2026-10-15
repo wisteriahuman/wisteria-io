@@ -94,6 +94,13 @@ body {
     background-repeat: repeat-x;
   }
 
+  /* 紙ごとの破れ方（src/lib/torn-edge.ts がビルド時に作る）があれば、繰り返しの絵の代わりに使う */
+  .page[style*="--torn"]::before {
+    background-image: var(--torn);
+    background-size: 56.25rem 1.25rem;
+    background-repeat: no-repeat;
+  }
+
   .page + .page {
     margin-top: 1.75rem;
   }
