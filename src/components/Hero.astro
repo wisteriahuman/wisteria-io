@@ -3,12 +3,7 @@ import { Image } from 'astro:assets';
 import avatar from '../assets/avatar.jpg';
 import { highlights } from '../data/career';
 import { profile, ratings } from '../data/profile';
-
-const links = [
-  { label: 'GitHub', href: 'https://github.com/wisteriahuman' },
-  { label: 'X', href: 'https://x.com/wisteria_man' },
-  { label: 'AtCoder', href: 'https://atcoder.jp/users/wisteriahuman' },
-];
+import Stickers from './Stickers.astro';
 ---
 
 <section id="top" class="pt-7 scroll-mt-24">
@@ -27,11 +22,5 @@ const links = [
   </ul>
   <p class="text-ink-muted">{ratings.join('・')}</p>
 
-  <p class="flex flex-wrap gap-x-6">
-    {links.map((l) => (
-      <a href={l.href} target="_blank" rel="noopener" class="text-pen underline underline-offset-4">
-        {l.label}
-      </a>
-    ))}
-  </p>
+  <Stickers />
 </section>

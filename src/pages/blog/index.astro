@@ -15,7 +15,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
     <div class="page" style={`--torn: ${tornEdge(100)}`}>
       <PageHead date={lastUpdated} />
       <p class="mt-7"><a href="/" class="text-pen underline underline-offset-4">ポートフォリオに戻る</a></p>
-      <h1 class="mt-7 text-[2rem] leading-14 font-bold text-ink"><span class="marker">Blog</span></h1>
+      <h1 class="mt-7 font-hand text-[2.5rem] leading-14 font-bold text-ink"><span class="marker">Blog</span></h1>
       <p class="text-ink-muted">技術的なメモや振り返りを書いています</p>
       {posts.length === 0 ? (
         <p class="mt-14 text-ink-muted">まだ記事がありません</p>

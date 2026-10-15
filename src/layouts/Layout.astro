@@ -20,6 +20,8 @@ const {
 
 const siteUrl = 'https://wisteria-io.com';
 const fontsUrl = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=optional';
+// 手書きの書体は、届いたら差し替える。行の高さが決まっているので、差し替えてもレイアウトは上下に動かない（ADR-016）
+const handUrl = 'https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap';
 const ogImage = `${siteUrl}${image}`;
 const ogUrl = url ? `${siteUrl}${url}` : siteUrl;
 ---
@@ -49,7 +51,8 @@ const ogUrl = url ? `${siteUrl}${url}` : siteUrl;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!-- 日本語は端末のフォントで描き、英字のフォントは描画を止めずに読み込む（ADR-009） -->
     <link rel="preload" as="style" href={fontsUrl} onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript><link rel="stylesheet" href={fontsUrl} /></noscript>
+    <link rel="preload" as="style" href={handUrl} onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href={fontsUrl} /><link rel="stylesheet" href={handUrl} /></noscript>
     <title>{title}</title>
   </head>
   <body class="antialiased text-ink">

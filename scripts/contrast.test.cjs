@@ -30,7 +30,9 @@ const pairs = [
   ['ink', 'marker'],
   ['ink-muted', 'marker'],
   ['pen', 'marker'],
-  // 上の固定のナビは机の色の上に載る
+  // 作品の受賞の判子（朱色）は紙の上に押す
+  ['stamp', 'paper'],
+  // 上の固定のナビは台紙の色の上に載る
   ['ink', 'desk'],
   ['ink-muted', 'desk'],
 ];

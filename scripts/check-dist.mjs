@@ -127,6 +127,23 @@ check(!/animation-timeline/.test(html), '紙が動く指定が残っている');
 check(!/--color-ring/.test(html), 'リングが残っている');
 // 紙の上の端には、リングから破り取ったちぎれ跡を残す
 check(/\.page:before\{[^}]*url\("?data:image\/svg\+xml/.test(html), '紙の上の端に破り取った跡が無い');
+// GitHub・X・AtCoder へのリンクは紙に貼ったシール。ロゴだけのシールにも名前を付ける
+for (const [where, part] of [
+  ['最初の画面', hero],
+  ['リンク', html.match(/<section id="links"[\s\S]*?<\/section>/)?.[0] ?? ''],
+]) {
+  const stickers = [...part.matchAll(/<a [^>]*class="sticker[^"]*"[^>]*>[\s\S]*?<\/a>/g)].map((m) => m[0]);
+  check(stickers.length === 3, `${where}のシールが3枚（実際: ${stickers.length}）`);
+  for (const s of stickers) check(/aria-label="[^"]+"|>\s*[A-Za-z]/.test(s), `${where}のシールに名前が無い`);
+}
+// 作品の受賞は朱色の判子（優勝・Directorz賞・サイバーエージェント賞）
+check((projects.match(/class="stamp"/g) ?? []).length === 3, '作品の受賞の判子が3つ');
+// 英字だけ手書きの書体。紙の上の欄の番号と日付に使う
+check(html.includes('family=Caveat'), '手書きの書体（Caveat）を読み込んでいない');
+check(
+  /class="[^"]*\bfont-hand\b[^"]*">\d{4}\.\d{2}\.\d{2}</.test(html),
+  '紙の上の Date が手書きの書体で書かれていない',
+);
 // 破れ方は紙ごとに違う（同じ形の繰り返しは機械が作ったように見える）
 const torn = new Set([...html.matchAll(/--torn:\s*url\(([^)]*)\)/g)].map((m) => m[1]));
 check(torn.size >= 6, `破り取った跡が紙ごとに違わない（${torn.size}通り）`);
