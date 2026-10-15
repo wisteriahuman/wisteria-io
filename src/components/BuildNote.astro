@@ -23,8 +23,9 @@ const prs = prsFor(files);
         <ul>
           {decisions.map((d) => (
             <li>
-              <a href={d.url} class="underline underline-offset-4">ADR-{String(d.no).padStart(3, '0')}</a>{' '}
-              {d.previous && <><s>{d.previous}</s>{' → '}</>}{d.title}
+              <a href={d.url} class="underline underline-offset-4">
+                ADR-{String(d.no).padStart(3, '0')} {d.previous && <><s>{d.previous}</s>{' → '}</>}{d.title}
+              </a>
             </li>
           ))}
         </ul>
@@ -38,7 +39,7 @@ const prs = prsFor(files);
     </ul>
     <p class="font-bold">最近の変更</p>
     {prs.length === 0 ? (
-      <p>まだ変更の記録がない</p>
+      <p>PR を通した変更はまだない</p>
     ) : (
       <ul>
         {prs.map((p) => (

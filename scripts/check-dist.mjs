@@ -163,6 +163,18 @@ check(
   /<details class="build-note"[\s\S]*?この記事の履歴/.test(read('blog/hello-world/index.html')),
   '記事にこの記事の履歴が無い',
 );
+// PR が無いときの文言は事実どおりに（PR の運用より前のコミットはある）
+const hello = read('blog/hello-world/index.html');
+check(
+  !html.includes('まだ変更の記録がない') && !hello.includes('まだ変更の記録がない'),
+  '「まだ変更の記録がない」が残っている',
+);
+check(hello.includes('PR を通した変更はまだない'), '記事に「PR を通した変更はまだない」が無い');
+// ADR のリンクは題名つき（読み上げのリンクの一覧で中身が分かる）
+check(
+  /<a href="[^"]*\/docs\/adr\/adr-016-[^"]*"[^>]*>\s*ADR-016 [^<]*<s>紙の質感<\/s>[^<]*見た目を/.test(html),
+  'ADR のリンクに題名が入っていない',
+);
 // 赤い余白線は日本の大学ノートに無い。蛍光ペンの見本の切り替えは色を決めたので消す
 check(!/--color-margin|data-marker|marker=yellow/.test(html), '赤い余白線か蛍光ペンの見本の切り替えが残っている');
 check(/Date \d{4}\.\d{2}\.\d{2}/.test(html.replace(/<[^>]+>/g, '')), 'トップに Date の欄が無い');
