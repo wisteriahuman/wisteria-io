@@ -122,9 +122,11 @@ for (const page of [
   check(!/page-left|page-right|class="spread/.test(body), `${page} に見開きが残っている`);
 }
 check(!/\.reveal\b/.test(html), '浮き上がる動きが残っている');
-// 切り取ったページを台紙に貼った形（ADR-016）。貼った紙は動かさず、リングも描かない
+// 破り取ったページを台紙に貼った形（ADR-016）。貼った紙は動かさず、リングも描かない
 check(!/animation-timeline/.test(html), '紙が動く指定が残っている');
-check(!/\.page:before|--color-ring/.test(html), 'リングが残っている');
+check(!/--color-ring/.test(html), 'リングが残っている');
+// 紙の上の端には、リングから破り取ったちぎれ跡を残す
+check(/\.page:before\{[^}]*url\("?data:image\/svg\+xml/.test(html), '紙の上の端に破り取った跡が無い');
 // 赤い余白線は日本の大学ノートに無い。蛍光ペンの見本の切り替えは色を決めたので消す
 check(!/--color-margin|data-marker|marker=yellow/.test(html), '赤い余白線か蛍光ペンの見本の切り替えが残っている');
 check(/Date \d{4}\.\d{2}\.\d{2}/.test(html.replace(/<[^>]+>/g, '')), 'トップに Date の欄が無い');
