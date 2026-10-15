@@ -1,44 +1,29 @@
 ---
 import { projects } from '../data/projects';
-import Icon from './Icon.astro';
 ---
 
-<section id="projects" class="reveal py-24 px-6">
-  <div class="max-w-5xl mx-auto space-y-8">
-    <h2 class="font-serif text-3xl font-bold text-ink">Projects</h2>
-    <div class="space-y-6">
-      {projects.map(p => (
-        <div data-project class="bg-surface rounded-lg p-6 hover:bg-surface-strong transition-colors">
-          <div class="flex items-start justify-between mb-2">
-            <h3 class="font-serif min-w-0 break-words text-ink font-semibold text-lg">{p.title}</h3>
-            {p.award && (
-              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-wisteria-soft text-ink text-xs rounded-md shrink-0 ml-3">
-                <Icon name="trophy" class="w-3.5 h-3.5" />{p.award}
-              </span>
-            )}
-          </div>
-          <p class="text-ink-muted text-sm leading-relaxed mb-3">{p.desc}</p>
-          <div class="flex flex-wrap gap-2 mb-3">
-            {p.tech.map(t => (
-              <span class="px-2 py-0.5 bg-paper text-ink-muted text-xs rounded-md">{t}</span>
-            ))}
-          </div>
-          <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+<section id="projects" class="pt-14">
+  <h2 class="text-[22px] font-bold text-ink"><span class="marker">Projects</span></h2>
+  <ul class="mt-7 space-y-7">
+    {projects.map(p => (
+      <li data-project class="relative">
+        <p class="margin-note">{p.period}</p>
+        <h3 class="font-bold text-ink">
+          {p.title}{p.award && <> <span class="marker font-normal">{p.award}</span></>}
+        </h3>
+        <p class="text-ink-muted">{p.desc}</p>
+        <p class="text-sm text-ink-muted">{p.tech.join('・')}</p>
+        {(p.github || p.link) && (
+          <p class="h-14 flex items-end gap-6">
             {p.github && (
-              <a href={p.github} target="_blank" rel="noopener" class="text-wisteria hover:underline inline-flex items-center gap-1">
-                <Icon name="github" />
-                GitHub
-              </a>
+              <a href={p.github} target="_blank" rel="noopener" class="h-14 inline-flex items-end text-pen underline underline-offset-4">GitHub</a>
             )}
             {p.link && (
-              <a href={p.link} target="_blank" rel="noopener" class="text-wisteria hover:underline inline-flex items-center gap-1">
-                <Icon name="link" />関連サイト
-              </a>
+              <a href={p.link} target="_blank" rel="noopener" class="h-14 inline-flex items-end text-pen underline underline-offset-4">関連サイト</a>
             )}
-            <span class="text-ink-muted text-xs ml-auto">{p.period}</span>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
+          </p>
+        )}
+      </li>
+    ))}
+  </ul>
 </section>

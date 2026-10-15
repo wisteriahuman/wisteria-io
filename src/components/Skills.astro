@@ -1,75 +1,52 @@
 ---
-import type { IconName } from './Icon.astro';
-import Icon from './Icon.astro';
-
-const categories: { title: string; icon: IconName; skills: string[] }[] = [
+const categories: { title: string; skills: string[] }[] = [
   {
     title: 'Languages',
-    icon: 'code',
     skills: ['Go', 'TypeScript', 'Python', 'C/C++', 'Java', 'PHP', 'Processing', 'HTML', 'CSS/SCSS'],
   },
   {
     title: 'Backend',
-    icon: 'server',
     skills: ['Echo', 'Gin', 'Hono', 'Flask', 'FastAPI', 'Django'],
   },
   {
     title: 'Frontend',
-    icon: 'layout',
     skills: ['Next.js', 'React', 'WordPress'],
   },
   {
     title: 'CSS / UI',
-    icon: 'palette',
     skills: ['Tailwind CSS', 'MUI', 'shadcn/ui'],
   },
   {
     title: 'Database',
-    icon: 'database',
     skills: ['PostgreSQL', 'MySQL', 'Redis', 'Supabase', 'Drizzle ORM', 'SQLAlchemy'],
   },
   {
     title: 'Infrastructure',
-    icon: 'cloud',
     skills: ['Docker', 'Cloudflare'],
   },
   {
     title: 'AI / ML',
-    icon: 'cpu',
     skills: ['PyTorch', 'scikit-learn', 'NumPy', 'Matplotlib'],
   },
   {
     title: 'Linux',
-    icon: 'terminal',
     skills: ['Ubuntu', 'Pop!_OS', 'CachyOS', 'Garuda'],
   },
   {
     title: 'Tools',
-    icon: 'wrench',
     skills: ['Neovim', 'tmux', 'Git', 'Sway'],
   },
 ];
 ---
 
-<section id="skills" class="reveal py-24 px-6">
-  <div class="max-w-5xl mx-auto space-y-8">
-    <h2 class="font-serif text-3xl font-bold text-ink">Skills</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {categories.map(cat => (
-        <div class="bg-surface rounded-lg p-6 hover:bg-surface-strong transition-colors">
-          <div class="flex items-center gap-3 mb-4">
-            <Icon name={cat.icon} class="w-6 h-6 text-wisteria" />
-            <h3 class="font-serif text-ink font-semibold">{cat.title}</h3>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            {cat.skills.map(s => (
-              <span class="px-3 py-1 bg-paper text-ink-muted text-sm rounded-md">
-                {s}
-              </span>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
+<section id="skills" class="pt-14">
+  <h2 class="text-[22px] font-bold text-ink"><span class="marker">Skills</span></h2>
+  <dl class="mt-7 space-y-7 md:space-y-0">
+    {categories.map(cat => (
+      <div class="relative">
+        <dt class="margin-note font-bold text-ink">{cat.title}</dt>
+        <dd class="text-ink">{cat.skills.join('・')}</dd>
+      </div>
+    ))}
+  </dl>
 </section>

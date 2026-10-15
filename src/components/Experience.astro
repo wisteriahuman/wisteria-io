@@ -2,22 +2,16 @@
 import { career } from '../data/career';
 ---
 
-<section id="experience" class="reveal py-24 px-6">
-  <div class="max-w-3xl mx-auto space-y-8">
-    <h2 class="font-serif text-3xl font-bold text-ink">Experience</h2>
-    <div class="space-y-0">
-      {career.map((item, i) => (
-        <div id={`career-${item.id}`} class="relative pl-8 pb-10 last:pb-0 scroll-mt-24">
-          <div class="absolute left-0 top-1.5 w-3 h-3 bg-wisteria rounded-full ring-4 ring-paper"></div>
-          {i < career.length - 1 && (
-            <div class="absolute left-[5px] top-4 w-0.5 h-full bg-rule"></div>
-          )}
-          <p class="text-wisteria text-sm font-[JetBrains_Mono]">{item.period}</p>
-          <h3 class="font-serif text-ink font-semibold text-lg mt-1">{item.title}</h3>
-          <p class="text-wisteria text-sm">{item.subtitle}</p>
-          {item.desc && <p class="text-ink-muted text-sm mt-2">{item.desc}</p>}
-        </div>
-      ))}
-    </div>
-  </div>
+<section id="experience" class="pt-14">
+  <h2 class="text-[22px] font-bold text-ink"><span class="marker">Experience</span></h2>
+  <ol class="mt-7 space-y-7">
+    {career.map((item) => (
+      <li id={`career-${item.id}`} class="relative scroll-mt-24">
+        <p class="margin-note">{item.period}</p>
+        <h3 class="font-bold text-ink">{item.title}</h3>
+        <p class="text-ink-muted">{item.subtitle}</p>
+        {item.desc && <p class="text-ink-muted">{item.desc}</p>}
+      </li>
+    ))}
+  </ol>
 </section>
