@@ -15,7 +15,10 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
+      # この部分の作りの PR を、ファイルごとの git の履歴から拾う（ADR-017）。浅い clone だと最新の1件しか見えない
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       # バージョンは package.json の packageManager と .node-version に従う（ADR-002・ADR-012）
       - uses: pnpm/action-setup@v4
