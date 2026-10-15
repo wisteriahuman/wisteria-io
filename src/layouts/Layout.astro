@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css'
 import { profile, summary } from '../data/profile';
+import { buildVersion } from '../lib/last-updated';
 
 interface Props {
   title?: string;
@@ -22,7 +23,7 @@ const siteUrl = 'https://wisteria-io.com';
 const fontsUrl = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=optional';
 // 手書きの書体は、届いたら差し替える。行の高さが決まっているので、差し替えてもレイアウトは上下に動かない（ADR-016）
 const handUrl = 'https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap';
-const ogImage = `${siteUrl}${image}`;
+const ogImage = `${siteUrl}${image}?v=${buildVersion}`;
 const ogUrl = url ? `${siteUrl}${url}` : siteUrl;
 ---
 

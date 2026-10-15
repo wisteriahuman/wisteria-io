@@ -13,7 +13,17 @@ const summary = '28卒・公立はこだて未来大学。Go College ベスト�
 
 check(html.includes('<title>藤井 優気 (wisteria) | ポートフォリオ</title>'), 'title');
 check(html.includes(`<meta name="description" content="${summary}"`), 'description');
-check(html.includes('<meta property="og:image" content="https://wisteria-io.com/og.png"'), 'og:image');
+// 画像の URL に版を付け、Cloudflare の中継や SNS が古い画像を出し続けないようにする
+check(
+  /<meta property="og:image" content="https:\/\/wisteria-io\.com\/og\.png\?v=[0-9a-f]{7,}"/.test(html),
+  'og:image に版が付いていない',
+);
+check(
+  /<meta property="og:image" content="https:\/\/wisteria-io\.com\/og\/hello-world\.png\?v=[0-9a-f]{7,}"/.test(
+    read('blog/hello-world/index.html'),
+  ),
+  '記事の og:image に版が付いていない',
+);
 check(exists('og.png'), '/og.png が無い');
 
 const hero = html.match(/<section id="top"[\s\S]*?<\/section>/)?.[0] ?? '';

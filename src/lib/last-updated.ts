@@ -8,3 +8,6 @@ export const noteDate = (date: Date) =>
 
 // ページの上の「Date」の欄に書く、最後に更新した日（ADR-016）。git が使えないときはビルドを止める
 export const lastUpdated = noteDate(new Date(Number(execSync('git log -1 --format=%ct', { encoding: 'utf8' })) * 1000));
+
+// ビルドした commit の短い hash。OGP 画像の URL に付け、配るたびに URL を変える（Cloudflare の中継と SNS が古い画像を出さないように）
+export const buildVersion = execSync('git log -1 --format=%h', { encoding: 'utf8' }).trim();
