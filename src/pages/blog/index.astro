@@ -10,18 +10,16 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 ---
 
 <Layout title="Blog | wisteria">
-  <div class="spread">
-    <aside class="page page-left" aria-label="ブログ">
+  <main class="pad">
+    <div class="page">
       <PageHead date={lastUpdated} />
       <p class="mt-7"><a href="/" class="text-pen underline underline-offset-4">ポートフォリオに戻る</a></p>
       <h1 class="mt-7 text-[2rem] leading-14 font-bold text-ink"><span class="marker">Blog</span></h1>
       <p class="text-ink-muted">技術的なメモや振り返りを書いています</p>
-    </aside>
-    <main class="page page-right pb-14">
       {posts.length === 0 ? (
-        <p class="text-ink-muted">まだ記事がありません</p>
+        <p class="mt-14 text-ink-muted">まだ記事がありません</p>
       ) : (
-        <ul class="space-y-7">
+        <ul class="mt-14 space-y-7">
           {posts.map(post => (
             <BlogCard
               title={post.data.title}
@@ -33,6 +31,6 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
           ))}
         </ul>
       )}
-    </main>
-  </div>
+    </div>
+  </main>
 </Layout>

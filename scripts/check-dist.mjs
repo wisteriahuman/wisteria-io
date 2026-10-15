@@ -115,13 +115,17 @@ for (const page of [
   // hover: などの前置きを外して比べる
   const left = notNotebook.filter((t) => classes.some((c) => c.replace(/^([a-z0-9-]+:)+/, '').startsWith(t)));
   check(left.length === 0, `${page} にノートに無い部品のクラスが残っている: ${left.join(', ')}`);
-  check(/<main class="page\b/.test(body), `${page} の本文がノートのページ（.page）に載っていない`);
-  check(/<aside class="page page-left\b/.test(body), `${page} に見開きの左のページが無い`);
+  // 上開きのリングノート。セクションごとに1枚の紙（.page）を重ねる
+  check(/<main class="pad\b/.test(body), `${page} の本文がノートの紙の束（.pad）に載っていない`);
+  const sheets = (body.match(/class="page[\s"]/g) ?? []).length;
+  check(sheets >= (page === 'index.html' ? 6 : 1), `${page} の紙が足りない（${sheets}枚）`);
+  check(!/page-left|page-right|class="spread/.test(body), `${page} に見開きが残っている`);
 }
 check(!/\.reveal\b|animation-timeline/.test(html), '浮き上がる動きが残っている');
 // 赤い余白線は日本の大学ノートに無い。蛍光ペンの見本の切り替えは色を決めたので消す
 check(!/--color-margin|data-marker|marker=yellow/.test(html), '赤い余白線か蛍光ペンの見本の切り替えが残っている');
 check(/Date \d{4}\.\d{2}\.\d{2}/.test(html.replace(/<[^>]+>/g, '')), 'トップに Date の欄が無い');
+check(/\.page:before\{[^}]*url\("?data:image\/svg\+xml/.test(html), '紙の上の端にリングと穴が無い');
 check(/No\. \d+/.test(read('blog/hello-world/index.html').replace(/<[^>]+>/g, '')), '記事に No. の欄が無い');
 
 if (failures.length) {

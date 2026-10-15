@@ -7,25 +7,19 @@ import Nav from '../components/Nav.astro';
 import PageHead from '../components/PageHead.astro';
 import Projects from '../components/Projects.astro';
 import Skills from '../components/Skills.astro';
-import Toc from '../components/Toc.astro';
 import Layout from '../layouts/Layout.astro';
 import { lastUpdated } from '../lib/last-updated';
 ---
 
 <Layout>
   <Nav />
-  <div class="spread">
-    <aside class="page page-left" aria-label="プロフィール">
-      <PageHead date={lastUpdated} />
-      <Hero />
-      <Toc />
-    </aside>
-    <main class="page page-right">
-      <Experience />
-      <Projects />
-      <Skills />
-      <About />
-      <Links />
-    </main>
-  </div>
+  <!-- 上開きのリングノート。セクションごとに1枚の紙（ADR-016） -->
+  <main class="pad">
+    <div class="page"><PageHead no={1} date={lastUpdated} /><Hero /></div>
+    <div class="page"><PageHead no={2} date={lastUpdated} /><Experience /></div>
+    <div class="page"><PageHead no={3} date={lastUpdated} /><Projects /></div>
+    <div class="page"><PageHead no={4} date={lastUpdated} /><Skills /></div>
+    <div class="page"><PageHead no={5} date={lastUpdated} /><About /></div>
+    <div class="page"><PageHead no={6} date={lastUpdated} /><Links /></div>
+  </main>
 </Layout>

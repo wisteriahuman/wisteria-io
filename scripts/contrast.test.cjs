@@ -30,6 +30,9 @@ const pairs = [
   ['ink', 'marker'],
   ['ink-muted', 'marker'],
   ['pen', 'marker'],
+  // 上の固定のナビは机の色の上に載る
+  ['ink', 'desk'],
+  ['ink-muted', 'desk'],
 ];
 
 for (const [fg, bg] of pairs) {

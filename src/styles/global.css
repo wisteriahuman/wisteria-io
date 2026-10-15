@@ -8,8 +8,9 @@
   --color-pen: #24489a;
   --color-rule: #b9d4ea;
   --color-marker: #fbef9f;
-  /* PC の見開きの外（机）。上に文字は載せない */
+  /* 紙の外（机）と、紙を綴じるリング */
   --color-desk: #e7e5df;
+  --color-ring: #8f949b;
 
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
@@ -44,7 +45,8 @@ html {
 }
 
 body {
-  background-color: var(--color-paper);
+  /* 紙の外は机 */
+  background-color: var(--color-desk);
   color: var(--color-ink);
   font-size: 1rem;
   line-height: var(--line);
@@ -53,46 +55,66 @@ body {
     "Yu Gothic", "Meiryo", system-ui, sans-serif;
 }
 
-/* PC の見開きの外は机の色（layer の外の body の指定より強くするため、ここに書く） */
-@media (min-width: 1024px) {
-  body {
-    background-color: var(--color-desk);
-  }
-}
-
 ::selection {
   background-color: var(--color-marker);
   color: var(--color-ink);
 }
 
 @layer components {
-  /* ノートの1ページ。罫線はページの上端から、行の高さごとに1本引く */
+  /* 上開きのリングノート（ADR-016）。紙の束。上の固定のナビの下から始める */
+  .pad {
+    padding: 4.375rem 0.75rem 3.5rem;
+  }
+
+  /* 1枚の紙。罫線は紙の上端から、行の高さごとに1本引く */
   .page {
-    --rules: linear-gradient(to bottom, transparent calc(var(--line) - 1px), var(--color-rule) calc(var(--line) - 1px));
+    position: relative;
+    max-width: 52rem;
+    margin-inline: auto;
+    padding: 1.75rem 1.25rem 1.75rem;
     background-color: var(--color-paper);
-    background-image: var(--rules);
+    background-image: linear-gradient(
+      to bottom,
+      transparent calc(var(--line) - 1px),
+      var(--color-rule) calc(var(--line) - 1px)
+    );
     background-size: 100% var(--line);
     background-position: 0 calc(-1 * var(--rule-shift));
-    padding-inline: 1.5rem;
   }
 
-  /* スマホとタブレットでは、固定のナビの下から書き始める */
-  .page-left {
-    padding-top: 3.5rem;
+  .page + .page {
+    margin-top: 1.75rem;
   }
 
-  /* 日付欄に書くこと。スマホと見開きでは本文の上の1行にする */
+  /* 紙の上の端のリングと穴。リングは机から紙の穴へ通る。色は --color-ring と --color-desk と同じ値 */
+  .page::before {
+    content: "";
+    position: absolute;
+    top: -0.875rem;
+    left: 1.25rem;
+    right: 1.25rem;
+    height: 1.75rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Crect x='11' y='1.5' width='6' height='20' rx='3' fill='none' stroke='%238f949b' stroke-width='2'/%3E%3Ccircle cx='14' cy='21' r='3.5' fill='%23e7e5df'/%3E%3C/svg%3E");
+    background-size: 1.75rem 1.75rem;
+    background-repeat: repeat-x;
+  }
+
+  /* 日付欄に書くこと。スマホでは本文の上の1行にする */
   .margin-note {
     display: block;
     color: var(--color-ink-muted);
     font-size: 0.875rem;
   }
 
-  /* タブレットは1ページで、本文の左に日付欄を取る */
-  @media (min-width: 768px) and (max-width: 1023.98px) {
+  /* 768px 以上は、本文の左に日付欄を取る */
+  @media (min-width: 768px) {
+    .pad {
+      padding-inline: 2rem;
+    }
+
     .page {
       padding-left: 10rem;
-      padding-right: 2rem;
+      padding-right: 2.5rem;
     }
 
     .margin-note {
@@ -101,50 +123,6 @@ body {
       left: -10rem;
       width: 8.5rem;
       text-align: right;
-    }
-  }
-
-  /* PC はノートの見開き。左のページは止め、右のページを読み進める */
-  @media (min-width: 1024px) {
-    .spread {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: start;
-      max-width: 80rem;
-      margin-inline: auto;
-      padding: 3.5rem 2rem;
-    }
-
-    .page {
-      padding-inline: 3rem;
-      padding-bottom: 3.5rem;
-    }
-
-    /* 綴じ目に向かって、紙が少し沈んで見える */
-    .page-left,
-    .page-right {
-      background-size:
-        100% 100%,
-        100% var(--line);
-      background-repeat: no-repeat, repeat;
-      background-position:
-        0 0,
-        0 calc(-1 * var(--rule-shift));
-    }
-
-    .page-left {
-      position: sticky;
-      top: 3.5rem;
-      height: calc(100vh - 7rem);
-      overflow-y: auto;
-      padding-top: 1.75rem;
-      background-image: linear-gradient(to left, rgb(0 0 0 / 0.06), transparent 2.5rem), var(--rules);
-    }
-
-    .page-right {
-      min-height: calc(100vh - 7rem);
-      padding-top: 1.75rem;
-      background-image: linear-gradient(to right, rgb(0 0 0 / 0.06), transparent 2.5rem), var(--rules);
     }
   }
 

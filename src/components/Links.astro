@@ -6,8 +6,8 @@ const links = [
 ];
 ---
 
-<section id="links" class="pt-14">
-  <h2 class="text-[1.375rem] font-bold text-ink"><span class="marker">5. Links</span></h2>
+<section id="links" class="pt-7 scroll-mt-24">
+  <h2 class="text-[1.375rem] font-bold text-ink"><span class="marker">Links</span></h2>
   <p class="flex flex-wrap gap-x-6">
     {links.map(l => (
       <a href={l.href} target="_blank" rel="noopener" class="text-pen underline underline-offset-4">{l.label}</a>
@@ -15,7 +15,7 @@ const links = [
   </p>
 </section>
 
-<footer class="py-14">
+<footer class="pt-7">
   <p class="text-sm text-ink-muted">
     © 2026 wisteria. Built with <a href="https://astro.build" class="text-pen underline underline-offset-4">Astro</a> + <a href="https://tailwindcss.com" class="text-pen underline underline-offset-4">Tailwind CSS</a>. Self-hosted on Mac mini via <a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/" class="text-pen underline underline-offset-4">Cloudflare Tunnel</a>.
   </p>

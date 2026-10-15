@@ -28,21 +28,21 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
   url={`/blog/${slug}`}
   type="article"
 >
-  <div class="spread">
-    <aside class="page page-left" aria-label="記事の情報">
+  <main class="pad">
+    <article class="page">
       <PageHead no={no} date={noteDate(pubDate)} />
       <p class="mt-7"><a href="/blog" class="text-pen underline underline-offset-4">記事一覧に戻る</a></p>
-      <h1 class="mt-7 text-[1.75rem] md:text-[2rem] leading-14 font-bold text-ink">{title}</h1>
-      <p class="text-sm text-ink-muted">
-        <time datetime={pubDate.toISOString()}>{formattedDate}</time>{tags.length > 0 && <>・{tags.join('・')}</>}
-      </p>
-    </aside>
-    <main class="page page-right pb-14">
-      <article class="blog-content">
+      <header class="mt-7 mb-14">
+        <h1 class="text-[1.75rem] md:text-[2rem] leading-14 font-bold text-ink">{title}</h1>
+        <p class="text-sm text-ink-muted">
+          <time datetime={pubDate.toISOString()}>{formattedDate}</time>{tags.length > 0 && <>・{tags.join('・')}</>}
+        </p>
+      </header>
+      <div class="blog-content">
         <slot />
-      </article>
-    </main>
-  </div>
+      </div>
+    </article>
+  </main>
 </Layout>
 
 <style is:global>
