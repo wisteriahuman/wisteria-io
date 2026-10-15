@@ -110,6 +110,12 @@ for (const page of [
   check(left.length === 0, `${page} に暗い配色のクラスが残っている: ${left.join(', ')}`);
 }
 check(/<section id="top" class="[^"]*\bpaper-lines\b/.test(html), '最初の画面に罫線の地が無い');
+// チップ（タグ・札）は線ではなく薄い面、角は 6〜8px
+for (const page of ['index.html', 'blog/index.html', 'blog/neovim-intro-part1/index.html']) {
+  const chips = [...read(page).matchAll(/<span class="([^"]*\bpx-[\d.]+ py-[\d.]+[^"]*)"/g)].map((m) => m[1]);
+  const outlined = chips.filter((c) => /\bborder\b|\brounded(-full|-sm)?(\s|$)/.test(c));
+  check(outlined.length === 0, `${page} に線や丸いチップが残っている: ${outlined[0]}`);
+}
 
 if (failures.length) {
   console.error(`NG ${failures.length}件:\n- ${failures.join('\n- ')}`);
