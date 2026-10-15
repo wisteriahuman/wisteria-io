@@ -7,12 +7,14 @@ export type SatoriNode = {
   props: Record<string, unknown>;
 };
 
+// 色は src/styles/global.css のトークンと同じ値にする（ADR-016）
 const colors = {
-  bg: '#0f172a',
-  primary: '#6366f1',
-  white: '#ffffff',
-  text: '#e2e8f0',
-  muted: '#94a3b8',
+  bg: '#fbf8f1',
+  primary: '#5a4a8c',
+  soft: '#ece6f2',
+  ink: '#1f1d1a',
+  text: '#1f1d1a',
+  muted: '#5c5650',
 };
 
 // フォントはビルド中に1回だけ取得し、全ての OGP 画像で使い回す
