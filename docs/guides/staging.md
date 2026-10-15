@@ -33,6 +33,11 @@ PR の見た目を、本番に出す前に `https://staging.wisteria-io.com` で
 - `curl -s https://staging.wisteria-io.com/robots.txt` が `Disallow: /` を返す
 - 本番の `curl -sI https://wisteria-io.com/` には `x-robots-tag` が付かない
 
+### 本番の配信
+- 本番（`wisteria-io.com`）も同じ `/Users/wisteria/portfolio-serve/serve.cjs` を、既定値（`/Users/wisteria/portfolio-dist`・ポート 4321）で動かす。設定は `deploy/launchd/com.wisteria.portfolio.plist`
+- `serve.cjs` を直したら、手順2で写した後、本番と staging の両方を `launchctl kickstart -k gui/$(id -u)/<Label>` で読み直す（本番は数秒止まる）
+- Cloudflare の中継は `.txt`・画像などを最大4時間持つ。中身が変わったのに古いまま見えるときは、クエリを付けて（`?v=1`）取り直すと元の応答を確かめられる
+
 ## トラブルシューティング
 - **502 が出る**: staging の serve.cjs が動いていない。`launchctl list | grep portfolio-staging` と `/tmp/portfolio-staging.log` を見る
 - **古い見た目のまま**: staging の job が skipped（fork からの PR）か、別の PR が後から push された
