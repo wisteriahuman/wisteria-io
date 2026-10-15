@@ -11,7 +11,7 @@ export type SatoriNode = {
 const colors = {
   bg: '#fdfdfa',
   primary: '#24489a',
-  soft: '#e4d9f4',
+  soft: '#fbef9f',
   ink: '#1d1f24',
   text: '#1d1f24',
   muted: '#4f5560',

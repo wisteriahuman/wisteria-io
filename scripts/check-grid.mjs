@@ -55,9 +55,10 @@ try {
             const targets = [...document.querySelectorAll('main :is(p, li, h1, h2, h3, dt, dd, tr)')].filter(
               (el) => !el.closest('pre, figure, svg') && el.getClientRects().length > 0,
             );
+            // 罫線はページ（.page）ごとに、ページの上端から引く
             for (const el of targets) {
               const rect = el.getBoundingClientRect();
-              const top = rect.top + window.scrollY;
+              const top = rect.top - (el.closest('.page')?.getBoundingClientRect().top ?? -window.scrollY);
               if (off(top) > TOLERANCE || off(rect.height) > TOLERANCE) {
                 const text = (el.textContent ?? '').trim().slice(0, 30);
                 bad.push(`${el.tagName.toLowerCase()} top=${top.toFixed(1)} h=${rect.height.toFixed(1)} 「${text}」`);
@@ -70,6 +71,13 @@ try {
                 (el) =>
                   `${(el.textContent ?? '').trim() || el.getAttribute('aria-label')} h=${el.getBoundingClientRect().height}`,
               );
+            // 1ページのとき、ページは上下に続くので、高さも罫線の倍数にする
+            if (window.innerWidth < 1024) {
+              for (const p of document.querySelectorAll('.page')) {
+                const h = p.getBoundingClientRect().height;
+                if (off(h) > TOLERANCE) bad.push(`ページの高さ h=${h.toFixed(1)}`);
+              }
+            }
             return {
               bad,
               smallTaps,
@@ -82,6 +90,20 @@ try {
           { TOLERANCE, rootSize },
         );
         if (result.count === 0) failures.push(`${label}: 測る要素が無い`);
+        // PC の見開きでは、右のページを読み進めても左のページ（名前・実績）が見えている
+        if (width >= 1024) {
+          const stays = await page.evaluate(async () => {
+            const left = document.querySelector('.page-left');
+            if (!left) return false;
+            const before = left.getBoundingClientRect().top;
+            window.scrollTo({ top: 1500, behavior: 'instant' });
+            await new Promise((r) => requestAnimationFrame(() => r()));
+            const after = left.getBoundingClientRect().top;
+            window.scrollTo({ top: 0, behavior: 'instant' });
+            return document.documentElement.scrollHeight < 1500 + innerHeight || Math.abs(after - before) < 1;
+          });
+          if (!stays) failures.push(`${label}: 見開きの左のページがスクロールで動く`);
+        }
         if (Math.abs(result.line - result.expectedLine) > 0.5)
           failures.push(`${label}: 行の高さが文字の大きさに合わせて変わらない（${result.line}px）`);
         if (result.scrollWidth > width) failures.push(`${label}: 横にはみ出す（${result.scrollWidth}px）`);

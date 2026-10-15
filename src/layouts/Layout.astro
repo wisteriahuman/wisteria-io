@@ -51,8 +51,6 @@ const ogUrl = url ? `${siteUrl}${url}` : siteUrl;
     <link rel="preload" as="style" href={fontsUrl} onload="this.onload=null;this.rel='stylesheet'" />
     <noscript><link rel="stylesheet" href={fontsUrl} /></noscript>
     <title>{title}</title>
-    <!-- staging で蛍光ペンの色を見比べる（?marker=yellow）。本人が色を決めたら消す -->
-    <script is:inline>if (new URLSearchParams(location.search).get('marker') === 'yellow') document.documentElement.dataset.marker = 'yellow';</script>
   </head>
   <body class="antialiased text-ink">
     <slot />

@@ -30,9 +30,6 @@ const pairs = [
   ['ink', 'marker'],
   ['ink-muted', 'marker'],
   ['pen', 'marker'],
-  ['ink', 'marker-yellow'],
-  ['ink-muted', 'marker-yellow'],
-  ['pen', 'marker-yellow'],
 ];
 
 for (const [fg, bg] of pairs) {

@@ -1,0 +1,20 @@
+---
+// PC の見開きの左のページに置く目次。上の固定のナビの代わりをする（ADR-016）
+const items = [
+  { href: '#experience', label: '1. Experience' },
+  { href: '#projects', label: '2. Projects' },
+  { href: '#skills', label: '3. Skills' },
+  { href: '#about', label: '4. About' },
+  { href: '#links', label: '5. Links' },
+];
+---
+
+<div class="hidden lg:block mt-14">
+  <p class="font-bold text-ink">目次</p>
+  <ol>
+    {items.map((i) => (
+      <li><a href={i.href} class="text-ink hover:text-pen">{i.label}</a></li>
+    ))}
+  </ol>
+  <p class="mt-7"><a href="/blog" class="text-pen underline underline-offset-4">Blog</a></p>
+</div>

@@ -1,0 +1,13 @@
+---
+// 大学ノートのページの上の欄（ADR-016）。No. は記事が何本目か、Date は書いた日か最後に更新した日
+interface Props {
+  no?: number;
+  date: string;
+}
+
+const { no, date } = Astro.props;
+---
+
+<p class="text-right text-sm text-ink-muted">
+  {no !== undefined && <span class="mr-6">No. {no}</span>}<span>Date {date}</span>
+</p>

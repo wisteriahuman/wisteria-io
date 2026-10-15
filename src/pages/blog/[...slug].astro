@@ -4,13 +4,15 @@ import BlogPost from '../../layouts/BlogPost.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
+  // No. は公開日の古い順に何本目か（ADR-016）
+  const ordered = [...posts].sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
   return posts.map(post => ({
     params: { slug: post.slug },
-    props: { post },
+    props: { post, no: ordered.indexOf(post) + 1 },
   }));
 }
 
-const { post } = Astro.props;
+const { post, no } = Astro.props;
 const { Content } = await post.render();
 ---
 
@@ -20,6 +22,7 @@ const { Content } = await post.render();
   pubDate={post.data.pubDate}
   tags={post.data.tags}
   slug={post.slug}
+  no={no}
 >
   <Content />
 </BlogPost>

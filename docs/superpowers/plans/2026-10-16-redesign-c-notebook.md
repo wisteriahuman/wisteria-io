@@ -940,3 +940,18 @@ git -C /Users/wisteria/Projects/wisteria-io push
 - [ ] **Step 5: 本人の了承を得て merge する**
 
 staging で問題が無いと本人に言われてから `gh pr merge 12 --squash --delete-branch`。main の run で verify・deploy が success になり、本番 `https://wisteria-io.com/` が新しい見た目で 200 を返すことを確かめる
+
+### Task 7（2026-10-16 追加）: staging を見た本人の指摘を受けて、見開き・欄・密度・黄色にする
+
+本人の指摘: 黄色が合う。「質素」。「note 書くときこんな赤い線入れるか？」。「スマホビューしか今考えていない？ PC もちゃんとどっちの UI もこだわってほしい」。ほかは推奨で、と任された。決めたことは ADR-016・設計・仕様の C に書いた。
+
+**Files:** `src/styles/global.css`、`src/components/PageHead.astro`（新規）・`Toc.astro`（新規）・`Hero.astro`・`Nav.astro`・`Experience.astro`・`Projects.astro`・`Skills.astro`・`About.astro`・`Links.astro`、`src/lib/last-updated.ts`（新規）、`src/pages/index.astro`・`blog/index.astro`・`blog/[...slug].astro`、`src/layouts/BlogPost.astro`・`Layout.astro`、`src/lib/og.ts`、`scripts/check-dist.mjs`・`check-grid.mjs`・`contrast.test.cjs`
+
+- [x] **Step 1: 検査を先に直し、失敗を確かめる**
+  - check-dist: 本文が `<main class="page`、見開きの左のページ `<aside class="page page-left"` がある。`--color-margin`・`data-marker`・`marker=yellow` が無い。トップに `Date YYYY.MM.DD`、記事に `No. N`
+  - check-grid: 要素の位置をそのページ（`.page`）の上端から測る。1ページの幅（〜1023px）ではページの高さも罫線の倍数。1024px 以上では、1500px 流しても左のページが動かない
+  - contrast: 黄色の見本の3組を消す（蛍光ペンそのものが黄色になる）
+  - Expected: check-dist 11件・check-grid の見開きの NG
+- [x] **Step 2: CSS**: 赤い余白線と見本の切り替えを消し、蛍光ペンを `#fbef9f`、机 `#e7e5df` を足す。罫線を `body` から `.page` に移す。`.spread`（1024px〜 で2列の見開き）、`.page-left`（1024px〜 で sticky、綴じ目へ向かう薄い陰）、`.page-right`。日付欄（`.margin-note`）はタブレットの幅だけ本文の左に出す
+- [x] **Step 3: 部品**: トップを `<aside class="page page-left">`（Date の欄・Hero・目次）と `<main class="page page-right">`（5つのセクション）に分ける。上のナビは 1024px〜 で隠す。実績とリンクの行は空行を挟まず 28px の行に続けて書く（押せる高さ 24px 以上）。見出しに「1.」〜「5.」。一覧と記事も見開きにし、記事は左に No.（公開日の古い順）・Date・題・タグ
+- [x] **Step 4: 確かめる**: `pnpm verify` が通る。1440px・820px・390px で撮る
