@@ -147,6 +147,34 @@ check(
 // 破れ方は紙ごとに違う（同じ形の繰り返しは機械が作ったように見える）
 const torn = new Set([...html.matchAll(/--torn:\s*url\(([^)]*)\)/g)].map((m) => m[1]));
 check(torn.size >= 6, `破り取った跡が紙ごとに違わない（${torn.size}通り）`);
+// この部分の作り（ADR-017）。トップの6枚すべての最後にあり、ADR のリンクが1つ以上ある
+const notes = [...html.matchAll(/<details class="build-note"[\s\S]*?<\/details>/g)].map((m) => m[0]);
+check(notes.length === 6, `この部分の作りが6つ（実際: ${notes.length}）`);
+for (const n of notes) check(/\/docs\/adr\/adr-\d{3}-/.test(n), 'この部分の作りに ADR のリンクが無い');
+// PR は git の履歴から拾う。浅い clone だとほとんど空になる
+check(
+  notes.filter((n) => /\/pull\/\d+/.test(n)).length >= 5,
+  'この部分の作りの多くに PR のリンクが無い（git の履歴が浅い？）',
+);
+// 改訂した ADR は、前の題を取り消し線で残す
+check(/<s>紙の質感<\/s>/.test(html), '改訂した ADR-016 の前の題が取り消し線で残っていない');
+// 記事の最後に、この記事の履歴
+check(
+  /<details class="build-note"[\s\S]*?この記事の履歴/.test(read('blog/hello-world/index.html')),
+  '記事にこの記事の履歴が無い',
+);
+// PR が無いときの文言は事実どおりに（PR の運用より前のコミットはある）
+const hello = read('blog/hello-world/index.html');
+check(
+  !html.includes('まだ変更の記録がない') && !hello.includes('まだ変更の記録がない'),
+  '「まだ変更の記録がない」が残っている',
+);
+check(hello.includes('PR を通した変更はまだない'), '記事に「PR を通した変更はまだない」が無い');
+// ADR のリンクは題名つき（読み上げのリンクの一覧で中身が分かる）
+check(
+  /<a href="[^"]*\/docs\/adr\/adr-016-[^"]*"[^>]*>\s*ADR-016 [^<]*<s>紙の質感<\/s>[^<]*見た目を/.test(html),
+  'ADR のリンクに題名が入っていない',
+);
 // 赤い余白線は日本の大学ノートに無い。蛍光ペンの見本の切り替えは色を決めたので消す
 check(!/--color-margin|data-marker|marker=yellow/.test(html), '赤い余白線か蛍光ペンの見本の切り替えが残っている');
 check(/Date \d{4}\.\d{2}\.\d{2}/.test(html.replace(/<[^>]+>/g, '')), 'トップに Date の欄が無い');

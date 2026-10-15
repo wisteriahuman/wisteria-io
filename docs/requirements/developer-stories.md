@@ -138,7 +138,7 @@
   - PR は git の履歴から自動で拾われる
   - ADR とファイルの対応は1か所に書かれ、抜けを `pnpm check` で検出できる
 - 段階: ②
-- 状態: 未着手（段階②-a の D で達成にする）
+- 状態: 達成（PR #14。対応表は `src/data/build-notes.ts`、抜けは `pnpm test` と `pnpm check` が検出する）
 
 ## 参考
 - Jensen, Møller, Sönder, Tjørnehøj. "Architecture and Design in eXtreme Programming; introducing Developer Stories" (XP 2006) — アーキテクチャ上の作業を Story として扱う提案

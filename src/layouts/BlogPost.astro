@@ -1,4 +1,5 @@
 ---
+import BuildNote from '../components/BuildNote.astro';
 import PageHead from '../components/PageHead.astro';
 import { noteDate } from '../lib/last-updated';
 import { tornEdge } from '../lib/torn-edge';
@@ -11,9 +12,10 @@ interface Props {
   tags: string[];
   slug: string;
   no: number;
+  file: string;
 }
 
-const { title, description, pubDate, tags, slug, no } = Astro.props;
+const { title, description, pubDate, tags, slug, no, file } = Astro.props;
 
 const formattedDate = pubDate.toLocaleDateString('ja-JP', {
   year: 'numeric',
@@ -42,6 +44,7 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
       <div class="blog-content">
         <slot />
       </div>
+      <BuildNote files={[file]} label="この記事の履歴" />
     </article>
   </main>
 </Layout>
