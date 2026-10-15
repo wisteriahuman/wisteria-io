@@ -23,7 +23,8 @@ const random = (seed: number) => {
 
 const n = (v: number) => Math.round(v * 10) / 10;
 
-export function tornEdge(seed: number): string {
+// 破り取った跡の SVG（OGP 画像でも使う）
+export function tornEdgeSvg(seed: number): string {
   const rand = random(seed);
   const holes: { x: number; r: number }[] = [];
   for (let x = PITCH / 2; x < WIDTH + PITCH; x += PITCH) {
@@ -56,6 +57,11 @@ export function tornEdge(seed: number): string {
     shapes += `<circle cx='${n(h.x + (rand() - 0.5) * 0.8)}' cy='${n(EDGE + (rand() - 0.5) * 1.2)}' r='${n(h.r)}' fill='${DESK}'/>`;
   }
 
-  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${WIDTH}' height='20' viewBox='0 0 ${WIDTH} 20'>${shapes}</svg>`;
+  return `<svg xmlns='http://www.w3.org/2000/svg' width='${WIDTH}' height='20' viewBox='0 0 ${WIDTH} 20'>${shapes}</svg>`;
+}
+
+// CSS の背景に使う形（url("data:...")）
+export function tornEdge(seed: number): string {
+  const svg = tornEdgeSvg(seed);
   return `url("data:image/svg+xml,${svg.replaceAll('#', '%23').replaceAll('<', '%3C').replaceAll('>', '%3E')}")`;
 }

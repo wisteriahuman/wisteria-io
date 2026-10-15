@@ -37,6 +37,7 @@ PR の見た目を、本番に出す前に `https://staging.wisteria-io.com` で
 - 本番（`wisteria-io.com`）も同じ `/Users/wisteria/portfolio-serve/serve.cjs` を、既定値（`/Users/wisteria/portfolio-dist`・ポート 4321）で動かす。設定は `deploy/launchd/com.wisteria.portfolio.plist`
 - `serve.cjs` を直したら、手順2で写した後、本番と staging の両方を `launchctl kickstart -k gui/$(id -u)/<Label>` で読み直す（本番は数秒止まる）
 - Cloudflare の中継は `.txt`・画像などを最大4時間持つ。中身が変わったのに古いまま見えるときは、クエリを付けて（`?v=1`）取り直すと元の応答を確かめられる
+  - OGP 画像は、ページの `og:image` の URL にビルドした commit の短い hash（`?v=<hash>`）を付けるので、配るたびに新しい画像が読まれる。画像の URL を直接開くときは、同じ `?v=` を付けて開く
 
 ## トラブルシューティング
 - **502 が出る**: staging の serve.cjs が動いていない。`launchctl list | grep portfolio-staging` と `/tmp/portfolio-staging.log` を見る

@@ -1,28 +1,23 @@
 import type { APIRoute } from 'astro';
 import { highlights } from '../data/career';
 import { profile, ratings } from '../data/profile';
+import { lastUpdated } from '../lib/last-updated';
 import { ogText, renderOgImage } from '../lib/og';
 
-const { div, colors } = ogText;
+const { div, marked, colors, LINE } = ogText;
 
+// トップの最初の紙（No. 1）と同じ中身。実績は蛍光ペンを引いた行（ADR-016）
 export const GET: APIRoute = () =>
-  renderOgImage([
-    div({ fontSize: '72px', fontWeight: 700, color: colors.ink }, profile.name),
-    div({ marginTop: '16px', fontSize: '34px', color: colors.text }, profile.affiliation),
-    div(
-      { marginTop: '40px', flexWrap: 'wrap', gap: '14px' },
-      highlights.map((h) =>
-        div(
-          {
-            fontSize: '26px',
-            color: colors.ink,
-            padding: '8px 22px',
-            borderRadius: '8px',
-            backgroundColor: colors.soft,
-          },
-          h.label,
+  renderOgImage(
+    [
+      div({ fontSize: '64px', fontWeight: 700, color: colors.ink, lineHeight: `${LINE * 2}px` }, profile.name),
+      div({ fontSize: '30px', color: colors.ink, lineHeight: `${LINE}px` }, profile.affiliation),
+      div({ flexDirection: 'column', marginTop: `${LINE}px` }, [
+        ...highlights.map((h) =>
+          marked(h.label, { fontSize: '28px', fontWeight: 700, color: colors.ink, lineHeight: `${LINE}px` }),
         ),
-      ),
-    ),
-    div({ marginTop: '24px', fontSize: '26px', color: colors.muted }, ratings.join('・')),
-  ]);
+        div({ fontSize: '26px', color: colors.muted, lineHeight: `${LINE}px` }, ratings.join('・')),
+      ]),
+    ],
+    { no: 1, date: lastUpdated, seed: 1 },
+  );
