@@ -35,3 +35,4 @@
 - ADR テンプレートには、提案中の判断を区別するためステータスと日付を足した
 - design テンプレートには、ui-grill で詰める項目と ui-ux-pro-max の参照欄を足した
 - 2026-10-15: Superpowers が書く仕様書と実装計画は `superpowers/specs/`・`superpowers/plans/` に置く。design は「何を作るか」、superpowers は「どのファイルにどう作るか」と分ける。テンプレートは Superpowers の形式に従うため置かない
+- 2026-10-15: アイデアソンの記録は `ideathon/` に置く。案の全部と採否の理由を残し、採った案は ui-grill を経て design に入る。形式は `ideathon` スキルの記録に従うため、テンプレートは置かない
