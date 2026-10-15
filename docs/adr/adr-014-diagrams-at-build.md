@@ -6,7 +6,7 @@
 ## 背景・課題 (Background/Problem)
 - neovim 入門の記事は mermaid で図を書いている。これまでは閲覧時に CDN から mermaid（約850KB）を読み込み、ブラウザで図を描いていた
 - 図が最初の画面にある Part 1・Part 2 は、Lighthouse（モバイル）の Performance が 91・93 で、目標の 100 に届かなかった（[ADR-009](./adr-009-web-fonts.md) の対策の後に残った分）
-- 閲覧時に描くと、描き終わるまで図の場所が空になり、スマホ幅では Part 2 の図が画面からはみ出して横にスクロールできてしまっていた
+- 閲覧時に描くと、描き終わるまで図の場所に mermaid のコードの文字が出ていた
 
 ## 決定事項 (Decision)
 - `rehype-mermaid` で、ビルド時に図を SVG にしてページに埋め込む。閲覧時には mermaid を読み込まない
