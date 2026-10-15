@@ -13,11 +13,13 @@
 - workflow は `.github/workflows/ci.yml` の1つにする
   - `verify` の job: GitHub のマシン（ubuntu-latest）で、PR と main への push の両方で `pnpm verify` を走らせる
   - `deploy` の job: main への push のときだけ、`verify` が通った後に self-hosted runner（Mac mini）で動く。`verify` が作った `dist/` を受け取って配置するだけで、自宅ではビルドしない
+- 外部の人の PR で workflow を動かすときは、毎回承認を必須にする（Actions の設定 `approval_policy: all_external_contributors`）。PR の workflow はその PR の中のファイルで動くため、`if` の条件だけでは自宅の機械を守れない
+- デプロイは別の場所に写してから入れ替え、同時に1つしか動かさない（`concurrency`）
 - main を保護する: `verify` の通過を必須にし、承認は不要、管理者にも適用し、force push と削除を禁止する。merge は squash だけを許す
 
 ### 理由 (Reasons)
 - 本番に出す前に、型検査からLighthouseまで必ず通る
-- 自宅の機械で動くのは、main に入ったことが確定したコードの配置だけになる。外部の PR は GitHub のマシンでしか動かない
+- 自宅の機械で動くのは、main に入ったことが確定したコードの配置だけになる。外部の PR の workflow は承認するまで動かない。承認する前に、PR が `.github/workflows/` を変えていないかを確かめる
 - 検証したビルド結果をそのまま配置するので、「検証したものと本番が違う」ことが起きない
 - squash にすると main の履歴が「1 PR = 1つの変更」になり、細かい経緯は PR に残る
 

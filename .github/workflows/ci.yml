@@ -51,14 +51,24 @@ jobs:
     # 外部の PR のコードを自宅の機械で動かさないため、main への push のときだけ動かす
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: self-hosted
+    # 続けて merge しても、デプロイが重なったり順番が入れ替わったりしないようにする
+    concurrency:
+      group: deploy
+      cancel-in-progress: false
     steps:
       - uses: actions/download-artifact@v4
         with:
           name: dist
           path: dist
 
+      # 先に別の場所へ写してから入れ替え、配信中のディレクトリが空になる時間をなくす
       - name: Deploy
         run: |
-          rm -rf /Users/wisteria/portfolio-dist
-          cp -r dist /Users/wisteria/portfolio-dist
+          set -eu
+          target=/Users/wisteria/portfolio-dist
+          rm -rf "$target.next" "$target.prev"
+          cp -R dist "$target.next"
+          if [ -d "$target" ]; then mv "$target" "$target.prev"; fi
+          mv "$target.next" "$target"
+          rm -rf "$target.prev"
           echo "Deployed at $(date)"
