@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- wisteria-io.com（本番）を配る serve.cjs。staging と同じ serve.cjs を、既定値（DIST=/Users/wisteria/portfolio-dist、PORT=4321）で動かす。手順は docs/guides/staging.md -->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.wisteria.portfolio</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/opt/homebrew/bin/node</string>
+        <string>/Users/wisteria/portfolio-serve/serve.cjs</string>
+    </array>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>DIST</key>
+        <string>/Users/wisteria/portfolio-dist</string>
+        <key>PORT</key>
+        <string>4321</string>
+    </dict>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/tmp/portfolio-astro.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/portfolio-astro.log</string>
+</dict>
+</plist>
