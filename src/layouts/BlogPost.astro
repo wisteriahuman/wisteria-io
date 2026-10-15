@@ -1,4 +1,7 @@
 ---
+import PageHead from '../components/PageHead.astro';
+import { noteDate } from '../lib/last-updated';
+import { tornEdge } from '../lib/torn-edge';
 import Layout from './Layout.astro';
 
 interface Props {
@@ -7,9 +10,10 @@ interface Props {
   pubDate: Date;
   tags: string[];
   slug: string;
+  no: number;
 }
 
-const { title, description, pubDate, tags, slug } = Astro.props;
+const { title, description, pubDate, tags, slug, no } = Astro.props;
 
 const formattedDate = pubDate.toLocaleDateString('ja-JP', {
   year: 'numeric',
@@ -25,34 +29,16 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
   url={`/blog/${slug}`}
   type="article"
 >
-  <main class="min-h-screen pt-20 pb-24 px-6">
-    <article class="max-w-3xl mx-auto">
-      <a
-        href="/blog"
-        class="inline-flex items-center gap-2 text-text-muted hover:text-accent transition-colors text-sm mb-8"
-      >
-        <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-        記事一覧に戻る
-      </a>
-
-      <header class="mb-10">
-        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">{title}</h1>
-        <div class="flex flex-wrap items-center gap-4 text-sm text-text-muted mb-4">
-          <time datetime={pubDate.toISOString()}>{formattedDate}</time>
-        </div>
-        {tags.length > 0 && (
-          <div class="flex flex-wrap gap-2">
-            {tags.map(tag => (
-              <span class="px-3 py-1 bg-white/5 text-text-muted text-sm rounded-full border border-border">
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
+  <main class="pad">
+    <article class="page" style={`--torn: ${tornEdge(200 + no)}`}>
+      <PageHead no={no} date={noteDate(pubDate)} />
+      <p class="mt-7"><a href="/blog" class="text-pen underline underline-offset-4">記事一覧に戻る</a></p>
+      <header class="mt-7 mb-14">
+        <h1 class="text-[1.75rem] md:text-[2rem] leading-14 font-bold text-ink">{title}</h1>
+        <p class="text-sm text-ink-muted">
+          <time datetime={pubDate.toISOString()}>{formattedDate}</time>{tags.length > 0 && <>・{tags.join('・')}</>}
+        </p>
       </header>
-
       <div class="blog-content">
         <slot />
       </div>
@@ -63,25 +49,31 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
 <style is:global>
   @reference "../styles/global.css";
 
+  /* 記事の本文も罫線に乗せる。縦の寸法はすべて行の高さ（28px）の倍数にする */
   .blog-content {
-    @apply text-text-main leading-relaxed;
+    container-type: inline-size;
+    /* 長いパスやコマンドを、狭い画面で折り返す */
+    overflow-wrap: break-word;
+  }
+
+  .blog-content > :first-child {
+    @apply mt-0;
   }
 
   .blog-content h2 {
-    @apply text-2xl font-bold text-white mt-12 mb-4;
+    @apply text-[1.375rem] font-bold text-ink mt-14;
   }
 
   .blog-content h3 {
-    @apply text-xl font-semibold text-white mt-8 mb-3;
+    @apply text-lg font-bold text-ink mt-7;
   }
 
-  .blog-content p {
-    @apply mb-4;
+  .blog-content :is(p, ul, ol, table, pre, blockquote, figure) {
+    @apply mb-7;
   }
 
-  .blog-content ul,
-  .blog-content ol {
-    @apply mb-4 pl-6;
+  .blog-content :is(ul, ol) {
+    @apply pl-6;
   }
 
   .blog-content ul {
@@ -92,40 +84,64 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
     @apply list-decimal;
   }
 
-  .blog-content li {
-    @apply mb-2;
-  }
-
   .blog-content a {
-    @apply text-accent underline underline-offset-2;
+    @apply text-pen underline underline-offset-4;
   }
 
+  /* 行内のコード。行の箱を高くしないよう line-height を 1 にする */
   .blog-content code {
-    @apply font-[JetBrains_Mono] text-sm bg-bg-card px-1.5 py-0.5 rounded;
+    @apply font-mono text-[0.875rem] text-ink;
+    line-height: 1;
+    padding: 0 0.3em;
+    background-color: color-mix(in srgb, var(--color-rule) 35%, transparent);
   }
 
+  /* コードはノートに貼った印刷物。横スクロールのバーで高さが変わらないよう折り返す */
   .blog-content pre {
-    @apply my-6 p-4 rounded-xl overflow-x-auto;
+    @apply rounded-md text-[0.875rem];
+    padding: 0.875rem 1rem;
+    line-height: var(--line);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
   }
 
   .blog-content pre code {
-    @apply bg-transparent p-0;
+    padding: 0;
+    background-color: transparent;
+    color: inherit;
+    line-height: inherit;
   }
 
   .blog-content blockquote {
-    @apply border-l-4 border-primary pl-4 my-4 text-text-muted italic;
+    @apply pl-4 text-ink-muted;
+    box-shadow: inset 2px 0 0 var(--color-margin);
   }
 
   .blog-content hr {
-    @apply my-8 border-border;
+    @apply mb-7;
+    height: var(--line);
+    border: 0;
   }
 
-  .blog-content img {
-    @apply rounded-xl my-6;
+  /* 表は罫線を区切りにして、セルを折り返す */
+  .blog-content table {
+    @apply w-full;
+    border-collapse: collapse;
   }
 
+  .blog-content :is(th, td) {
+    @apply pr-3 align-top text-left;
+    overflow-wrap: anywhere;
+  }
+
+  .blog-content th {
+    @apply font-bold;
+  }
+
+  /* 図は紙の上に描く。枠の高さを罫線の倍数に切り上げ、後ろの文字がずれないようにする */
   .blog-content .mermaid {
-    @apply flex justify-center bg-bg-card p-8 rounded-xl my-6 overflow-x-auto border border-border;
+    @apply flex justify-center;
+    height: round(up, calc(min(100cqw, var(--fw)) * var(--ratio)), var(--line));
   }
 
   .blog-content .mermaid svg {

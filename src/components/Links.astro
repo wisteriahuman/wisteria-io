@@ -1,32 +1,14 @@
 ---
-import Icon from './Icon.astro';
-
-const links = [
-  { label: 'GitHub', href: 'https://github.com/wisteriahuman', icon: 'github' },
-  { label: 'X (Twitter)', href: 'https://x.com/wisteria_man', icon: 'x' },
-  { label: 'AtCoder', href: 'https://atcoder.jp/users/wisteriahuman', icon: 'atcoder' },
-];
+import Stickers from './Stickers.astro';
 ---
 
-<section id="links" class="py-24 px-6">
-  <div class="max-w-3xl mx-auto text-center space-y-8">
-    <h2 class="text-3xl font-bold text-white">Links</h2>
-    <div class="flex flex-wrap justify-center gap-3 md:gap-6">
-      {links.map(l => (
-        <a href={l.href} target="_blank" rel="noopener"
-          class="flex items-center gap-2 px-6 py-3 bg-bg-card hover:bg-bg-card-hover rounded-xl transition-all hover:-translate-y-1 text-white">
-          {l.icon === 'github' && (
-            <Icon name="github" class="w-5 h-5" />
-          )}
-          {l.label}
-        </a>
-      ))}
-    </div>
-  </div>
+<section id="links" class="pt-7 scroll-mt-24">
+  <h2 class="font-hand text-[1.875rem] font-bold text-ink"><span class="marker">Links</span></h2>
+  <Stickers />
 </section>
 
-<footer class="py-8 px-6 border-t border-border text-center">
-  <p class="text-text-muted text-sm">
-    © 2026 wisteria. Built with <a href="https://astro.build" class="text-accent underline underline-offset-2">Astro</a> + <a href="https://tailwindcss.com" class="text-accent underline underline-offset-2">Tailwind CSS</a>. Self-hosted on Mac mini via <a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/" class="text-accent underline underline-offset-2">Cloudflare Tunnel</a>.
+<footer class="pt-7">
+  <p class="text-sm text-ink-muted">
+    © 2026 wisteria. Built with <a href="https://astro.build" class="text-pen underline underline-offset-4">Astro</a> + <a href="https://tailwindcss.com" class="text-pen underline underline-offset-4">Tailwind CSS</a>. Self-hosted on Mac mini via <a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/" class="text-pen underline underline-offset-4">Cloudflare Tunnel</a>.
   </p>
 </footer>

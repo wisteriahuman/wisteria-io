@@ -78,10 +78,79 @@ for (const [slug, count] of [
   ['neovim-intro-part3', 2],
 ]) {
   const post = read(`blog/${slug}/index.html`);
-  const figures = (post.match(/<figure class="mermaid"><svg/g) ?? []).length;
+  const figures = (post.match(/<figure class="mermaid"[^>]*><svg/g) ?? []).length;
   check(figures === count, `/blog/${slug} の図が${count}つ（実際: ${figures}）`);
   check(!post.includes('mermaid.min.js'), `/blog/${slug} で mermaid を読み込んでいる`);
 }
+
+// 大学ノートの見た目（ADR-016）。ノートに無い部品（角の丸い面・枠・影・前の配色・浮き上がる動き）を残さない
+const notNotebook = [
+  'rounded',
+  'border',
+  'shadow',
+  'ring',
+  'backdrop-',
+  'bg-surface',
+  'bg-wisteria',
+  'text-wisteria',
+  'font-serif',
+  'reveal',
+  'paper-lines',
+  'text-white',
+  'bg-white',
+  'bg-bg-',
+  'text-text-',
+  'text-accent',
+  'bg-primary',
+  'text-primary',
+];
+for (const page of [
+  'index.html',
+  'blog/index.html',
+  'blog/errors-are-values/index.html',
+  'blog/neovim-intro-part1/index.html',
+]) {
+  const body = read(page);
+  const classes = [...body.matchAll(/class="([^"]*)"/g)].flatMap((m) => m[1].split(/\s+/));
+  // hover: などの前置きを外して比べる
+  const left = notNotebook.filter((t) => classes.some((c) => c.replace(/^([a-z0-9-]+:)+/, '').startsWith(t)));
+  check(left.length === 0, `${page} にノートに無い部品のクラスが残っている: ${left.join(', ')}`);
+  // 切り取ったリングノートのページを、セクションごとに1枚ずつ台紙に貼る
+  check(/<main class="pad\b/.test(body), `${page} の本文がノートの紙の束（.pad）に載っていない`);
+  const sheets = (body.match(/class="page[\s"]/g) ?? []).length;
+  check(sheets >= (page === 'index.html' ? 6 : 1), `${page} の紙が足りない（${sheets}枚）`);
+  check(!/page-left|page-right|class="spread/.test(body), `${page} に見開きが残っている`);
+}
+check(!/\.reveal\b/.test(html), '浮き上がる動きが残っている');
+// 破り取ったページを台紙に貼った形（ADR-016）。貼った紙は動かさず、リングも描かない
+check(!/animation-timeline/.test(html), '紙が動く指定が残っている');
+check(!/--color-ring/.test(html), 'リングが残っている');
+// 紙の上の端には、リングから破り取ったちぎれ跡を残す
+check(/\.page:before\{[^}]*url\("?data:image\/svg\+xml/.test(html), '紙の上の端に破り取った跡が無い');
+// GitHub・X・AtCoder へのリンクは紙に貼ったシール。ロゴだけのシールにも名前を付ける
+for (const [where, part] of [
+  ['最初の画面', hero],
+  ['リンク', html.match(/<section id="links"[\s\S]*?<\/section>/)?.[0] ?? ''],
+]) {
+  const stickers = [...part.matchAll(/<a [^>]*class="sticker[^"]*"[^>]*>[\s\S]*?<\/a>/g)].map((m) => m[0]);
+  check(stickers.length === 3, `${where}のシールが3枚（実際: ${stickers.length}）`);
+  for (const s of stickers) check(/aria-label="[^"]+"|>\s*[A-Za-z]/.test(s), `${where}のシールに名前が無い`);
+}
+// 作品の受賞は朱色の判子（優勝・Directorz賞・サイバーエージェント賞）
+check((projects.match(/class="stamp"/g) ?? []).length === 3, '作品の受賞の判子が3つ');
+// 英字だけ手書きの書体。紙の上の欄の番号と日付に使う
+check(html.includes('family=Caveat'), '手書きの書体（Caveat）を読み込んでいない');
+check(
+  /class="[^"]*\bfont-hand\b[^"]*">\d{4}\.\d{2}\.\d{2}</.test(html),
+  '紙の上の Date が手書きの書体で書かれていない',
+);
+// 破れ方は紙ごとに違う（同じ形の繰り返しは機械が作ったように見える）
+const torn = new Set([...html.matchAll(/--torn:\s*url\(([^)]*)\)/g)].map((m) => m[1]));
+check(torn.size >= 6, `破り取った跡が紙ごとに違わない（${torn.size}通り）`);
+// 赤い余白線は日本の大学ノートに無い。蛍光ペンの見本の切り替えは色を決めたので消す
+check(!/--color-margin|data-marker|marker=yellow/.test(html), '赤い余白線か蛍光ペンの見本の切り替えが残っている');
+check(/Date \d{4}\.\d{2}\.\d{2}/.test(html.replace(/<[^>]+>/g, '')), 'トップに Date の欄が無い');
+check(/No\. \d+/.test(read('blog/hello-world/index.html').replace(/<[^>]+>/g, '')), '記事に No. の欄が無い');
 
 if (failures.length) {
   console.error(`NG ${failures.length}件:\n- ${failures.join('\n- ')}`);

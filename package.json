@@ -8,11 +8,12 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "node scripts/check-dist.mjs",
+    "check:grid": "node scripts/check-grid.mjs",
     "typecheck": "astro check",
     "lint": "biome ci .",
     "format": "biome check --write .",
     "lighthouse": "lhci autorun",
-    "verify": "pnpm typecheck && pnpm lint && pnpm build && pnpm check && pnpm test && pnpm lighthouse",
+    "verify": "pnpm typecheck && pnpm lint && pnpm build && pnpm check && pnpm check:grid && pnpm test && pnpm lighthouse",
     "test": "node --test 'scripts/*.test.cjs'"
   },
   "dependencies": {

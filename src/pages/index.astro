@@ -4,19 +4,23 @@ import Experience from '../components/Experience.astro';
 import Hero from '../components/Hero.astro';
 import Links from '../components/Links.astro';
 import Nav from '../components/Nav.astro';
+import PageHead from '../components/PageHead.astro';
 import Projects from '../components/Projects.astro';
 import Skills from '../components/Skills.astro';
 import Layout from '../layouts/Layout.astro';
+import { lastUpdated } from '../lib/last-updated';
+import { tornEdge } from '../lib/torn-edge';
 ---
 
 <Layout>
   <Nav />
-  <main>
-    <Hero />
-    <Experience />
-    <Projects />
-    <Skills />
-    <About />
-    <Links />
+  <!-- リングノートから破り取ったページを、セクションごとに1枚ずつ台紙に貼る（ADR-016） -->
+  <main class="pad">
+    <div class="page" style={`--torn: ${tornEdge(1)}`}><PageHead no={1} date={lastUpdated} /><Hero /></div>
+    <div class="page" style={`--torn: ${tornEdge(2)}`}><PageHead no={2} date={lastUpdated} /><Experience /></div>
+    <div class="page" style={`--torn: ${tornEdge(3)}`}><PageHead no={3} date={lastUpdated} /><Projects /></div>
+    <div class="page" style={`--torn: ${tornEdge(4)}`}><PageHead no={4} date={lastUpdated} /><Skills /></div>
+    <div class="page" style={`--torn: ${tornEdge(5)}`}><PageHead no={5} date={lastUpdated} /><About /></div>
+    <div class="page" style={`--torn: ${tornEdge(6)}`}><PageHead no={6} date={lastUpdated} /><Links /></div>
   </main>
 </Layout>

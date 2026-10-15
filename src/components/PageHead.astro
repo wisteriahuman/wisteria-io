@@ -1,0 +1,13 @@
+---
+// 大学ノートのページの上の欄（ADR-016）。欄の文字は印刷、書き込む番号と日付は手書きの書体にする
+interface Props {
+  no?: number;
+  date: string;
+}
+
+const { no, date } = Astro.props;
+---
+
+<p class="text-right text-sm text-ink-muted">
+  {no !== undefined && <span class="mr-6">No. <span class="font-hand text-xl leading-none text-pen">{no}</span></span>}<span>Date <span class="font-hand text-xl leading-none text-pen">{date}</span></span>
+</p>

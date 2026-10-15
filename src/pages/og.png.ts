@@ -7,7 +7,7 @@ const { div, colors } = ogText;
 
 export const GET: APIRoute = () =>
   renderOgImage([
-    div({ fontSize: '72px', fontWeight: 700, color: colors.white }, profile.name),
+    div({ fontSize: '72px', fontWeight: 700, color: colors.ink }, profile.name),
     div({ marginTop: '16px', fontSize: '34px', color: colors.text }, profile.affiliation),
     div(
       { marginTop: '40px', flexWrap: 'wrap', gap: '14px' },
@@ -15,11 +15,10 @@ export const GET: APIRoute = () =>
         div(
           {
             fontSize: '26px',
-            color: colors.white,
+            color: colors.ink,
             padding: '8px 22px',
-            borderRadius: '9999px',
-            border: `2px solid ${colors.primary}`,
-            backgroundColor: 'rgba(99,102,241,0.25)',
+            borderRadius: '8px',
+            backgroundColor: colors.soft,
           },
           h.label,
         ),

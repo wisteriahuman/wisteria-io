@@ -20,7 +20,7 @@ export const GET: APIRoute = async ({ props }) => {
       {
         fontSize: title.length > 30 ? '48px' : '60px',
         fontWeight: 700,
-        color: colors.white,
+        color: colors.ink,
         lineHeight: 1.4,
         // 長いタイトルでも下の名前と URL を押し出さないよう3行で切る
         display: 'block',

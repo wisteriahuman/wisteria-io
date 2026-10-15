@@ -16,17 +16,11 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
 });
 ---
 
-<a href={`/blog/${slug}`} class="block bg-bg-card rounded-xl p-6 hover:bg-bg-card-hover transition-colors">
-  <div class="flex items-start justify-between mb-2">
-    <h2 class="text-white font-semibold text-lg">{title}</h2>
-  </div>
-  <p class="text-text-muted text-sm leading-relaxed mb-3">{description}</p>
-  <div class="flex flex-wrap gap-2 mb-3">
-    {tags.map(tag => (
-      <span class="px-2 py-0.5 bg-white/5 text-text-muted text-xs rounded border border-border">{tag}</span>
-    ))}
-  </div>
-  <div class="flex items-center text-sm">
-    <time datetime={pubDate.toISOString()} class="text-text-muted text-xs">{formattedDate}</time>
-  </div>
-</a>
+<li class="relative">
+  <p class="margin-note"><time datetime={pubDate.toISOString()}>{formattedDate}</time></p>
+  <h2 class="text-lg font-bold text-ink">
+    <a href={`/blog/${slug}`} class="hover:text-pen after:absolute after:inset-0">{title}</a>
+  </h2>
+  <p class="text-ink-muted">{description}</p>
+  {tags.length > 0 && <p class="text-sm text-ink-muted">{tags.join('・')}</p>}
+</li>

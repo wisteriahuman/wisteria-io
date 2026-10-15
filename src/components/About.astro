@@ -6,31 +6,28 @@ const machines = [
 ];
 ---
 
-<section id="about" class="py-24 px-6">
-  <div class="max-w-3xl mx-auto space-y-8">
-    <h2 class="text-3xl font-bold text-white">About</h2>
-    <div class="space-y-4 text-text-muted leading-relaxed">
-      <p>
-        公立はこだて未来大学 システム情報科学部 情報アーキテクチャ学科 情報システムコース。
-        バックエンド開発と競技プログラミングが好きです。
-      </p>
-      <p>
-        API設計やDB設計を考えるのが楽しくて、ハッカソンでもバックエンドを担当することが多いです。
-        最近はAI/LLMを組み込んだプロダクト設計にも興味があります。
-      </p>
-      <p>
-        エディタは <span class="text-accent font-[JetBrains_Mono] text-sm">Neovim</span>。
-        開発環境は <span class="text-accent font-[JetBrains_Mono] text-sm">Nix</span> で管理しています。
-        マシンごとの OS の遍歴はこんな感じです。
-      </p>
-      <ul class="space-y-3">
-        {machines.map((m) => (
-          <li class="bg-bg-card rounded-xl px-5 py-4">
-            <p class="text-white font-semibold">{m.name}<span class="ml-2 text-text-muted text-sm font-normal">{m.note}</span></p>
-            <p class="text-sm mt-1">{m.history}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
+<section id="about" class="pt-7 scroll-mt-24">
+  <h2 class="font-hand text-[1.875rem] font-bold text-ink"><span class="marker">About</span></h2>
+  <div class="mt-7 space-y-7 text-ink">
+    <p>
+      公立はこだて未来大学 システム情報科学部 情報アーキテクチャ学科 情報システムコース。
+      バックエンド開発と競技プログラミングが好きです。
+    </p>
+    <p>
+      API設計やDB設計を考えるのが楽しくて、ハッカソンでもバックエンドを担当することが多いです。
+      最近はAI/LLMを組み込んだプロダクト設計にも興味があります。
+    </p>
+    <p>
+      エディタは Neovim。開発環境は Nix で管理しています。
+      マシンごとの OS の遍歴はこんな感じです。
+    </p>
+    <ul class="space-y-7">
+      {machines.map((m) => (
+        <li>
+          <p><span class="font-bold">{m.name}</span><span class="ml-2 text-sm leading-none text-ink-muted">{m.note}</span></p>
+          <p class="text-ink-muted">{m.history}</p>
+        </li>
+      ))}
+    </ul>
   </div>
 </section>
