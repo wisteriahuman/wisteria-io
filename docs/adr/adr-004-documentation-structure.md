@@ -34,3 +34,4 @@
 - Go College の構成のうち、`api/` は静的サイトのため作らない
 - ADR テンプレートには、提案中の判断を区別するためステータスと日付を足した
 - design テンプレートには、ui-grill で詰める項目と ui-ux-pro-max の参照欄を足した
+- 2026-10-15: Superpowers が書く仕様書と実装計画は `superpowers/specs/`・`superpowers/plans/` に置く。design は「何を作るか」、superpowers は「どのファイルにどう作るか」と分ける。テンプレートは Superpowers の形式に従うため置かない
