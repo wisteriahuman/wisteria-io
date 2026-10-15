@@ -13,7 +13,7 @@ import { lastUpdated } from '../lib/last-updated';
 
 <Layout>
   <Nav />
-  <!-- 上開きのリングノート。セクションごとに1枚の紙（ADR-016） -->
+  <!-- 切り取ったリングノートのページを、セクションごとに1枚ずつ台紙に貼る（ADR-016） -->
   <main class="pad">
     <div class="page"><PageHead no={1} date={lastUpdated} /><Hero /></div>
     <div class="page"><PageHead no={2} date={lastUpdated} /><Experience /></div>

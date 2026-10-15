@@ -115,26 +115,19 @@ for (const page of [
   // hover: などの前置きを外して比べる
   const left = notNotebook.filter((t) => classes.some((c) => c.replace(/^([a-z0-9-]+:)+/, '').startsWith(t)));
   check(left.length === 0, `${page} にノートに無い部品のクラスが残っている: ${left.join(', ')}`);
-  // 上開きのリングノート。セクションごとに1枚の紙（.page）を重ねる
+  // 切り取ったリングノートのページを、セクションごとに1枚ずつ台紙に貼る
   check(/<main class="pad\b/.test(body), `${page} の本文がノートの紙の束（.pad）に載っていない`);
   const sheets = (body.match(/class="page[\s"]/g) ?? []).length;
   check(sheets >= (page === 'index.html' ? 6 : 1), `${page} の紙が足りない（${sheets}枚）`);
   check(!/page-left|page-right|class="spread/.test(body), `${page} に見開きが残っている`);
 }
 check(!/\.reveal\b/.test(html), '浮き上がる動きが残っている');
-// 紙が机に置かれる動き（ADR-016）は、画面・動きを減らさない設定・対応するブラウザの中だけ。印刷では動かさない
-check(
-  // @supports の条件と、.page+.page の指定の2か所だけ
-  (html.match(/animation-timeline/g) ?? []).length === 2 &&
-    /@media screen and \(prefers-reduced-motion: ?no-preference\)\{@supports \(animation-timeline: ?view\(\)\)\{\.page\+\.page\{[^}]*animation-timeline:view\(\)/.test(
-      html,
-    ),
-  '紙が机に置かれる動きが、画面と動きを減らさない設定の中だけに無い',
-);
+// 切り取ったページを台紙に貼った形（ADR-016）。貼った紙は動かさず、リングも描かない
+check(!/animation-timeline/.test(html), '紙が動く指定が残っている');
+check(!/\.page:before|--color-ring/.test(html), 'リングが残っている');
 // 赤い余白線は日本の大学ノートに無い。蛍光ペンの見本の切り替えは色を決めたので消す
 check(!/--color-margin|data-marker|marker=yellow/.test(html), '赤い余白線か蛍光ペンの見本の切り替えが残っている');
 check(/Date \d{4}\.\d{2}\.\d{2}/.test(html.replace(/<[^>]+>/g, '')), 'トップに Date の欄が無い');
-check(/\.page:before\{[^}]*url\("?data:image\/svg\+xml/.test(html), '紙の上の端にリングと穴が無い');
 check(/No\. \d+/.test(read('blog/hello-world/index.html').replace(/<[^>]+>/g, '')), '記事に No. の欄が無い');
 
 if (failures.length) {

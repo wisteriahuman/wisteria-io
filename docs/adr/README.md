@@ -17,7 +17,7 @@
 | [ADR-013](./adr-013-license.md) | コードは MIT、記事と画像は対象外にする | 採用 |
 | [ADR-014](./adr-014-diagrams-at-build.md) | 記事の図はビルド時に SVG にする | 採用 |
 | [ADR-015](./adr-015-staging.md) | 本番の前の確認に、PR ごとの staging を使う | 採用 |
-| [ADR-016](./adr-016-paper-look.md) | 見た目を大学ノートにする | 採用 |
+| [ADR-016](./adr-016-paper-look.md) | 見た目を、切り取ったリングノートのページを台紙に貼った形にする | 採用 |
 | [ADR-017](./adr-017-build-notes-from-git.md) | 「この部分の作り」の PR は、ビルド時に git の履歴から拾う | 採用 |
 
 新しい ADR は [TEMPLATE.md](./TEMPLATE.md) をコピーして作り、この表に追加する。

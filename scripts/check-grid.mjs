@@ -28,8 +28,7 @@ const browser = await chromium.launch({ channel: 'chrome' });
 try {
   for (const rootSize of rootSizes) {
     for (const width of widths) {
-      // 紙が置かれる動きで傾いている間は位置が変わるので、動きを減らす設定で測る
-      const page = await browser.newPage({ viewport: { width, height: 900 }, reducedMotion: 'reduce' });
+      const page = await browser.newPage({ viewport: { width, height: 900 } });
       if (rootSize !== 16) {
         await page.addInitScript((size) => {
           document.addEventListener('DOMContentLoaded', () => {
