@@ -181,6 +181,35 @@ body {
     transform: rotate(-4deg);
   }
 
+  /* この部分の作り。紙の最後の右に、ペンで書き足したメモ（ADR-016・ADR-017） */
+  .build-note {
+    margin-top: var(--line);
+    text-align: right;
+  }
+
+  .build-note > summary {
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  /* 開けることが分かるように、閉じているときは ▸、開いているときは ▾ を書く */
+  .build-note > summary::before {
+    content: "▸ ";
+  }
+
+  .build-note[open] > summary::before {
+    content: "▾ ";
+  }
+
+  .build-note[open] {
+    text-align: left;
+  }
+
+  .build-note-body {
+    padding-left: 1rem;
+    overflow-wrap: anywhere;
+  }
+
   /* 蛍光ペン。文字の下半分に引く */
   .marker {
     background-image: linear-gradient(transparent 55%, var(--color-marker) 55%);

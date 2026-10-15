@@ -8,11 +8,11 @@ export async function getStaticPaths() {
   const ordered = [...posts].sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
   return posts.map(post => ({
     params: { slug: post.slug },
-    props: { post, no: ordered.indexOf(post) + 1 },
+    props: { post, no: ordered.indexOf(post) + 1, file: `src/content/blog/${post.id}` },
   }));
 }
 
-const { post, no } = Astro.props;
+const { post, no, file } = Astro.props;
 const { Content } = await post.render();
 ---
 
@@ -23,6 +23,7 @@ const { Content } = await post.render();
   tags={post.data.tags}
   slug={post.slug}
   no={no}
+  file={file}
 >
   <Content />
 </BlogPost>
