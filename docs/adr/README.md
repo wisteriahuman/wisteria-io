@@ -14,5 +14,6 @@
 | [ADR-010](./adr-010-biome.md) | リントと整形に Biome を使う | 採用 |
 | [ADR-011](./adr-011-pr-and-ci.md) | 変更は PR で入れ、検証は GitHub のマシン、デプロイは自宅で行う | 採用 |
 | [ADR-012](./adr-012-tool-versions.md) | ツールのバージョンを .node-version と packageManager で固定する | 採用 |
+| [ADR-013](./adr-013-license.md) | コードは MIT、記事と画像は対象外にする | 採用 |
 
 新しい ADR は [TEMPLATE.md](./TEMPLATE.md) をコピーして作り、この表に追加する。
