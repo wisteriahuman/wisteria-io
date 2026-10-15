@@ -8,37 +8,27 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 ---
 
 <Layout title="Blog | wisteria">
-  <main class="min-h-screen pt-20 pb-24 px-6">
-    <div class="max-w-5xl mx-auto">
-      <header class="mb-12">
-        <a
-          href="/"
-          class="inline-flex items-center gap-2 text-ink-muted hover:text-wisteria transition-colors text-sm mb-6"
-        >
-          <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          ポートフォリオに戻る
-        </a>
-        <h1 class="font-serif text-3xl font-bold text-ink">Blog</h1>
-        <p class="text-ink-muted mt-2">技術的なメモや振り返りを書いています</p>
-      </header>
+  <main class="sheet min-h-screen pt-28 pb-28">
+    <p class="h-14 flex items-end">
+      <a href="/" class="h-14 inline-flex items-end text-pen underline underline-offset-4">ポートフォリオに戻る</a>
+    </p>
+    <h1 class="mt-7 text-[32px] leading-14 font-bold text-ink"><span class="marker">Blog</span></h1>
+    <p class="text-ink-muted">技術的なメモや振り返りを書いています</p>
 
-      {posts.length === 0 ? (
-        <p class="text-ink-muted">まだ記事がありません</p>
-      ) : (
-        <div class="space-y-6">
-          {posts.map(post => (
-            <BlogCard
-              title={post.data.title}
-              description={post.data.description}
-              pubDate={post.data.pubDate}
-              tags={post.data.tags}
-              slug={post.slug}
-            />
-          ))}
-        </div>
-      )}
-    </div>
+    {posts.length === 0 ? (
+      <p class="mt-14 text-ink-muted">まだ記事がありません</p>
+    ) : (
+      <ul class="mt-14 space-y-7">
+        {posts.map(post => (
+          <BlogCard
+            title={post.data.title}
+            description={post.data.description}
+            pubDate={post.data.pubDate}
+            tags={post.data.tags}
+            slug={post.slug}
+          />
+        ))}
+      </ul>
+    )}
   </main>
 </Layout>

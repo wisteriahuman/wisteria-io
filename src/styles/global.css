@@ -50,11 +50,13 @@ html {
 
 body {
   background-color: var(--color-paper);
-  background-image: repeating-linear-gradient(
+  /* 罫線は1行分の絵を敷き詰める（repeating-linear-gradient は線の濃さがところどころ変わるため） */
+  background-image: linear-gradient(
     to bottom,
-    transparent 0 calc(var(--line) - 1px),
-    var(--color-rule) calc(var(--line) - 1px) var(--line)
+    transparent calc(var(--line) - 1px),
+    var(--color-rule) calc(var(--line) - 1px)
   );
+  background-size: 100% var(--line);
   background-position: 0 calc(-1 * var(--rule-shift));
   color: var(--color-ink);
   font-size: 16px;

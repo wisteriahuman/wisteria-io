@@ -25,32 +25,16 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
   url={`/blog/${slug}`}
   type="article"
 >
-  <main class="min-h-screen pt-20 pb-24 px-6">
-    <article class="max-w-3xl mx-auto">
-      <a
-        href="/blog"
-        class="inline-flex items-center gap-2 text-ink-muted hover:text-wisteria transition-colors text-sm mb-8"
-      >
-        <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-        記事一覧に戻る
-      </a>
-
-      <header class="mb-10">
-        <h1 class="font-serif text-3xl md:text-4xl font-bold text-ink mb-4">{title}</h1>
-        <div class="flex flex-wrap items-center gap-4 text-sm text-ink-muted mb-4">
-          <time datetime={pubDate.toISOString()}>{formattedDate}</time>
-        </div>
-        {tags.length > 0 && (
-          <div class="flex flex-wrap gap-2">
-            {tags.map(tag => (
-              <span class="px-3 py-1 bg-surface text-ink-muted text-sm rounded-md">
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
+  <main class="sheet min-h-screen pt-28 pb-28">
+    <article>
+      <p class="h-14 flex items-end">
+        <a href="/blog" class="h-14 inline-flex items-end text-pen underline underline-offset-4">記事一覧に戻る</a>
+      </p>
+      <header class="mt-7 mb-14">
+        <h1 class="text-[28px] md:text-[32px] leading-14 font-bold text-ink">{title}</h1>
+        <p class="text-sm text-ink-muted">
+          <time datetime={pubDate.toISOString()}>{formattedDate}</time>{tags.length > 0 && <>・{tags.join('・')}</>}
+        </p>
       </header>
 
       <div class="blog-content">
@@ -66,6 +50,10 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
   /* 記事の本文も罫線に乗せる。縦の寸法はすべて行の高さ（28px）の倍数にする */
   .blog-content {
     container-type: inline-size;
+  }
+
+  .blog-content > :first-child {
+    @apply mt-0;
   }
 
   .blog-content h2 {
