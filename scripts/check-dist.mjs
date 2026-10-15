@@ -44,7 +44,7 @@ check(about.includes('Ubuntu Server'), 'About に Ubuntu Server');
 // © などの記号は除き、絵文字として表示される文字だけを見る
 check(!/\p{Emoji_Presentation}|\p{Extended_Pictographic}\uFE0F/u.test(html.replace(/<script[\s\S]*?<\/script>/g, '')), 'トップに絵文字が残っている');
 check(!html.includes('family=Noto+Sans+JP'), 'ページで Noto Sans JP を読み込んでいる');
-check(/<noscript>[^]*fonts\.googleapis\.com[^]*<\/noscript>/.test(html), 'noscript のフォント読み込み');
+check(/<noscript>[\s\S]*fonts\.googleapis\.com[\s\S]*<\/noscript>/.test(html), 'noscript のフォント読み込み');
 
 const slugs = ['hello-world', 'neovim-intro-part1', 'neovim-intro-part2', 'neovim-intro-part3', 'golangci-lint', 'errors-are-values', 'ca-go-college-2026'];
 for (const slug of slugs) {

@@ -8,7 +8,9 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "node scripts/check-dist.mjs",
-    "typecheck": "astro check"
+    "typecheck": "astro check",
+    "lint": "biome ci .",
+    "format": "biome check --write ."
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.0",
@@ -30,6 +32,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@biomejs/biome": "^2.5.15",
     "typescript": "^6.0.3"
   }
 }
