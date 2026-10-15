@@ -1,15 +1,15 @@
+// dist/ を配る静的サーバー。本番は既定値のまま、staging は環境変数で配る場所と検索よけを切り替える（ADR-015）
 const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
-
-const DIST = '/Users/wisteria/portfolio-dist';
-const PORT = 4321;
 
 const MIME = {
   '.html': 'text/html',
   '.css': 'text/css',
   '.js': 'application/javascript',
   '.json': 'application/json',
+  '.txt': 'text/plain',
+  '.xml': 'application/xml',
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
@@ -22,40 +22,66 @@ const MIME = {
   '.ttf': 'font/ttf',
 };
 
-http
-  .createServer((req, res) => {
-    let urlPath = decodeURIComponent(req.url.split('?')[0]);
+const DISALLOW_ALL = 'User-agent: *\nDisallow: /\n';
+
+function createServer({ dist, noindex }) {
+  const root = path.resolve(dist);
+  const send = (res, status, type, body) => {
+    const headers = { 'Content-Type': type };
+    if (noindex) headers['X-Robots-Tag'] = 'noindex, nofollow';
+    res.writeHead(status, headers);
+    res.end(body);
+  };
+  const typeOf = (file) => MIME[path.extname(file)] || 'application/octet-stream';
+
+  return http.createServer((req, res) => {
+    let urlPath;
+    try {
+      urlPath = decodeURIComponent(req.url.split('?')[0]);
+    } catch {
+      send(res, 400, 'text/plain', 'Bad Request');
+      return;
+    }
+    if (noindex && urlPath === '/robots.txt') {
+      send(res, 200, 'text/plain', DISALLOW_ALL);
+      return;
+    }
     if (urlPath.endsWith('/')) urlPath += 'index.html';
     if (!path.extname(urlPath)) urlPath += '/index.html';
 
-    const filePath = path.join(DIST, urlPath);
-    if (!filePath.startsWith(DIST)) {
-      res.writeHead(403);
-      res.end();
+    const filePath = path.join(root, urlPath);
+    // root と同じ文字で始まる隣のディレクトリに出られないよう、区切り文字まで含めて比べる
+    if (filePath !== root && !filePath.startsWith(root + path.sep)) {
+      send(res, 403, 'text/plain', 'Forbidden');
       return;
     }
 
     fs.readFile(filePath, (err, data) => {
-      if (err) {
-        // try without /index.html → .html
-        const alt = filePath.replace(/\/index\.html$/, '.html');
-        fs.readFile(alt, (err2, data2) => {
-          if (err2) {
-            fs.readFile(path.join(DIST, '404.html'), (_, d404) => {
-              res.writeHead(404, { 'Content-Type': 'text/html' });
-              res.end(d404 || 'Not Found');
-            });
-          } else {
-            const ext = path.extname(alt);
-            res.writeHead(200, { 'Content-Type': MIME[ext] || 'application/octet-stream' });
-            res.end(data2);
-          }
-        });
+      if (!err) {
+        send(res, 200, typeOf(filePath), data);
         return;
       }
-      const ext = path.extname(filePath);
-      res.writeHead(200, { 'Content-Type': MIME[ext] || 'application/octet-stream' });
-      res.end(data);
+      const alt = filePath.replace(/\/index\.html$/, '.html');
+      fs.readFile(alt, (err2, data2) => {
+        if (!err2) {
+          send(res, 200, typeOf(alt), data2);
+          return;
+        }
+        fs.readFile(path.join(root, '404.html'), (_, d404) => {
+          send(res, 404, 'text/html', d404 || 'Not Found');
+        });
+      });
     });
-  })
-  .listen(PORT, '0.0.0.0', () => console.log(`Serving ${DIST} on :${PORT}`));
+  });
+}
+
+module.exports = { createServer };
+
+if (require.main === module) {
+  const dist = process.env.DIST || '/Users/wisteria/portfolio-dist';
+  const port = Number(process.env.PORT || 4321);
+  const noindex = process.env.NOINDEX === '1';
+  createServer({ dist, noindex }).listen(port, '0.0.0.0', () =>
+    console.log(`Serving ${dist} on :${port}${noindex ? ' (noindex)' : ''}`),
+  );
+}

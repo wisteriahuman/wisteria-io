@@ -12,7 +12,8 @@
     "lint": "biome ci .",
     "format": "biome check --write .",
     "lighthouse": "lhci autorun",
-    "verify": "pnpm typecheck && pnpm lint && pnpm build && pnpm check && pnpm lighthouse"
+    "verify": "pnpm typecheck && pnpm lint && pnpm build && pnpm check && pnpm test && pnpm lighthouse",
+    "test": "node --test 'scripts/*.test.cjs'"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.0",
