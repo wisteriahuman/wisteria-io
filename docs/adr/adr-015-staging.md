@@ -6,7 +6,7 @@
 ## 背景・課題 (Background/Problem)
 - 段階②-a で見た目を作り直す。main への merge がそのまま本番に出るので、見た目は本番の前に別の場所で確かめたい
 - 手元の `pnpm preview` では、スマホの実機や他の人に見せられない
-- 2026-10-17 のイベントの前後は、本番を崩したくない
+- 見た目を変える PR は、本番に出す前に崩れていないことを確かめたい
 
 ## 決定事項 (Decision)
 - このリポジトリから出た PR（fork でないもの）は、verify が通ったら self-hosted runner で `staging.wisteria-io.com` に配置する。最後に verify を終えた PR で上書きする

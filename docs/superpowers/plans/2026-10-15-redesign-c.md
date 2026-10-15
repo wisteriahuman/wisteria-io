@@ -15,7 +15,7 @@ D〜G の計画は別のファイルで書く。
 ## Global Constraints
 
 - 変更は PR → verify → squash merge。main に直接 push しない。git・gh の書き込みは単発のコマンド、PR の本文は `--body-file`
-- **この PR は 2026-10-18 より前に merge しない**（2026-10-17 のイベントまで本番の見た目を変えない）。それまでは staging で見てもらう
+- **この PR は staging で本人に見てもらい、問題が無いと言われてから merge する**
 - 日本語は端末のフォントを使い、Web フォントを足さない（ADR-009）
 - 文字と地のコントラストは 4.5:1 以上
 - 明るい紙だけにし、ダークは作らない
@@ -459,11 +459,11 @@ Expected: すべての行で `scrollWidth` が画面幅（390 か 1280）と同�
 git -C /Users/wisteria/Projects/wisteria-io push -u origin feat/paper-look
 ```
 
-PR: `gh pr create --base main --head feat/paper-look --title "feat: 見た目を紙の質感にする" --body-file <パス>`。本文の先頭に「2026-10-18 以降に merge する」と書く。
+PR: `gh pr create --base main --head feat/paper-look --title "feat: 見た目を紙の質感にする" --body-file <パス>`。本文の先頭に「staging で見てもらってから merge する」と書く。
 
 - `gh pr checks <N> --watch` で verify と staging が pass
 - 本人に `https://staging.wisteria-io.com` を見てもらい、直したいところを聞く。直したら同じブランチに push して staging を更新する
 
-- [ ] **Step 5: 2026-10-18 以降に merge する**
+- [ ] **Step 5: 本人の了承を得て merge する**
 
-本人の了承と日付（2026-10-18 以降）を確かめてから `gh pr merge <N> --squash --delete-branch`。main の run で verify・deploy が success になり、本番 `https://wisteria-io.com/` が新しい見た目で 200 を返すことを確かめる
+staging で問題が無いと本人に言われてから `gh pr merge <N> --squash --delete-branch`。main の run で verify・deploy が success になり、本番 `https://wisteria-io.com/` が新しい見た目で 200 を返すことを確かめる
