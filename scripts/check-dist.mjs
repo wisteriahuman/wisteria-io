@@ -110,6 +110,15 @@ for (const page of [
   check(left.length === 0, `${page} に暗い配色のクラスが残っている: ${left.join(', ')}`);
 }
 check(/<section id="top" class="[^"]*\bpaper-lines\b/.test(html), '最初の画面に罫線の地が無い');
+// 浮き上がる動きは画面だけ。印刷では画面の外のセクションが透明のまま固まる
+const reveals = html.match(/\.reveal\{/g) ?? [];
+check(
+  reveals.length === 1 &&
+    /@media screen and \(prefers-reduced-motion: ?no-preference\)\{@supports \(animation-timeline: ?view\(\)\)\{\.reveal\{/.test(
+      html,
+    ),
+  '浮き上がる動きが、画面と動きを減らさない設定の中だけに無い',
+);
 // チップ（タグ・札）は線ではなく薄い面、角は 6〜8px
 for (const page of ['index.html', 'blog/index.html', 'blog/neovim-intro-part1/index.html']) {
   const chips = [...read(page).matchAll(/<span class="([^"]*\bpx-[\d.]+ py-[\d.]+[^"]*)"/g)].map((m) => m[1]);

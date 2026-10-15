@@ -53,8 +53,8 @@ body {
   color: var(--color-paper);
 }
 
-/* セクションが画面に入るとき少しだけ浮き上がる。対応しないブラウザと、動きを減らす設定では最初から出す */
-@media (prefers-reduced-motion: no-preference) {
+/* セクションが画面に入るとき少しだけ浮き上がる。対応しないブラウザ・動きを減らす設定・印刷では最初から出す */
+@media screen and (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
     .reveal {
       animation: reveal linear both;
