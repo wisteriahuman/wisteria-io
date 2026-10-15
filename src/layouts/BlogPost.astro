@@ -31,7 +31,7 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
         <a href="/blog" class="h-14 inline-flex items-end text-pen underline underline-offset-4">記事一覧に戻る</a>
       </p>
       <header class="mt-7 mb-14">
-        <h1 class="text-[28px] md:text-[32px] leading-14 font-bold text-ink">{title}</h1>
+        <h1 class="text-[1.75rem] md:text-[2rem] leading-14 font-bold text-ink">{title}</h1>
         <p class="text-sm text-ink-muted">
           <time datetime={pubDate.toISOString()}>{formattedDate}</time>{tags.length > 0 && <>・{tags.join('・')}</>}
         </p>
@@ -50,6 +50,8 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
   /* 記事の本文も罫線に乗せる。縦の寸法はすべて行の高さ（28px）の倍数にする */
   .blog-content {
     container-type: inline-size;
+    /* 長いパスやコマンドを、狭い画面で折り返す */
+    overflow-wrap: break-word;
   }
 
   .blog-content > :first-child {
@@ -57,7 +59,7 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
   }
 
   .blog-content h2 {
-    @apply text-[22px] font-bold text-ink mt-14;
+    @apply text-[1.375rem] font-bold text-ink mt-14;
   }
 
   .blog-content h3 {
@@ -86,7 +88,7 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
 
   /* 行内のコード。行の箱を高くしないよう line-height を 1 にする */
   .blog-content code {
-    @apply font-mono text-[14px] text-ink;
+    @apply font-mono text-[0.875rem] text-ink;
     line-height: 1;
     padding: 0 0.3em;
     background-color: color-mix(in srgb, var(--color-rule) 35%, transparent);
@@ -94,9 +96,9 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
 
   /* コードはノートに貼った印刷物。横スクロールのバーで高さが変わらないよう折り返す */
   .blog-content pre {
-    @apply rounded-md text-[14px];
-    padding: 14px 16px;
-    line-height: 28px;
+    @apply rounded-md text-[0.875rem];
+    padding: 0.875rem 1rem;
+    line-height: var(--line);
     white-space: pre-wrap;
     overflow-wrap: anywhere;
   }
@@ -115,7 +117,7 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
 
   .blog-content hr {
     @apply mb-7;
-    height: 28px;
+    height: var(--line);
     border: 0;
   }
 
@@ -137,7 +139,7 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
   /* 図は紙の上に描く。枠の高さを罫線の倍数に切り上げ、後ろの文字がずれないようにする */
   .blog-content .mermaid {
     @apply flex justify-center;
-    height: round(up, calc(min(100cqw, var(--fw)) * var(--ratio)), 28px);
+    height: round(up, calc(min(100cqw, var(--fw)) * var(--ratio)), var(--line));
   }
 
   .blog-content .mermaid svg {

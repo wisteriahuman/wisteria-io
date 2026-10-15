@@ -12,7 +12,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
     <p class="h-14 flex items-end">
       <a href="/" class="h-14 inline-flex items-end text-pen underline underline-offset-4">ポートフォリオに戻る</a>
     </p>
-    <h1 class="mt-7 text-[32px] leading-14 font-bold text-ink"><span class="marker">Blog</span></h1>
+    <h1 class="mt-7 text-[2rem] leading-14 font-bold text-ink"><span class="marker">Blog</span></h1>
     <p class="text-ink-muted">技術的なメモや振り返りを書いています</p>
 
     {posts.length === 0 ? (

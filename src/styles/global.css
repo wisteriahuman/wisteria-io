@@ -14,19 +14,19 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* 文字を罫線に乗せるため、文字の大きさのクラスは行の高さを変えない */
-  --text-xs--line-height: 28px;
-  --text-sm--line-height: 28px;
-  --text-base--line-height: 28px;
-  --text-lg--line-height: 28px;
-  --text-xl--line-height: 28px;
-  --text-2xl--line-height: 28px;
+  --text-xs--line-height: 1.75rem;
+  --text-sm--line-height: 1.75rem;
+  --text-base--line-height: 1.75rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl--line-height: 1.75rem;
 }
 
 :root {
-  /* 罫線の間隔 = 本文の行の高さ（16px × 1.75） */
-  --line: 28px;
+  /* 罫線の間隔 = 本文の行の高さ（標準の文字 16px × 1.75 = 28px）。rem なので、標準の文字サイズを変えた人には一緒に大きくなる */
+  --line: 1.75rem;
   /* 罫線を行の下端から少し上げ、文字が線に乗って見えるようにする */
-  --rule-shift: 4px;
+  --rule-shift: 0.25rem;
 }
 
 /* staging で蛍光ペンの色を見比べる（?marker=yellow）。色を決めたら消す */
@@ -59,7 +59,7 @@ body {
   background-size: 100% var(--line);
   background-position: 0 calc(-1 * var(--rule-shift));
   color: var(--color-ink);
-  font-size: 16px;
+  font-size: 1rem;
   line-height: var(--line);
   font-family:
     "Inter", "Inter Fallback", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans CJK JP", "Noto Sans JP",
@@ -95,7 +95,7 @@ body {
   .margin-note {
     display: block;
     color: var(--color-ink-muted);
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 
   @media (min-width: 768px) {

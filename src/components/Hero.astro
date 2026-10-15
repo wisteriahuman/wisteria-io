@@ -13,7 +13,7 @@ const links = [
 
 <section id="top" class="pt-28 md:pt-42">
   <Image src={avatar} alt="" width={56} height={56} loading="eager" class="w-14 h-14 object-cover" />
-  <h1 class="mt-7 text-[32px] md:text-[40px] leading-14 font-bold text-ink">{profile.name}</h1>
+  <h1 class="mt-7 text-[2rem] md:text-[2.5rem] leading-14 font-bold text-ink">{profile.name}</h1>
   <p class="text-ink">{profile.affiliation}</p>
 
   <ul>
@@ -27,7 +27,7 @@ const links = [
   </ul>
   <p class="text-ink-muted">{ratings.join('・')}</p>
 
-  <p class="h-14 flex items-end gap-6">
+  <p class="flex flex-wrap items-end gap-x-6">
     {links.map((l) => (
       <a href={l.href} target="_blank" rel="noopener" class="h-14 inline-flex items-end text-pen underline underline-offset-4">
         {l.label}
