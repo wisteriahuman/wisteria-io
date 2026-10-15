@@ -1,7 +1,8 @@
 name: CI
 
 # 検証は GitHub のマシンで PR と main への push の両方に走らせる。
-# デプロイは main への push のときだけ、検証が通った後に自宅の Mac mini で行う（ADR-011）
+# このリポジトリから出た PR は、検証が通った後に自宅の Mac mini の staging に出す（ADR-015）。
+# 本番へのデプロイは main への push のときだけ、検証が通った後に Mac mini で行う（ADR-011）
 on:
   pull_request:
   push:
@@ -42,13 +43,40 @@ jobs:
           path: .lighthouseci/reports
           if-no-files-found: ignore
 
-      # 検証したビルド結果を、そのまま本番に出す
+      # 検証したビルド結果を、そのまま本番・staging に出す
       - name: Upload dist
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
         uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist
+
+  staging:
+    needs: verify
+    # このリポジトリから出た PR だけを staging に出す。fork からの PR のコードは自宅の機械で動かさない（ADR-015）
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: self-hosted
+    # 同じ PR に続けて push したら、古い配置はやめて新しい方を出す
+    concurrency:
+      group: staging
+      cancel-in-progress: true
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      # 本番と同じく、別の場所へ写してから入れ替える。途中で止められた配置の残骸は最初に消す
+      - name: Deploy to staging
+        run: |
+          set -eu
+          target=/Users/wisteria/portfolio-staging
+          rm -rf "$target.next" "$target.prev"
+          cp -R dist "$target.next"
+          if [ -d "$target" ]; then mv "$target" "$target.prev"; fi
+          mv "$target.next" "$target"
+          rm -rf "$target.prev"
+          echo "Staged PR #${{ github.event.pull_request.number }} at $(date)"
 
   deploy:
     needs: verify

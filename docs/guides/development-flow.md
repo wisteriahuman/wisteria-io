@@ -29,6 +29,7 @@
   1. `feat/…`・`fix/…`・`docs/…`・`chore/…` のブランチを切る
   2. 手元で `pnpm verify` を通す
   3. PR を出す。タイトルはコミット規約に従う
+     - このリポジトリから出した PR は、verify の後に https://staging.wisteria-io.com に出る。見た目を変える PR は、merge の前にここで確かめる（→ [staging](./staging.md)）
   4. GitHub 上で verify の job が通ったら、squash で merge する
   5. main への merge で verify → deploy が走り、本番に出る
 

@@ -32,6 +32,7 @@
 ## 参考 (References)
 - [ADR-011](./adr-011-pr-and-ci.md)
 - [Cloudflare Tunnel: configuration file](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/configure-tunnels/local-management/configuration-file/)
+- [staging の手順](../guides/staging.md)
 
 ## 議論 (Discussion)
 - 最初は develop ブランチで確かめる案が出た。squash との相性から、PR ごとの staging にした
