@@ -29,7 +29,7 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
     <article class="max-w-3xl mx-auto">
       <a
         href="/blog"
-        class="inline-flex items-center gap-2 text-text-muted hover:text-accent transition-colors text-sm mb-8"
+        class="inline-flex items-center gap-2 text-ink-muted hover:text-wisteria transition-colors text-sm mb-8"
       >
         <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -38,14 +38,14 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
       </a>
 
       <header class="mb-10">
-        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">{title}</h1>
-        <div class="flex flex-wrap items-center gap-4 text-sm text-text-muted mb-4">
+        <h1 class="font-serif text-3xl md:text-4xl font-bold text-ink mb-4">{title}</h1>
+        <div class="flex flex-wrap items-center gap-4 text-sm text-ink-muted mb-4">
           <time datetime={pubDate.toISOString()}>{formattedDate}</time>
         </div>
         {tags.length > 0 && (
           <div class="flex flex-wrap gap-2">
             {tags.map(tag => (
-              <span class="px-3 py-1 bg-white/5 text-text-muted text-sm rounded-full border border-border">
+              <span class="px-3 py-1 bg-surface text-ink-muted text-sm rounded-full border border-rule">
                 {tag}
               </span>
             ))}
@@ -64,15 +64,15 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
   @reference "../styles/global.css";
 
   .blog-content {
-    @apply text-text-main leading-relaxed;
+    @apply text-ink leading-relaxed;
   }
 
   .blog-content h2 {
-    @apply text-2xl font-bold text-white mt-12 mb-4;
+    @apply font-serif text-2xl font-bold text-ink mt-12 mb-4;
   }
 
   .blog-content h3 {
-    @apply text-xl font-semibold text-white mt-8 mb-3;
+    @apply font-serif text-xl font-semibold text-ink mt-8 mb-3;
   }
 
   .blog-content p {
@@ -97,35 +97,36 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
   }
 
   .blog-content a {
-    @apply text-accent underline underline-offset-2;
+    @apply text-wisteria underline underline-offset-2;
   }
 
   .blog-content code {
-    @apply font-[JetBrains_Mono] text-sm bg-bg-card px-1.5 py-0.5 rounded;
+    @apply font-[JetBrains_Mono] text-sm bg-surface px-1.5 py-0.5 rounded;
   }
 
   .blog-content pre {
-    @apply my-6 p-4 rounded-xl overflow-x-auto;
+    @apply my-6 p-4 rounded-lg overflow-x-auto;
   }
 
   .blog-content pre code {
     @apply bg-transparent p-0;
+    color: inherit;
   }
 
   .blog-content blockquote {
-    @apply border-l-4 border-primary pl-4 my-4 text-text-muted italic;
+    @apply border-l-4 border-wisteria pl-4 my-4 text-ink-muted italic;
   }
 
   .blog-content hr {
-    @apply my-8 border-border;
+    @apply my-8 border-rule;
   }
 
   .blog-content img {
-    @apply rounded-xl my-6;
+    @apply rounded-lg my-6;
   }
 
   .blog-content .mermaid {
-    @apply flex justify-center bg-bg-card p-8 rounded-xl my-6 overflow-x-auto border border-border;
+    @apply flex justify-center bg-surface p-8 rounded-lg my-6 overflow-x-auto border border-rule;
   }
 
   .blog-content .mermaid svg {

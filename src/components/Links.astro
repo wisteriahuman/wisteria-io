@@ -8,13 +8,13 @@ const links = [
 ];
 ---
 
-<section id="links" class="py-24 px-6">
+<section id="links" class="reveal py-24 px-6">
   <div class="max-w-3xl mx-auto text-center space-y-8">
-    <h2 class="text-3xl font-bold text-white">Links</h2>
+    <h2 class="font-serif text-3xl font-bold text-ink">Links</h2>
     <div class="flex flex-wrap justify-center gap-3 md:gap-6">
       {links.map(l => (
         <a href={l.href} target="_blank" rel="noopener"
-          class="flex items-center gap-2 px-6 py-3 bg-bg-card hover:bg-bg-card-hover rounded-xl transition-all hover:-translate-y-1 text-white">
+          class="flex items-center gap-2 px-6 py-3 bg-surface hover:bg-surface-strong rounded-lg transition-all hover:-translate-y-1 text-ink">
           {l.icon === 'github' && (
             <Icon name="github" class="w-5 h-5" />
           )}
@@ -25,8 +25,8 @@ const links = [
   </div>
 </section>
 
-<footer class="py-8 px-6 border-t border-border text-center">
-  <p class="text-text-muted text-sm">
-    © 2026 wisteria. Built with <a href="https://astro.build" class="text-accent underline underline-offset-2">Astro</a> + <a href="https://tailwindcss.com" class="text-accent underline underline-offset-2">Tailwind CSS</a>. Self-hosted on Mac mini via <a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/" class="text-accent underline underline-offset-2">Cloudflare Tunnel</a>.
+<footer class="py-8 px-6 border-t border-rule text-center">
+  <p class="text-ink-muted text-sm">
+    © 2026 wisteria. Built with <a href="https://astro.build" class="text-wisteria underline underline-offset-2">Astro</a> + <a href="https://tailwindcss.com" class="text-wisteria underline underline-offset-2">Tailwind CSS</a>. Self-hosted on Mac mini via <a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/" class="text-wisteria underline underline-offset-2">Cloudflare Tunnel</a>.
   </p>
 </footer>

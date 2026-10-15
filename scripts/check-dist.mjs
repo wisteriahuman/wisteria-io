@@ -83,6 +83,34 @@ for (const [slug, count] of [
   check(!post.includes('mermaid.min.js'), `/blog/${slug} で mermaid を読み込んでいる`);
 }
 
+// 紙の見た目（ADR-016）。暗い配色のトークンが残ると、紙の上に白い文字や暗い箱が出る
+const oldTokens = [
+  'text-white',
+  'bg-white',
+  'bg-bg-',
+  'ring-bg-',
+  'text-text-',
+  'border-border',
+  'bg-border',
+  'text-accent',
+  'ring-accent',
+  'bg-primary',
+  'text-primary',
+  'border-primary',
+];
+for (const page of [
+  'index.html',
+  'blog/index.html',
+  'blog/errors-are-values/index.html',
+  'blog/neovim-intro-part1/index.html',
+]) {
+  const classes = [...read(page).matchAll(/class="([^"]*)"/g)].flatMap((m) => m[1].split(/\s+/));
+  // hover: などの前置きを外して比べる
+  const left = oldTokens.filter((t) => classes.some((c) => c.replace(/^([a-z-]+:)+/, '').startsWith(t)));
+  check(left.length === 0, `${page} に暗い配色のクラスが残っている: ${left.join(', ')}`);
+}
+check(/<section id="top" class="[^"]*\bpaper-lines\b/.test(html), '最初の画面に罫線の地が無い');
+
 if (failures.length) {
   console.error(`NG ${failures.length}件:\n- ${failures.join('\n- ')}`);
   process.exit(1);
