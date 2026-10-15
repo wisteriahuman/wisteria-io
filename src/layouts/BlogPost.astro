@@ -63,25 +63,25 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
 <style is:global>
   @reference "../styles/global.css";
 
+  /* 記事の本文も罫線に乗せる。縦の寸法はすべて行の高さ（28px）の倍数にする */
   .blog-content {
-    @apply text-ink leading-relaxed;
+    container-type: inline-size;
   }
 
   .blog-content h2 {
-    @apply font-serif text-2xl font-bold text-ink mt-12 mb-4;
+    @apply text-[22px] font-bold text-ink mt-14;
   }
 
   .blog-content h3 {
-    @apply font-serif text-xl font-semibold text-ink mt-8 mb-3;
+    @apply text-lg font-bold text-ink mt-7;
   }
 
-  .blog-content p {
-    @apply mb-4;
+  .blog-content :is(p, ul, ol, table, pre, blockquote, figure) {
+    @apply mb-7;
   }
 
-  .blog-content ul,
-  .blog-content ol {
-    @apply mb-4 pl-6;
+  .blog-content :is(ul, ol) {
+    @apply pl-6;
   }
 
   .blog-content ul {
@@ -92,41 +92,64 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
     @apply list-decimal;
   }
 
-  .blog-content li {
-    @apply mb-2;
-  }
-
   .blog-content a {
-    @apply text-wisteria underline underline-offset-2;
+    @apply text-pen underline underline-offset-4;
   }
 
+  /* 行内のコード。行の箱を高くしないよう line-height を 1 にする */
   .blog-content code {
-    @apply font-[JetBrains_Mono] text-sm bg-surface px-1.5 py-0.5 rounded;
+    @apply font-mono text-[14px] text-ink;
+    line-height: 1;
+    padding: 0 0.3em;
+    background-color: color-mix(in srgb, var(--color-rule) 35%, transparent);
   }
 
+  /* コードはノートに貼った印刷物。横スクロールのバーで高さが変わらないよう折り返す */
   .blog-content pre {
-    @apply my-6 p-4 rounded-lg overflow-x-auto;
+    @apply rounded-md text-[14px];
+    padding: 14px 16px;
+    line-height: 28px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
   }
 
   .blog-content pre code {
-    @apply bg-transparent p-0;
+    padding: 0;
+    background-color: transparent;
     color: inherit;
+    line-height: inherit;
   }
 
   .blog-content blockquote {
-    @apply border-l-4 border-wisteria pl-4 my-4 text-ink-muted italic;
+    @apply pl-4 text-ink-muted;
+    box-shadow: inset 2px 0 0 var(--color-margin);
   }
 
   .blog-content hr {
-    @apply my-8 border-rule;
+    @apply mb-7;
+    height: 28px;
+    border: 0;
   }
 
-  .blog-content img {
-    @apply rounded-lg my-6;
+  /* 表は罫線を区切りにして、セルを折り返す */
+  .blog-content table {
+    @apply w-full;
+    border-collapse: collapse;
   }
 
+  .blog-content :is(th, td) {
+    @apply pr-3 align-top text-left;
+    overflow-wrap: anywhere;
+  }
+
+  .blog-content th {
+    @apply font-bold;
+  }
+
+  /* 図は紙の上に描く。枠の高さを罫線の倍数に切り上げ、後ろの文字がずれないようにする */
   .blog-content .mermaid {
-    @apply flex justify-center bg-surface p-8 rounded-lg my-6 overflow-x-auto border border-rule;
+    @apply flex justify-center;
+    height: round(up, calc(min(100cqw, var(--fw)) * var(--ratio)), 28px);
   }
 
   .blog-content .mermaid svg {

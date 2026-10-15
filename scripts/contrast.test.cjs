@@ -22,19 +22,17 @@ const ratio = (a, b) => {
   return (hi + 0.05) / (lo + 0.05);
 };
 
-// 文字の色 × 地の色。部品で実際に重ねる組み合わせだけを並べる
+// 文字の色 × 地の色。罫線と余白線は飾りの線なので対象にしない
 const pairs = [
   ['ink', 'paper'],
   ['ink-muted', 'paper'],
-  ['wisteria', 'paper'],
-  ['ink', 'surface'],
-  ['ink-muted', 'surface'],
-  ['wisteria', 'surface'],
-  ['ink', 'surface-strong'],
-  ['ink-muted', 'surface-strong'],
-  ['wisteria', 'surface-strong'],
-  ['ink', 'wisteria-soft'],
-  ['ink-muted', 'wisteria-soft'],
+  ['pen', 'paper'],
+  ['ink', 'marker'],
+  ['ink-muted', 'marker'],
+  ['pen', 'marker'],
+  ['ink', 'marker-yellow'],
+  ['ink-muted', 'marker-yellow'],
+  ['pen', 'marker-yellow'],
 ];
 
 for (const [fg, bg] of pairs) {
