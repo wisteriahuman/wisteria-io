@@ -127,6 +127,12 @@ body {
       padding-right: 2.5rem;
     }
 
+    /* 記事の紙は日付欄を使わないので、本文を中央に置き、読みやすい幅にする */
+    .page-plain {
+      max-width: 46rem;
+      padding-left: 2.5rem;
+    }
+
     .margin-note {
       position: absolute;
       top: 0;

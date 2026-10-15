@@ -88,6 +88,16 @@ try {
           { TOLERANCE, rootSize },
         );
         if (result.count === 0) failures.push(`${label}: 測る要素が無い`);
+        // 記事は日付欄を使わないので、本文を紙の中央に置く（左だけ空くと右に寄って見える）
+        if (path.startsWith('/blog/') && path !== '/blog/') {
+          const gap = await page.evaluate(() => {
+            const sheet = document.querySelector('.page')?.getBoundingClientRect();
+            const body = document.querySelector('.blog-content')?.getBoundingClientRect();
+            return sheet && body ? { left: body.left - sheet.left, right: sheet.right - body.right } : null;
+          });
+          if (!gap || Math.abs(gap.left - gap.right) > 2)
+            failures.push(`${label}: 記事の本文が紙の中央に無い（左 ${gap?.left}px・右 ${gap?.right}px）`);
+        }
         if (Math.abs(result.line - result.expectedLine) > 0.5)
           failures.push(`${label}: 行の高さが文字の大きさに合わせて変わらない（${result.line}px）`);
         if (result.scrollWidth > width) failures.push(`${label}: 横にはみ出す（${result.scrollWidth}px）`);
