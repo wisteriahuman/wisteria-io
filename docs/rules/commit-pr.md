@@ -8,7 +8,10 @@
 - 種類は `feat`（機能）・`fix`（修正）・`docs`（ドキュメント）・`refactor`・`chore`（設定・依存など）
 - 理由が1行目から分からないときは、2段落目に書く
 - AI エージェントの署名行（`Co-Authored-By` など）は付けない
-- main への push は本番へのデプロイになる。push する前にビルドが通ることを確かめる
+- main には直接 push しない。ブランチを切って PR を出し、verify が通ったら squash で merge する（→ [ADR-011](../adr/adr-011-pr-and-ci.md)）
+- PR のタイトルは、コミットの1行目と同じ `<種類>: <内容>` の形にする（squash で main のコミットになるため）
+- PR を出す前に、手元で `pnpm verify` を通す
+- 種類には `style`（整形だけ）・`ci`（CI の設定）・`perf`（速さ）も使う
 
 ## 良い例
 

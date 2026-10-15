@@ -12,6 +12,7 @@
 | [ADR-008](./adr-008-goal-visibility.md) | 目標の構造をどこまで見せるか | 採用 |
 | [ADR-009](./adr-009-web-fonts.md) | Web フォントで描画を止めない | 採用 |
 | [ADR-010](./adr-010-biome.md) | リントと整形に Biome を使う | 採用 |
+| [ADR-011](./adr-011-pr-and-ci.md) | 変更は PR で入れ、検証は GitHub のマシン、デプロイは自宅で行う | 採用 |
 | [ADR-012](./adr-012-tool-versions.md) | ツールのバージョンを .node-version と packageManager で固定する | 採用 |
 
 新しい ADR は [TEMPLATE.md](./TEMPLATE.md) をコピーして作り、この表に追加する。

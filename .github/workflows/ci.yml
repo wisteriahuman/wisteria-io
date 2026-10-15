@@ -1,0 +1,64 @@
+name: CI
+
+# 検証は GitHub のマシンで PR と main への push の両方に走らせる。
+# デプロイは main への push のときだけ、検証が通った後に自宅の Mac mini で行う（ADR-011）
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # バージョンは package.json の packageManager と .node-version に従う（ADR-002・ADR-012）
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify
+        run: pnpm verify
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse
+          path: .lighthouseci/reports
+          if-no-files-found: ignore
+
+      # 検証したビルド結果を、そのまま本番に出す
+      - name: Upload dist
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+  deploy:
+    needs: verify
+    # 外部の PR のコードを自宅の機械で動かさないため、main への push のときだけ動かす
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: self-hosted
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Deploy
+        run: |
+          rm -rf /Users/wisteria/portfolio-dist
+          cp -r dist /Users/wisteria/portfolio-dist
+          echo "Deployed at $(date)"

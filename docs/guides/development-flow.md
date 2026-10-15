@@ -25,13 +25,20 @@
 
 ### 4. 実装を任せる
 - 合意した要件と設計を Superpowers に渡し、仕様書・計画・実装・検証を任せる
-- AI エージェントは commit・push まで行う
+- AI エージェントは、ブランチを切って実装し、PR を出し、検証が通ったら squash で merge するところまで行う（→ [ADR-011](../adr/adr-011-pr-and-ci.md)）
+  1. `feat/…`・`fix/…`・`docs/…`・`chore/…` のブランチを切る
+  2. 手元で `pnpm verify` を通す
+  3. PR を出す。タイトルはコミット規約に従う
+  4. GitHub 上で verify の job が通ったら、squash で merge する
+  5. main への merge で verify → deploy が走り、本番に出る
 
 ### 5. 確かめる
 - 受け入れ条件と指標（`requirements/README.md`）で確かめる
 - 判断が変わったら、ADR を「置き換え」にして新しい ADR を書く
 
 ## トラブルシューティング
+- **main に直接 push できない**: main は保護されている。ブランチを切って PR を出す
+- **verify の Lighthouse だけ落ちる**: CI の Artifacts の `lighthouse` にレポートがある。手元では `pnpm build` の後に `pnpm lighthouse`
 - **AI エージェントの git commit がフックで止まる**: `&&`・改行・`$` を含む複合コマンドは止まる。`git -C <絶対パス> commit -m "..."` のように単発で実行する
 
 ## 参考
