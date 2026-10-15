@@ -1,15 +1,18 @@
 @import "tailwindcss";
 
+/* 紙の質感（ADR-016）。値を変えたら pnpm test のコントラストの検査が確かめる */
 @theme {
-  --color-primary: #6366f1;
-  --color-primary-light: #818cf8;
-  --color-bg-dark: #0f172a;
-  --color-bg-card: #1e293b;
-  --color-bg-card-hover: #334155;
-  --color-text-main: #e2e8f0;
-  --color-text-muted: #94a3b8;
-  --color-accent: #38bdf8;
-  --color-border: #334155;
+  --color-paper: #fbf8f1;
+  --color-surface: #f3eee3;
+  --color-surface-strong: #ece5d6;
+  --color-ink: #1f1d1a;
+  --color-ink-muted: #5c5650;
+  --color-rule: #ddd5c5;
+  --color-wisteria: #5a4a8c;
+  --color-wisteria-soft: #ece6f2;
+
+  /* 見出しは明朝。日本語は端末のフォントを使う（ADR-009） */
+  --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif CJK JP", "Noto Serif JP", serif;
 }
 
 /* Inter が届く前に使う Arial の寸法を Inter に合わせ、差し替えでレイアウトが動かないようにする（ADR-009） */
@@ -27,14 +30,47 @@ html {
 }
 
 body {
-  background-color: var(--color-bg-dark);
-  color: var(--color-text-main);
+  background-color: var(--color-paper);
+  /* ほかのセクションでは罫線を薄くする */
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 31px,
+    color-mix(in srgb, var(--color-rule) 40%, transparent) 31px 32px
+  );
+  color: var(--color-ink);
   font-family:
     "Inter", "Inter Fallback", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans CJK JP", "Noto Sans JP",
     "Yu Gothic", "Meiryo", system-ui, sans-serif;
 }
 
+/* 最初の画面の罫線は、はっきり見せる */
+.paper-lines {
+  background-image: repeating-linear-gradient(to bottom, transparent 0 31px, var(--color-rule) 31px 32px);
+}
+
 ::selection {
-  background-color: var(--color-primary);
-  color: white;
+  background-color: var(--color-wisteria);
+  color: var(--color-paper);
+}
+
+/* セクションが画面に入るとき少しだけ浮き上がる。対応しないブラウザと、動きを減らす設定では最初から出す */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
+    }
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
