@@ -19,12 +19,12 @@ const colors = {
 let fontsPromise: Promise<{ weight: 400 | 700; data: ArrayBuffer }[]> | undefined;
 
 async function fetchFont(weight: 400 | 700): Promise<ArrayBuffer> {
-  const css = await fetch(
-    `https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@${weight}&display=swap`,
-  ).then((res) => {
-    if (!res.ok) throw new Error(`Google Fonts の CSS を取得できない: ${res.status}`);
-    return res.text();
-  });
+  const css = await fetch(`https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@${weight}&display=swap`).then(
+    (res) => {
+      if (!res.ok) throw new Error(`Google Fonts の CSS を取得できない: ${res.status}`);
+      return res.text();
+    },
+  );
   const url = css.match(/src:\s*url\(([^)]+)\)\s*format\('(?:woff2|truetype|opentype)'\)/);
   if (!url) throw new Error('Font URL not found');
   return fetch(url[1]).then((res) => {
@@ -78,5 +78,5 @@ export async function renderOgImage(body: SatoriNode[]): Promise<Response> {
   );
 
   const png = await sharp(Buffer.from(svg)).png().toBuffer();
-  return new Response(png, { headers: { 'Content-Type': 'image/png' } });
+  return new Response(new Uint8Array(png), { headers: { 'Content-Type': 'image/png' } });
 }

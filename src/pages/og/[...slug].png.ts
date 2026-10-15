@@ -1,6 +1,6 @@
-import type { APIRoute, GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
-import { renderOgImage, ogText } from '../../lib/og';
+import type { APIRoute, GetStaticPaths } from 'astro';
+import { ogText, renderOgImage } from '../../lib/og';
 
 const { div, colors } = ogText;
 

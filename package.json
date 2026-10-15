@@ -7,7 +7,12 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "check": "node scripts/check-dist.mjs"
+    "check": "node scripts/check-dist.mjs",
+    "typecheck": "astro check",
+    "lint": "biome ci .",
+    "format": "biome check --write .",
+    "lighthouse": "lhci autorun",
+    "verify": "pnpm typecheck && pnpm lint && pnpm build && pnpm check && pnpm lighthouse"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.0",
@@ -23,5 +28,14 @@
       "esbuild",
       "sharp"
     ]
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@biomejs/biome": "^2.5.15",
+    "@lhci/cli": "^0.15.1",
+    "typescript": "^6.0.3"
   }
 }

@@ -31,7 +31,7 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
         href="/blog"
         class="inline-flex items-center gap-2 text-text-muted hover:text-accent transition-colors text-sm mb-8"
       >
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
         記事一覧に戻る
@@ -62,16 +62,14 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
 
 <script is:inline>
   // 図のある記事でだけ mermaid（約850KB）を読み込む
-  (function () {
+  (() => {
     var blocks = document.querySelectorAll('pre[data-language="mermaid"]');
     if (blocks.length === 0) return;
-    blocks.forEach(function (pre) {
+    blocks.forEach((pre) => {
       var code = pre.querySelector('code');
       if (!code) return;
       var lines = code.querySelectorAll('.line');
-      var mermaidCode = Array.from(lines).map(function (line) {
-        return line.textContent;
-      }).join('\n');
+      var mermaidCode = Array.from(lines).map((line) => line.textContent).join('\n');
       var container = document.createElement('div');
       container.className = 'mermaid';
       container.textContent = mermaidCode;
@@ -79,17 +77,17 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
     });
     // 最初の表示を止めないよう、図が画面に近づいてから読み込む
     var containers = document.querySelectorAll('.mermaid');
-    var observer = new IntersectionObserver(function (entries) {
-      if (!entries.some(function (e) { return e.isIntersecting; })) return;
+    var observer = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
       observer.disconnect();
       load();
     }, { rootMargin: '600px 0px' });
-    containers.forEach(function (c) { observer.observe(c); });
+    containers.forEach((c) => { observer.observe(c); });
 
     function load() {
     var script = document.createElement('script');
     script.src = 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js';
-    script.onload = function () {
+    script.onload = () => {
       mermaid.initialize({
         startOnLoad: false,
         theme: 'base',
