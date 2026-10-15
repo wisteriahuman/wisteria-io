@@ -7,10 +7,7 @@ export const profile = {
 };
 
 // 実績チップの下に小さく出す
-export const ratings = [
-  'AtCoder 水色',
-  'paiza Sランク',
-];
+export const ratings = ['AtCoder 水色', 'paiza Sランク'];
 
 // description に使う。姿勢の一行は置かず、所属と実績の事実だけで書く
 export const summary = `${profile.affiliation}。${highlights.map((h) => h.label).join('・')}`;

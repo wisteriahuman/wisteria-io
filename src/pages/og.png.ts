@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
-import { renderOgImage, ogText } from '../lib/og';
-import { profile, ratings } from '../data/profile';
 import { highlights } from '../data/career';
+import { profile, ratings } from '../data/profile';
+import { ogText, renderOgImage } from '../lib/og';
 
 const { div, colors } = ogText;
 
