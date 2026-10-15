@@ -6,7 +6,7 @@
 ## 前提条件
 - Git
 - Node のバージョン管理の道具（mise・fnm・Volta など、`.node-version` を読めるもの）
-- Lighthouse を手元で走らせる場合は Google Chrome
+- Google Chrome（記事の図をビルド時に描くのと、Lighthouse に使う）
 
 ## 手順
 
@@ -43,6 +43,7 @@ pnpm verify
 ## トラブルシューティング
 - **`node -v` が 24 にならない**: mise の設定が入っていないか、別の Node（Homebrew など）が PATH の先にある。`mise ls --current` で `.node-version` が読まれているか確かめる
 - **`pnpm lighthouse` が Chrome を見つけられない**: Chrome を入れるか、`CHROME_PATH` に実行ファイルのパスを入れる
+- **`pnpm build` が `chrome` の起動で失敗する**: 記事の図を描くのに Google Chrome の安定版を使う（Playwright のブラウザは入れない）。Chrome を入れる
 
 ## 参考
 - [開発の流れ](./development-flow.md)
