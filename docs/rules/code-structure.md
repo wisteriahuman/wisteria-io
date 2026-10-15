@@ -10,9 +10,9 @@
 | `src/data/` | 名前・経歴・実績・作品など、画面に出る事実 | 画面・OGP・メタはここを読む。同じ事実を2か所に書かない（→ [DS-02](../requirements/developer-stories.md#ds-02-実績を1か所直せば全体に反映される)）。件数や内訳は手で書かず、元のデータから作る |
 | `src/components/` | 画面の部品（`.astro`） | 事実のデータを持たず、`src/data/` から読む。アイコンは `Icon.astro` に足して名前で使う |
 | `src/layouts/` | ページの骨組み（`<head>`・メタ・共通のスクリプト） | メタの既定値は `src/data/profile.ts` から作る |
-| `src/lib/` | 画面以外の処理 | 例: OGP の描画（`og.ts`） |
+| `src/lib/` | 画面以外の処理 | 例: OGP の描画（`og.ts`）、Markdown の変換（`rehype-*.ts`） |
 | `src/pages/` | ルーティング | `og.png.ts` と `og/` は OGP 画像。ブログ記事の URL（`/blog/<slug>`）と OGP 画像の URL（`/og/<slug>.png`）は変えない |
-| `src/content/blog/` | ブログ記事 | Markdown 1ファイルで完結させる。OGP 画像は自動で作られる |
+| `src/content/blog/` | ブログ記事 | Markdown 1ファイルで完結させる。OGP 画像は自動で作られる。図は ` ```mermaid ` で書けばビルド時に SVG になる |
 | `src/styles/` | 全体の CSS と色のトークン（`@theme`） | 色はトークンを使い、直接の色コードを部品に書かない |
 | `src/assets/` | ビルド時に最適化する画像 | `astro:assets` の `<Image />` で使う |
 | `public/` | そのまま配る静的ファイル | 外部から URL で参照されうるので、消す前に確かめる |

@@ -27,6 +27,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # 記事の図はビルド時に Chrome で描き、文字幅もそこで測る。日本語のフォントが無いと幅がずれる（ADR-014）
+      - name: Install Japanese fonts
+        run: fc-list :lang=ja | grep -q . || (sudo apt-get update && sudo apt-get install -y fonts-noto-cjk)
+
       - name: Verify
         run: pnpm verify
 

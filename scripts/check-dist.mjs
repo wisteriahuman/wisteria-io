@@ -71,6 +71,18 @@ for (const slug of slugs) {
   check(exists(`og/${slug}.png`), `/og/${slug}.png が無い`);
 }
 
+// 図はビルド時に SVG にし、閲覧時に mermaid を読み込まない（ADR-014）
+for (const [slug, count] of [
+  ['neovim-intro-part1', 3],
+  ['neovim-intro-part2', 2],
+  ['neovim-intro-part3', 2],
+]) {
+  const post = read(`blog/${slug}/index.html`);
+  const figures = (post.match(/<figure class="mermaid"><svg/g) ?? []).length;
+  check(figures === count, `/blog/${slug} の図が${count}つ（実際: ${figures}）`);
+  check(!post.includes('mermaid.min.js'), `/blog/${slug} で mermaid を読み込んでいる`);
+}
+
 if (failures.length) {
   console.error(`NG ${failures.length}件:\n- ${failures.join('\n- ')}`);
   process.exit(1);

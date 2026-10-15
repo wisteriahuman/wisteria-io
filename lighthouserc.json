@@ -2,7 +2,12 @@
   "ci": {
     "collect": {
       "staticDistDir": "./dist",
-      "url": ["http://localhost/", "http://localhost/blog/", "http://localhost/blog/errors-are-values/"],
+      "url": [
+        "http://localhost/",
+        "http://localhost/blog/",
+        "http://localhost/blog/errors-are-values/",
+        "http://localhost/blog/neovim-intro-part1/"
+      ],
       "numberOfRuns": 3,
       "settings": {
         "chromeFlags": "--headless=new --no-sandbox"
