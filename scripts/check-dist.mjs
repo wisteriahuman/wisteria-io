@@ -83,20 +83,26 @@ for (const [slug, count] of [
   check(!post.includes('mermaid.min.js'), `/blog/${slug} で mermaid を読み込んでいる`);
 }
 
-// 紙の見た目（ADR-016）。暗い配色のトークンが残ると、紙の上に白い文字や暗い箱が出る
-const oldTokens = [
+// 大学ノートの見た目（ADR-016）。ノートに無い部品（角の丸い面・枠・影・前の配色・浮き上がる動き）を残さない
+const notNotebook = [
+  'rounded',
+  'border',
+  'shadow',
+  'ring',
+  'backdrop-',
+  'bg-surface',
+  'bg-wisteria',
+  'text-wisteria',
+  'font-serif',
+  'reveal',
+  'paper-lines',
   'text-white',
   'bg-white',
   'bg-bg-',
-  'ring-bg-',
   'text-text-',
-  'border-border',
-  'bg-border',
   'text-accent',
-  'ring-accent',
   'bg-primary',
   'text-primary',
-  'border-primary',
 ];
 for (const page of [
   'index.html',
@@ -104,27 +110,14 @@ for (const page of [
   'blog/errors-are-values/index.html',
   'blog/neovim-intro-part1/index.html',
 ]) {
-  const classes = [...read(page).matchAll(/class="([^"]*)"/g)].flatMap((m) => m[1].split(/\s+/));
+  const body = read(page);
+  const classes = [...body.matchAll(/class="([^"]*)"/g)].flatMap((m) => m[1].split(/\s+/));
   // hover: などの前置きを外して比べる
-  const left = oldTokens.filter((t) => classes.some((c) => c.replace(/^([a-z-]+:)+/, '').startsWith(t)));
-  check(left.length === 0, `${page} に暗い配色のクラスが残っている: ${left.join(', ')}`);
+  const left = notNotebook.filter((t) => classes.some((c) => c.replace(/^([a-z0-9-]+:)+/, '').startsWith(t)));
+  check(left.length === 0, `${page} にノートに無い部品のクラスが残っている: ${left.join(', ')}`);
+  check(/<main class="sheet\b/.test(body), `${page} の本文がノートの頁（.sheet）に載っていない`);
 }
-check(/<section id="top" class="[^"]*\bpaper-lines\b/.test(html), '最初の画面に罫線の地が無い');
-// 浮き上がる動きは画面だけ。印刷では画面の外のセクションが透明のまま固まる
-const reveals = html.match(/\.reveal\{/g) ?? [];
-check(
-  reveals.length === 1 &&
-    /@media screen and \(prefers-reduced-motion: ?no-preference\)\{@supports \(animation-timeline: ?view\(\)\)\{\.reveal\{/.test(
-      html,
-    ),
-  '浮き上がる動きが、画面と動きを減らさない設定の中だけに無い',
-);
-// チップ（タグ・札）は線ではなく薄い面、角は 6〜8px
-for (const page of ['index.html', 'blog/index.html', 'blog/neovim-intro-part1/index.html']) {
-  const chips = [...read(page).matchAll(/<span class="([^"]*\bpx-[\d.]+ py-[\d.]+[^"]*)"/g)].map((m) => m[1]);
-  const outlined = chips.filter((c) => /\bborder\b|\brounded(-full|-sm)?(\s|$)/.test(c));
-  check(outlined.length === 0, `${page} に線や丸いチップが残っている: ${outlined[0]}`);
-}
+check(!/\.reveal\b|animation-timeline/.test(html), '浮き上がる動きが残っている');
 
 if (failures.length) {
   console.error(`NG ${failures.length}件:\n- ${failures.join('\n- ')}`);
