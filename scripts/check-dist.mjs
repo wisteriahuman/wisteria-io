@@ -1,5 +1,5 @@
 // ビルド結果（dist/）が段階①の仕様を満たすか確かめる。pnpm build の後に pnpm check で実行する
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 
 const failures = [];
 const check = (ok, message) => {
@@ -189,6 +189,33 @@ check(
 check(!/--color-margin|data-marker|marker=yellow/.test(html), '赤い余白線か蛍光ペンの見本の切り替えが残っている');
 check(/Date \d{4}\.\d{2}\.\d{2}/.test(html.replace(/<[^>]+>/g, '')), 'トップに Date の欄が無い');
 check(/No\. \d+/.test(read('blog/hello-world/index.html').replace(/<[^>]+>/g, '')), '記事に No. の欄が無い');
+
+// 記事の RSS（ADR-018）。プロフィールの README が、新しい記事の title・link・pubDate を読む
+const feed = exists('rss.xml') ? read('rss.xml') : '';
+check(feed.startsWith('<?xml') && feed.includes('<rss version="2.0"'), '/rss.xml が RSS 2.0 でない');
+const feedItems = [...feed.matchAll(/<item>([\s\S]*?)<\/item>/g)].map((m) => m[1]);
+const blogDir = new URL('../src/content/blog/', import.meta.url);
+const published = readdirSync(blogDir).filter(
+  (f) => /\.mdx?$/.test(f) && !/^draft:\s*true\s*$/m.test(readFileSync(new URL(f, blogDir), 'utf8')),
+).length;
+check(feedItems.length === published, `RSS の記事が公開中の${published}件でない（${feedItems.length}件）`);
+check(
+  feedItems.every((item) => ['title', 'link', 'pubDate', 'description'].every((tag) => item.includes(`<${tag}>`))),
+  'RSS の記事に title・link・pubDate・description のどれかが無い',
+);
+check(
+  feedItems.every((item) => /<link>https:\/\/wisteria-io\.com\/blog\/[\w-]+\/?<\/link>/.test(item)),
+  'RSS の記事の link が記事の絶対 URL でない',
+);
+const feedDates = feedItems.map((item) => Date.parse(item.match(/<pubDate>([^<]+)<\/pubDate>/)?.[1] ?? ''));
+check(
+  feedDates.every((d, i) => !Number.isNaN(d) && (i === 0 || feedDates[i - 1] >= d)),
+  'RSS の記事が新しい順でない',
+);
+check(
+  /<link rel="alternate" type="application\/rss\+xml"[^>]*href="https:\/\/wisteria-io\.com\/rss\.xml"/.test(html),
+  'head に RSS の link が無い',
+);
 
 if (failures.length) {
   console.error(`NG ${failures.length}件:\n- ${failures.join('\n- ')}`);
