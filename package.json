@@ -17,6 +17,7 @@
     "test": "node --test 'scripts/*.test.cjs' 'scripts/*.test.mjs'"
   },
   "dependencies": {
+    "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.0",
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.17.1",
