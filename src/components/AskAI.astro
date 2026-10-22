@@ -1,0 +1,25 @@
+---
+import { profile } from '../data/profile';
+
+interface Props {
+  articleUrl?: string;
+}
+const { articleUrl } = Astro.props;
+const prompt = articleUrl
+  ? `この記事を読んで、内容と要点を日本語で説明してください。参照した URL を示し、取得できない場合はその旨を伝えてください。${articleUrl}`
+  : `${profile.url}llms.txt と、そこに載っているページを読んで、${profile.name}（${profile.handle}）について日本語で説明してください。参照した URL を示し、取得できない情報は推測しないでください。`;
+const services = [
+  { name: 'Claude', url: 'https://claude.ai/new?q=' },
+  { name: 'ChatGPT', url: 'https://chatgpt.com/?q=' },
+];
+---
+
+<aside class="mt-7" aria-label={articleUrl ? 'この記事を AI に聞く' : 'このサイトを AI に聞く'}>
+  <p class="font-semibold">{articleUrl ? 'この記事を AI に聞く' : 'このサイトを AI に聞く'}</p>
+  <p class="text-sm text-ink-muted">リンク先で質問文が開きます。回答は元のページでも確かめてください。</p>
+  <ul class="flex flex-wrap gap-x-7">
+    {services.map(service => (
+      <li><a href={`${service.url}${encodeURIComponent(prompt)}`} class="inline-block py-3.5 text-pen underline underline-offset-4">{service.name} に聞く</a></li>
+    ))}
+  </ul>
+</aside>

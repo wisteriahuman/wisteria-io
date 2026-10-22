@@ -9,6 +9,7 @@ import Stickers from './Stickers.astro';
 <section id="top" class="pt-7 scroll-mt-24">
   <Image src={avatar} alt="" width={56} height={56} loading="eager" class="w-14 h-14 object-cover" />
   <h1 class="mt-7 text-[2rem] md:text-[2.5rem] leading-14 font-bold text-ink">{profile.name}</h1>
+  <p class="text-ink-muted">{profile.reading} / {profile.handle}（{profile.account}）</p>
   <p class="text-ink">{profile.affiliation}</p>
 
   <ul class="mt-7">

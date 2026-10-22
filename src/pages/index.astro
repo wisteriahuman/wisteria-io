@@ -1,5 +1,6 @@
 ---
 import About from '../components/About.astro';
+import AskAI from '../components/AskAI.astro';
 import BuildNote from '../components/BuildNote.astro';
 import Experience from '../components/Experience.astro';
 import Hero from '../components/Hero.astro';
@@ -23,6 +24,6 @@ import { tornEdge } from '../lib/torn-edge';
     <div class="page" style={`--torn: ${tornEdge(3)}`}><PageHead no={3} date={lastUpdated} /><Projects /><BuildNote {...buildNotes.projects} /></div>
     <div class="page" style={`--torn: ${tornEdge(4)}`}><PageHead no={4} date={lastUpdated} /><Skills /><BuildNote {...buildNotes.skills} /></div>
     <div class="page" style={`--torn: ${tornEdge(5)}`}><PageHead no={5} date={lastUpdated} /><About /><BuildNote {...buildNotes.about} /></div>
-    <div class="page" style={`--torn: ${tornEdge(6)}`}><PageHead no={6} date={lastUpdated} /><Links /><BuildNote {...buildNotes.links} /></div>
+    <div class="page" style={`--torn: ${tornEdge(6)}`}><PageHead no={6} date={lastUpdated} /><Links /><AskAI /><BuildNote {...buildNotes.links} /></div>
   </main>
 </Layout>

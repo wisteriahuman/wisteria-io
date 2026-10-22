@@ -4,12 +4,28 @@ export type SectionId = 'top' | 'experience' | 'projects' | 'skills' | 'about' |
 
 export const buildNotes: Record<SectionId, { adrs: number[]; files: string[] }> = {
   top: {
-    adrs: [7, 16, 9],
-    files: ['src/components/Hero.astro', 'src/components/Stickers.astro', 'src/data/profile.ts', 'src/data/career.ts'],
+    adrs: [7, 16, 9, 19],
+    files: [
+      'src/components/Hero.astro',
+      'src/components/Stickers.astro',
+      'src/data/profile.ts',
+      'src/data/career.ts',
+      'src/lib/person.ts',
+      'src/layouts/Layout.astro',
+    ],
   },
   experience: { adrs: [7, 16], files: ['src/components/Experience.astro', 'src/data/career.ts'] },
   projects: { adrs: [7, 16], files: ['src/components/Projects.astro', 'src/data/projects.ts'] },
   skills: { adrs: [16], files: ['src/components/Skills.astro'] },
   about: { adrs: [8, 16], files: ['src/components/About.astro'] },
-  links: { adrs: [11, 6, 16], files: ['src/components/Links.astro', 'src/components/Stickers.astro', 'serve.cjs'] },
+  links: {
+    adrs: [11, 6, 16, 19],
+    files: [
+      'src/components/Links.astro',
+      'src/components/Stickers.astro',
+      'src/components/AskAI.astro',
+      'src/pages/llms.txt.ts',
+      'serve.cjs',
+    ],
+  },
 };
