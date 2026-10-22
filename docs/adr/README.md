@@ -20,5 +20,6 @@
 | [ADR-016](./adr-016-paper-look.md) | 見た目を、リングノートから破り取ったページを台紙に貼った形にする | 採用 |
 | [ADR-017](./adr-017-build-notes-from-git.md) | 「この部分の作り」の PR は、ビルド時に git の履歴から拾う | 採用 |
 | [ADR-018](./adr-018-rss.md) | 記事の RSS を /rss.xml で配る | 採用 |
+| [ADR-019](./adr-019-search-and-ai.md) | 本人の情報を画面・構造化データ・AI 向けの案内で共有する | 採用 |
 
 新しい ADR は [TEMPLATE.md](./TEMPLATE.md) をコピーして作り、この表に追加する。

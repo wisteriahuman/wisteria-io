@@ -1,4 +1,6 @@
 ---
+import { socialLinks } from '../data/profile';
+
 // GitHub・X・AtCoder へのリンク。紙に貼ったシールの形にする（ADR-016）
 // ロゴは GitHub と X の公式の形。AtCoder は文字で書く
 const github =
@@ -8,13 +10,13 @@ const x =
 ---
 
 <p class="h-14 flex items-center gap-5">
-  <a href="https://github.com/wisteriahuman" target="_blank" rel="noopener" class="sticker sticker-round" style="--tilt: -6deg">
+  <a href={socialLinks.github} target="_blank" rel="noopener" class="sticker sticker-round" style="--tilt: -6deg">
     <span class="sr-only">GitHub</span>
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-6 h-6"><path d={github} /></svg>
   </a>
-  <a href="https://x.com/wisteria_man" target="_blank" rel="noopener" class="sticker sticker-round" style="--tilt: 4deg">
+  <a href={socialLinks.x} target="_blank" rel="noopener" class="sticker sticker-round" style="--tilt: 4deg">
     <span class="sr-only">X</span>
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-5 h-5"><path d={x} /></svg>
   </a>
-  <a href="https://atcoder.jp/users/wisteriahuman" target="_blank" rel="noopener" class="sticker" style="--tilt: -2deg">AtCoder</a>
+  <a href={socialLinks.atcoder} target="_blank" rel="noopener" class="sticker" style="--tilt: -2deg">AtCoder</a>
 </p>

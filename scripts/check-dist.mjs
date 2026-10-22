@@ -9,7 +9,8 @@ const read = (path) => readFileSync(new URL(`../dist/${path}`, import.meta.url),
 const exists = (path) => existsSync(new URL(`../dist/${path}`, import.meta.url));
 
 const html = read('index.html');
-const summary = '28卒・公立はこだて未来大学。Go College ベストエンジニアリング賞・ハッカソン受賞3回・ICPC 2025 横浜';
+const summary =
+  '藤井 優気（wisteria）のポートフォリオ。28卒・公立はこだて未来大学。Go College ベストエンジニアリング賞・ハッカソン受賞3回・ICPC 2025 横浜';
 
 check(html.includes('<title>藤井 優気 (wisteria) | ポートフォリオ</title>'), 'title');
 check(html.includes(`<meta name="description" content="${summary}"`), 'description');
@@ -216,6 +217,83 @@ check(
   /<link rel="alternate" type="application\/rss\+xml"[^>]*href="https:\/\/wisteria-io\.com\/rss\.xml"/.test(html),
   'head に RSS の link が無い',
 );
+
+// 検索と AI への入口（ADR-019）。生成された全 HTML とリンク先の実体を検査する。
+const sitemap = read('sitemap-0.xml');
+const llms = read('llms.txt');
+const searchPages = [
+  'index.html',
+  'blog/index.html',
+  ...readdirSync(new URL('../dist/blog', import.meta.url), { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => `blog/${entry.name}/index.html`),
+];
+const personData = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1] ?? '{}');
+check(
+  personData['@type'] === 'ProfilePage' && personData.mainEntity?.['@type'] === 'Person',
+  'トップの ProfilePage / Person',
+);
+const person = personData.mainEntity ?? {};
+check(person.name === '藤井 優気' && person.affiliation?.name === '公立はこだて未来大学', 'Person の実名・所属');
+check(
+  person.url === 'https://wisteria-io.com/' &&
+    person.image === 'https://wisteria-io.com/avatar.jpg' &&
+    exists('avatar.jpg'),
+  'Person の本人 URL・画像',
+);
+check(
+  ['藤井優気', 'wisteria', 'wisteriahuman', 'ふじい ゆうき'].every((name) => person.alternateName?.includes(name)),
+  'Person の別名',
+);
+check(
+  person.sameAs?.length === 3 && person.sameAs.every((url) => html.includes(`href="${url}"`)),
+  'sameAs が画面の外部プロフィールと一致しない',
+);
+check(hero.includes('ふじい ゆうき') && hero.includes('wisteriahuman'), '読み・アカウント名が画面に無い');
+for (const file of searchPages) {
+  const body = read(file);
+  const path = file.replace(/index\.html$/, '');
+  const canonical = `https://wisteria-io.com/${path}`;
+  check(body.includes(`<link rel="canonical" href="${canonical}"`), `${file} の canonical`);
+  check(body.includes(`<meta property="og:url" content="${canonical}"`), `${file} の og:url`);
+  check(sitemap.includes(`<loc>${canonical}</loc>`), `${file} が sitemap に無い`);
+  check(
+    /^<!doctype html><!--[\s\S]*?作りは GitHub と docs\/ にあります[\s\S]*?--><html/i.test(body),
+    `${file} の先頭コメント`,
+  );
+  check(!/<meta[^>]+(?:noindex|nosnippet)/i.test(body), `${file} に検索よけがある`);
+  const links = [...body.matchAll(/href="(https:\/\/(?:claude\.ai\/new|chatgpt\.com\/)\?q=[^"]+)"/g)].map(
+    (match) => new URL(match[1]),
+  );
+  const isArticle = file.startsWith('blog/') && file !== 'blog/index.html';
+  check(links.length === (file === 'blog/index.html' ? 0 : 2), `${file} の AI リンク数`);
+  for (const link of links)
+    check(
+      link.searchParams.get('q')?.includes(isArticle ? canonical : 'https://wisteria-io.com/llms.txt'),
+      `${file} の AI 質問に対象 URL が無い`,
+    );
+  if (isArticle) {
+    const article = JSON.parse(body.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1] ?? '{}');
+    check(
+      article['@type'] === 'BlogPosting' &&
+        article.author?.['@id'] === person['@id'] &&
+        article.author?.name === person.name,
+      `${file} の著者の対応`,
+    );
+    check(article.mainEntityOfPage === canonical && body.includes('rel="author"'), `${file} の記事 URL・著者リンク`);
+    check(llms.includes(canonical), `${file} が llms.txt に無い`);
+  }
+}
+check(
+  (llms.match(/https:\/\/wisteria-io\.com\/blog\/[\w-]+\//g) ?? []).length === published,
+  'llms.txt の記事数が公開記事数と違う',
+);
+for (const match of llms.matchAll(/\]\((https:\/\/wisteria-io\.com\/[^)]*)\)/g)) {
+  const url = new URL(match[1]);
+  const file = url.pathname === '/' ? 'index.html' : `${url.pathname.replace(/^\//, '').replace(/\/$/, '')}/index.html`;
+  check(exists(file), `llms.txt のリンク先が無い: ${url.href}`);
+  if (url.hash) check(read(file).includes(`id="${url.hash.slice(1)}"`), `llms.txt のアンカーが無い: ${url.href}`);
+}
 
 if (failures.length) {
   console.error(`NG ${failures.length}件:\n- ${failures.join('\n- ')}`);
