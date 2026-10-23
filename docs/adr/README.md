@@ -9,7 +9,7 @@
 | [ADR-005](./adr-005-japanese-only.md) | 日本語のみで作る | 採用 |
 | [ADR-006](./adr-006-hosting-direction.md) | 自宅の k8s を主に、AWS を予備にする | 提案中 |
 | [ADR-007](./adr-007-phased-release.md) | 段階的に公開する | 採用 |
-| [ADR-008](./adr-008-goal-visibility.md) | 目標の構造をどこまで見せるか | 採用 |
+| [ADR-008](./adr-008-goal-visibility.md) | About に人生の目標の構造を出さず、経験の事実を並べる | 採用 |
 | [ADR-009](./adr-009-web-fonts.md) | Web フォントで描画を止めない | 採用 |
 | [ADR-010](./adr-010-biome.md) | リントと整形に Biome を使う | 採用 |
 | [ADR-011](./adr-011-pr-and-ci.md) | 変更は PR で入れ、検証は GitHub のマシン、デプロイは自宅で行う | 採用 |
