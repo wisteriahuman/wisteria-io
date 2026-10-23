@@ -59,6 +59,26 @@ check(
 const about = html.match(/<section id="about"[\s\S]*?<\/section>/)?.[0] ?? '';
 check(!about.includes('3年'), 'About に「3年」');
 check(about.includes('Ubuntu Server'), 'About に Ubuntu Server');
+// About は経験の年表だけ（docs/superpowers/specs/2026-10-23-about-design.md）
+const aboutNotes = [...about.matchAll(/class="margin-note"[^>]*>([^<]*)</g)].map((m) => m[1].trim());
+check(
+  JSON.stringify(aboutNotes) === JSON.stringify(['小学校〜高校', '2024', '2025', '大学']),
+  `About の時期の欄が「小学校〜高校・2024・2025・大学」でない（${aboutNotes.join('・')}）`,
+);
+const aboutText = about.replace(/<[^>]+>/g, '');
+for (const line of [
+  'ハンドボールをやっていた',
+  '大学でプログラミングを始める',
+  'ICPC 2025 アジア横浜大会に出場',
+  'Neovim',
+  'Nix',
+  'コーヒーをこぼして故障',
+]) {
+  check(aboutText.includes(line), `About の年表に「${line}」が無い`);
+}
+check(!/KGI|KSF|KPI|好きです|楽しくて/.test(aboutText), 'About に KGI・KSF・KPI か「好き」「楽しい」の文が残っている');
+const heroAtCoder = heroText.match(/AtCoder [^・\s<]+/)?.[0];
+check(Boolean(heroAtCoder) && aboutText.includes(heroAtCoder), 'About の AtCoder の色が、最初の画面の評価と同じでない');
 
 // © などの記号は除き、絵文字として表示される文字だけを見る
 check(
