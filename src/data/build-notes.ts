@@ -19,7 +19,7 @@ export const buildNotes: Record<SectionId, { adrs: number[]; files: string[] }> 
   skills: { adrs: [16], files: ['src/components/Skills.astro'] },
   about: { adrs: [8, 16], files: ['src/components/About.astro'] },
   links: {
-    adrs: [11, 6, 16, 19],
+    adrs: [8, 11, 6, 16, 19],
     files: [
       'src/components/Links.astro',
       'src/components/Stickers.astro',

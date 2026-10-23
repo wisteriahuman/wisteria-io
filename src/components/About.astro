@@ -1,4 +1,13 @@
 ---
+import { ratings } from '../data/profile';
+
+// 経験を、時期と一行ずつ事実だけで並べる（ADR-008）
+const atcoder = ratings.find((r) => r.startsWith('AtCoder'));
+const timeline = [
+  { period: '小学校〜高校', text: 'ハンドボールをやっていた' },
+  { period: '2024', text: '大学でプログラミングを始める' },
+  { period: '2025', text: 'ICPC 2025 アジア横浜大会に出場' },
+];
 const machines = [
   { name: 'Surface', note: '入学時の推奨機', history: 'Windows → Ubuntu → CachyOS → Garuda → 今は Ubuntu Server' },
   { name: 'DAIV', note: 'マウスコンピューター', history: 'Pop!_OS → コーヒーをこぼして故障' },
@@ -8,26 +17,30 @@ const machines = [
 
 <section id="about" class="pt-7 scroll-mt-24">
   <h2 class="font-hand text-[1.875rem] font-bold text-ink"><span class="marker">About</span></h2>
-  <div class="mt-7 space-y-7 text-ink">
-    <p>
-      公立はこだて未来大学 システム情報科学部 情報アーキテクチャ学科 情報システムコース。
-      バックエンド開発と競技プログラミングが好きです。
-    </p>
-    <p>
-      API設計やDB設計を考えるのが楽しくて、ハッカソンでもバックエンドを担当することが多いです。
-      最近はAI/LLMを組み込んだプロダクト設計にも興味があります。
-    </p>
-    <p>
-      エディタは Neovim。開発環境は Nix で管理しています。
-      マシンごとの OS の遍歴はこんな感じです。
-    </p>
-    <ul class="space-y-7">
-      {machines.map((m) => (
+  <ol class="mt-7 space-y-7 text-ink">
+    {timeline.map((item) => (
+      <li class="relative">
+        <p class="margin-note">{item.period}</p>
+        <p>{item.text}</p>
+      </li>
+    ))}
+    <li class="relative">
+      <p class="margin-note">大学</p>
+      <ul class="space-y-7">
+        <li>競技プログラミング（{atcoder}）</li>
+        <li>エディタを Neovim に、開発環境を Nix にした</li>
         <li>
-          <p><span class="font-bold">{m.name}</span><span class="ml-2 text-sm leading-none text-ink-muted">{m.note}</span></p>
-          <p class="text-ink-muted">{m.history}</p>
+          <p>マシンごとの OS の遍歴</p>
+          <ul class="space-y-7 pl-6">
+            {machines.map((m) => (
+              <li>
+                <p><span class="font-bold">{m.name}</span><span class="ml-2 text-sm leading-none text-ink-muted">{m.note}</span></p>
+                <p class="text-ink-muted">{m.history}</p>
+              </li>
+            ))}
+          </ul>
         </li>
-      ))}
-    </ul>
-  </div>
+      </ul>
+    </li>
+  </ol>
 </section>
