@@ -1,10 +1,12 @@
 ---
+import { socialLinks } from '../data/profile';
 import Stickers from './Stickers.astro';
 ---
 
 <section id="links" class="pt-7 scroll-mt-24">
   <h2 class="font-hand text-[1.875rem] font-bold text-ink"><span class="marker">Links</span></h2>
   <Stickers />
+  <p class="text-ink">話しかけるなら <a href={socialLinks.x} target="_blank" rel="noopener" class="text-pen underline underline-offset-4">X の DM へ</a></p>
 </section>
 
 <footer class="pt-7">

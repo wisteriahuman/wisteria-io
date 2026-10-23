@@ -80,6 +80,16 @@ check(!/KGI|KSF|KPI|好きです|楽しくて/.test(aboutText), 'About に KGI�
 const heroAtCoder = heroText.match(/AtCoder [^・\s<]+/)?.[0];
 check(Boolean(heroAtCoder) && aboutText.includes(heroAtCoder), 'About の AtCoder の色が、最初の画面の評価と同じでない');
 
+// 「聞きたい」と思った人の窓口（docs/superpowers/specs/2026-10-23-about-design.md）
+const links = html.match(/<section id="links"[\s\S]*?<\/section>/)?.[0] ?? '';
+const xHref = links.match(/<a href="([^"]+)"[^>]*>\s*<span class="sr-only">X<\/span>/)?.[1];
+const dm = links.match(/<a href="([^"]+)"[^>]*>[^<]*X の DM[^<]*<\/a>/);
+check(
+  links.replace(/<[^>]+>/g, '').includes('話しかけるなら X の DM へ'),
+  'リンクの紙に「話しかけるなら X の DM へ」が無い',
+);
+check(Boolean(xHref) && dm?.[1] === xHref, 'DM の一行のリンク先が、X のシールと同じでない');
+
 // © などの記号は除き、絵文字として表示される文字だけを見る
 check(
   !/\p{Emoji_Presentation}|\p{Extended_Pictographic}\uFE0F/u.test(html.replace(/<script[\s\S]*?<\/script>/g, '')),
