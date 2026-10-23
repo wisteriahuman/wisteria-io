@@ -70,8 +70,7 @@ for (const line of [
   'ハンドボールをやっていた',
   '大学でプログラミングを始める',
   'ICPC 2025 アジア横浜大会に出場',
-  'Neovim',
-  'Nix',
+  'エディタを Neovim に、開発環境を Nix にした',
   'コーヒーをこぼして故障',
 ]) {
   check(aboutText.includes(line), `About の年表に「${line}」が無い`);
