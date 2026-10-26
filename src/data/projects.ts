@@ -9,6 +9,8 @@ export type Project = {
   period: string;
   github?: string;
   link?: string;
+  // 実名や実績を確認できる公開元の報告。外部プロフィール（sameAs）とは区別する。
+  report?: { title: string; publisher: string; url: string };
 };
 
 // 受賞の強い順に並べる
@@ -21,7 +23,11 @@ export const projects: Project[] = [
     tech: ['Python', 'Flask', 'FastAPI'],
     award: '優勝',
     period: '2024/10/18 - 2024/10/20',
-    link: 'https://www.fun.ac.jp/activity/25782',
+    report: {
+      title: '学内課題解決ハッカソン「FISH」を開催',
+      publisher: '公立はこだて未来大学',
+      url: 'https://www.fun.ac.jp/4197/',
+    },
   },
   {
     id: 'p2hacks-2025',

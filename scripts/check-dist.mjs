@@ -278,6 +278,17 @@ check(
   person.sameAs?.length === 3 && person.sameAs.every((url) => html.includes(`href="${url}"`)),
   'sameAs が画面の外部プロフィールと一致しない',
 );
+check(
+  person.subjectOf?.some(
+    (source) =>
+      source.url === 'https://www.fun.ac.jp/4197/' &&
+      source.publisher?.name === '公立はこだて未来大学' &&
+      projects.includes(`href="${source.url}"`) &&
+      llms.includes(source.url),
+  ),
+  '人物の出典が本文・構造化データ・llms.txtで一致しない',
+);
+check(!html.includes('/activity/25782') && !llms.includes('/activity/25782'), '移転済みの実績出典が残っている');
 check(hero.includes('ふじい ゆうき') && hero.includes('wisteriahuman'), '読み・アカウント名が画面に無い');
 for (const file of searchPages) {
   const body = read(file);

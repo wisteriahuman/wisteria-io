@@ -24,4 +24,6 @@
 
 | [ADR-020](./adr-020-canonical-redirects.md) | 公開ページの URL をリンクと301転送で統一する | 採用 |
 
+| [ADR-021](./adr-021-profile-evidence.md) | 本人の実績を公開元の報告と対応付ける | 採用 |
+
 新しい ADR は [TEMPLATE.md](./TEMPLATE.md) をコピーして作り、この表に追加する。
