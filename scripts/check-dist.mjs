@@ -286,6 +286,14 @@ for (const file of searchPages) {
   check(body.includes(`<link rel="canonical" href="${canonical}"`), `${file} の canonical`);
   check(body.includes(`<meta property="og:url" content="${canonical}"`), `${file} の og:url`);
   check(sitemap.includes(`<loc>${canonical}</loc>`), `${file} が sitemap に無い`);
+  for (const match of body.matchAll(/href="([^"#]+)"/g)) {
+    const url = new URL(match[1].replaceAll('&amp;', '&'), canonical);
+    if (url.origin !== 'https://wisteria-io.com') continue;
+    const target = url.pathname.slice(1).replace(/\/$/, '');
+    if (target && exists(`${target}/index.html`)) {
+      check(url.pathname.endsWith('/'), `${file} の内部リンクが正規表記でない: ${url.pathname}`);
+    }
+  }
   check(
     /^<!doctype html><!--[\s\S]*?作りは GitHub と docs\/ にあります[\s\S]*?--><html/i.test(body),
     `${file} の先頭コメント`,

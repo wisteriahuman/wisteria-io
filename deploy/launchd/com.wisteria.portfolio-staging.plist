@@ -8,7 +8,7 @@
     <key>ProgramArguments</key>
     <array>
         <string>/opt/homebrew/bin/node</string>
-        <string>/Users/wisteria/portfolio-serve/serve.cjs</string>
+        <string>/Users/wisteria/portfolio-serve/serve-staging.cjs</string>
     </array>
     <key>EnvironmentVariables</key>
     <dict>

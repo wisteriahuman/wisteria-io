@@ -22,4 +22,6 @@
 | [ADR-018](./adr-018-rss.md) | 記事の RSS を /rss.xml で配る | 採用 |
 | [ADR-019](./adr-019-search-and-ai.md) | 本人の情報を画面・構造化データ・AI 向けの案内で共有する | 採用 |
 
+| [ADR-020](./adr-020-canonical-redirects.md) | 公開ページの URL をリンクと301転送で統一する | 採用 |
+
 新しい ADR は [TEMPLATE.md](./TEMPLATE.md) をコピーして作り、この表に追加する。
