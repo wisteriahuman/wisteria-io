@@ -8,7 +8,7 @@ draft: false
 
 ## はじめに
 
-[Part 1](/blog/neovim-intro-part1)ではNeovimの基本操作を覚えた。Part 2では、Neovimの設定ファイルを書いてカスタマイズしていく。
+[Part 1](/blog/neovim-intro-part1/)ではNeovimの基本操作を覚えた。Part 2では、Neovimの設定ファイルを書いてカスタマイズしていく。
 
 ただ、その前にNeovimの設定にはいくつかのアプローチがあることを知っておく必要がある。
 
@@ -387,4 +387,4 @@ flowchart TD
 
 今の状態でも、行番号、インデント、検索ハイライト、クリップボード共有が効いていて、最低限快適に使える。ただ、ファイラー、構文ハイライト、補完といった機能はまだない。
 
-次の[Part 3](/blog/neovim-intro-part3)では、プラグインマネージャ `lazy.nvim` を導入して、Neovimの見た目と機能を一気に拡張していく。
+次の[Part 3](/blog/neovim-intro-part3/)では、プラグインマネージャ `lazy.nvim` を導入して、Neovimの見た目と機能を一気に拡張していく。

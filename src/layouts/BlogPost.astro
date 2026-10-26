@@ -31,7 +31,7 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
   title={`${title} | wisteria`}
   description={description}
   image={`/og/${slug}.png`}
-  url={`/blog/${slug}`}
+  url={`/blog/${slug}/`}
   type="article"
   structuredData={{
     '@context': 'https://schema.org',
@@ -47,7 +47,7 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
   <main class="pad">
     <article class="page page-plain" style={`--torn: ${tornEdge(200 + no)}`}>
       <PageHead no={no} date={noteDate(pubDate)} />
-      <p class="mt-7"><a href="/blog" class="text-pen underline underline-offset-4">記事一覧に戻る</a></p>
+      <p class="mt-7"><a href="/blog/" class="text-pen underline underline-offset-4">記事一覧に戻る</a></p>
       <header class="mt-7 mb-14">
         <h1 class="text-[1.75rem] md:text-[2rem] leading-14 font-bold text-ink">{title}</h1>
         <p class="text-sm text-ink-muted">

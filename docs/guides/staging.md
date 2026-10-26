@@ -16,7 +16,7 @@ PR の見た目を、本番に出す前に `https://staging.wisteria-io.com` で
 
 ### Mac mini への設定（一度だけ。本人の確認を取ってから行う）
 1. 置き場所を作る: `mkdir -p /Users/wisteria/portfolio-serve /Users/wisteria/portfolio-staging`
-2. リポジトリの `serve.cjs` を `/Users/wisteria/portfolio-serve/serve.cjs` に写す
+2. リポジトリの `serve.cjs` を `/Users/wisteria/portfolio-serve/serve-staging.cjs` に写す
 3. `deploy/launchd/com.wisteria.portfolio-staging.plist` を `~/Library/LaunchAgents/` に写し、`launchctl load ~/Library/LaunchAgents/com.wisteria.portfolio-staging.plist`
 4. `~/.cloudflared/config.yml` の ingress で、`- service: http_status:404` の行より前に次を足す
 
@@ -34,8 +34,8 @@ PR の見た目を、本番に出す前に `https://staging.wisteria-io.com` で
 - 本番の `curl -sI https://wisteria-io.com/` には `x-robots-tag` が付かない
 
 ### 本番の配信
-- 本番（`wisteria-io.com`）も同じ `/Users/wisteria/portfolio-serve/serve.cjs` を、既定値（`/Users/wisteria/portfolio-dist`・ポート 4321）で動かす。設定は `deploy/launchd/com.wisteria.portfolio.plist`
-- `serve.cjs` を直したら、手順2で写した後、本番と staging の両方を `launchctl kickstart -k gui/$(id -u)/<Label>` で読み直す（本番は数秒止まる）
+- 本番（`wisteria-io.com`）は本番用の `/Users/wisteria/portfolio-serve/serve.cjs` を、既定値（`/Users/wisteria/portfolio-dist`・ポート 4321）で動かす。設定は `deploy/launchd/com.wisteria.portfolio.plist`
+- `serve.cjs` を直したら、まず staging 用の `serve-staging.cjs` だけを更新して staging を再起動する。本番は承認・マージ後に `serve.cjs` を更新し、本番のプロセスだけを再起動する（本番は数秒止まる）。CI が配るのは dist だけなので、配信コードの更新は別途必要。
 - Cloudflare の中継は `.txt`・画像などを最大4時間持つ。中身が変わったのに古いまま見えるときは、クエリを付けて（`?v=1`）取り直すと元の応答を確かめられる
   - OGP 画像は、ページの `og:image` の URL にビルドした commit の短い hash（`?v=<hash>`）を付けるので、配るたびに新しい画像が読まれる。画像の URL を直接開くときは、同じ `?v=` を付けて開く
 
@@ -47,3 +47,11 @@ PR の見た目を、本番に出す前に `https://staging.wisteria-io.com` で
 ## 参考
 - [開発の流れ](./development-flow.md)
 - [Cloudflare Tunnel: configuration file](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/configure-tunnels/local-management/configuration-file/)
+
+## 正規 URL の転送を更新するとき（ADR-020）
+
+- staging の plist が以前の共有 `serve.cjs` を指す場合は、新しい plist を設置して `launchctl bootout` / `bootstrap` で読み直す。本番の plist は変えない。
+- 配信コードは一時ファイルへコピーし、`node --check` の後に同じディレクトリ内で置き換える。承認前に本番のファイルを置き換えない。
+- 配置後は `/blog` と `/blog/index.html` が `/blog/` へ301、`/blog/` が200、`/missing` が404、クエリが維持されることを確認する。stagingの301・200・404すべてで `X-Robots-Tag` を確認する。
+- 本番では `Host: www.wisteria-io.com` と `X-Forwarded-Proto: http` の転送も確認し、HTTPS非wwwから転送が繰り返されないことを確かめる。
+- 公開側でもHTTP・www・スラッシュなしの転送を確認する。Cloudflareのキャッシュやプロキシのヘッダーがoriginの結果と異なる場合は、その差を調べる。

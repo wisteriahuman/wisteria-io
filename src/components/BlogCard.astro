@@ -19,7 +19,7 @@ const formattedDate = pubDate.toLocaleDateString('ja-JP', {
 <li class="relative">
   <p class="margin-note"><time datetime={pubDate.toISOString()}>{formattedDate}</time></p>
   <h2 class="text-lg font-bold text-ink">
-    <a href={`/blog/${slug}`} class="hover:text-pen after:absolute after:inset-0">{title}</a>
+    <a href={`/blog/${slug}/`} class="hover:text-pen after:absolute after:inset-0">{title}</a>
   </h2>
   <p class="text-ink-muted">{description}</p>
   {tags.length > 0 && <p class="text-sm text-ink-muted">{tags.join('・')}</p>}

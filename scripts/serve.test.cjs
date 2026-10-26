@@ -34,7 +34,7 @@ async function start(noindex) {
   servers.push(server);
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
   const { port } = server.address();
-  return (p) => fetch(`http://127.0.0.1:${port}${p}`);
+  return (p, options) => fetch(`http://127.0.0.1:${port}${p}`, options);
 }
 
 // fetch は送る前に URL の .. を取り除くので、パスをそのまま送るときは http.get を使う
@@ -43,15 +43,15 @@ async function startRaw() {
   servers.push(server);
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
   const { port } = server.address();
-  return (p) =>
+  return (p, headers = {}) =>
     new Promise((resolve, reject) => {
       http
-        .get({ host: '127.0.0.1', port, path: p }, (res) => {
+        .get({ host: '127.0.0.1', port, path: p, headers }, (res) => {
           let body = '';
           res.on('data', (c) => {
             body += c;
           });
-          res.on('end', () => resolve({ status: res.statusCode, body }));
+          res.on('end', () => resolve({ status: res.statusCode, body, headers: res.headers }));
         })
         .on('error', reject);
     });
@@ -118,4 +118,59 @@ test('index.html が無いときも、dist の外の <dist>.html は返さない
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
   const res = await fetch(`http://127.0.0.1:${server.address().port}/`);
   assert.notEqual(await res.text(), 'outside');
+});
+
+test('実在する HTML の別表記を1回で末尾スラッシュへ転送し、クエリを保つ', async () => {
+  const get = await start(false);
+  for (const [from, to] of [
+    ['/blog?source=one&name=%E8%97%A4', '/blog/?source=one&name=%E8%97%A4'],
+    ['/blog/index.html', '/blog/'],
+    ['/index.html', '/'],
+    ['//blog/index.html', '/blog/'],
+  ]) {
+    const res = await get(from, { redirect: 'manual' });
+    assert.equal(res.status, 301, from);
+    assert.equal(res.headers.get('location'), to, from);
+    const target = await get(to, { redirect: 'manual' });
+    assert.equal(target.status, 200, to);
+  }
+});
+
+test('無いページ・静的アセット・404自体を末尾スラッシュへ転送しない', async () => {
+  const get = await start(false);
+  for (const [url, status] of [
+    ['/missing', 404],
+    ['/missing.html', 404],
+    ['/robots.txt', 200],
+    ['/404.html', 200],
+  ]) {
+    const res = await get(url, { redirect: 'manual' });
+    assert.equal(res.status, status, url);
+    assert.equal(res.headers.get('location'), null, url);
+  }
+});
+
+test('公開ホストの HTTP・www とパスを1回で正規 URL に統合する', async () => {
+  const get = await startRaw();
+  for (const headers of [
+    { host: 'www.wisteria-io.com', 'x-forwarded-proto': 'https' },
+    { host: 'wisteria-io.com', 'x-forwarded-proto': 'http' },
+    { host: 'www.wisteria-io.com', 'x-forwarded-proto': 'http' },
+  ]) {
+    const res = await get('/blog/index.html?source=test', headers);
+    assert.equal(res.status, 301);
+    assert.equal(res.headers.location, 'https://wisteria-io.com/blog/?source=test');
+  }
+  const correct = await get('/blog/', { host: 'wisteria-io.com', 'x-forwarded-proto': 'https' });
+  assert.equal(correct.status, 200);
+  const unknown = await get('/blog/', { host: 'attacker.example', 'x-forwarded-proto': 'http' });
+  assert.equal(unknown.status, 200);
+});
+
+test('staging の転送も同じホストに留めて noindex を付ける', async () => {
+  const get = await start(true);
+  const res = await get('/blog', { redirect: 'manual', headers: { host: 'staging.wisteria-io.com' } });
+  assert.equal(res.status, 301);
+  assert.equal(res.headers.get('location'), '/blog/');
+  assert.equal(res.headers.get('x-robots-tag'), 'noindex, nofollow');
 });

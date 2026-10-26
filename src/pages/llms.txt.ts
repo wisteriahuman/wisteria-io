@@ -26,8 +26,11 @@ export async function GET() {
     '',
     '## 作品',
     ...projects.flatMap((project) => [
-      `- [${project.title}](${profile.url}#projects): ${project.desc}${project.award ? ` ${project.award}。` : ''}`,
+      `- [${project.title}](${profile.url}#project-${project.id}): ${project.desc}${project.award ? ` ${project.award}。` : ''}`,
       ...(project.github ? [`  - [リポジトリ](${project.github})`] : []),
+      ...(project.report
+        ? [`  - [${project.report.publisher}の開催・受賞報告：${project.report.title}](${project.report.url})`]
+        : []),
       ...(project.link ? [`  - [関連ページ](${project.link})`] : []),
     ]),
     '',

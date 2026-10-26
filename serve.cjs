@@ -22,6 +22,7 @@ const MIME = {
   '.ttf': 'font/ttf',
 };
 
+const CANONICAL_ORIGIN = 'https://wisteria-io.com';
 const DISALLOW_ALL = 'User-agent: *\nDisallow: /\n';
 
 function createServer({ dist, noindex }) {
@@ -51,6 +52,33 @@ function createServer({ dist, noindex }) {
       send(res, 200, 'text/plain', DISALLOW_ALL);
       return;
     }
+    // 転送先は固定の origin とエンコードしたパスから作る。Host を転送先へ流用しない。
+    const requestedPath = urlPath;
+    const query = req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
+    const sendFile = (file, data) => {
+      const isHtml = path.extname(file) === '.html';
+      let canonicalPath = requestedPath;
+      if (isHtml && path.basename(file) !== '404.html') {
+        canonicalPath = requestedPath.replace(/\/index\.html$/, '/').replace(/\.html$/, '');
+        canonicalPath = `/${canonicalPath.replace(/^\/+|\/+$/g, '')}/`.replace(/^\/\//, '/');
+        canonicalPath = canonicalPath.replace(/\/{2,}/g, '/');
+      }
+      const host = req.headers.host?.toLowerCase();
+      const publicHost = host === 'wisteria-io.com' || host === 'www.wisteria-io.com';
+      // Tunnel の手前は HTTP なので、ソケットから公開 URL のスキームを推測しない。
+      const wrongOrigin =
+        !noindex && publicHost && (host === 'www.wisteria-io.com' || req.headers['x-forwarded-proto'] === 'http');
+      if (canonicalPath !== requestedPath || wrongOrigin) {
+        const encodedPath = canonicalPath.split('/').map(encodeURIComponent).join('/');
+        const location = `${wrongOrigin ? CANONICAL_ORIGIN : ''}${encodedPath}${query}`;
+        const headers = { Location: location };
+        if (noindex) headers['X-Robots-Tag'] = 'noindex, nofollow';
+        res.writeHead(301, headers);
+        res.end();
+        return;
+      }
+      send(res, 200, typeOf(file), data);
+    };
     if (urlPath.endsWith('/')) urlPath += 'index.html';
     if (!path.extname(urlPath)) urlPath += '/index.html';
 
@@ -69,7 +97,7 @@ function createServer({ dist, noindex }) {
 
     fs.readFile(filePath, (err, data) => {
       if (!err) {
-        send(res, 200, typeOf(filePath), data);
+        sendFile(filePath, data);
         return;
       }
       // /about/index.html が無ければ /about.html を探す。/ のときは <root>.html になり外に出るので探さない
@@ -80,7 +108,7 @@ function createServer({ dist, noindex }) {
       }
       fs.readFile(alt, (err2, data2) => {
         if (!err2) {
-          send(res, 200, typeOf(alt), data2);
+          sendFile(alt, data2);
           return;
         }
         notFound();

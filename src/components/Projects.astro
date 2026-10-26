@@ -6,17 +6,20 @@ import { projects } from '../data/projects';
   <h2 class="font-hand text-[1.875rem] font-bold text-ink"><span class="marker">Projects</span></h2>
   <ul class="mt-7 space-y-7">
     {projects.map(p => (
-      <li data-project class="relative">
+      <li id={`project-${p.id}`} data-project class="relative scroll-mt-24">
         <p class="margin-note">{p.period}</p>
         <h3 class="font-bold text-ink">
           {p.title}{p.award && <span class="stamp">{p.award}</span>}
         </h3>
         <p class="text-ink-muted">{p.desc}</p>
         <p class="text-sm text-ink-muted">{p.tech.join('・')}</p>
-        {(p.github || p.link) && (
+        {(p.github || p.link || p.report) && (
           <p class="flex flex-wrap gap-x-6">
             {p.github && (
               <a href={p.github} target="_blank" rel="noopener" class="text-pen underline underline-offset-4">GitHub</a>
+            )}
+            {p.report && (
+              <a href={p.report.url} target="_blank" rel="noopener" class="text-pen underline underline-offset-4">{p.report.publisher}の開催・受賞報告</a>
             )}
             {p.link && (
               <a href={p.link} target="_blank" rel="noopener" class="text-pen underline underline-offset-4">関連サイト</a>

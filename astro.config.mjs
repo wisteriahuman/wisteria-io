@@ -9,6 +9,7 @@ import rehypeWrapMermaid from './src/lib/rehype-wrap-mermaid';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://wisteria-io.com',
+  trailingSlash: 'always',
   integrations: [sitemap()],
   devToolbar: { enabled: false },
   // CSS は 5KB ほどなので HTML に埋め込み、描画前の往復を1回減らす（ADR-009）

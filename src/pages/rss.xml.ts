@@ -13,7 +13,7 @@ export async function GET(context: APIContext) {
     site: context.site ?? 'https://wisteria-io.com',
     items: posts.map((post) => ({
       title: post.data.title,
-      link: `/blog/${post.slug}`,
+      link: `/blog/${post.slug}/`,
       pubDate: post.data.pubDate,
       description: post.data.description,
     })),

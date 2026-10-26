@@ -4,7 +4,7 @@ export type SectionId = 'top' | 'experience' | 'projects' | 'skills' | 'about' |
 
 export const buildNotes: Record<SectionId, { adrs: number[]; files: string[] }> = {
   top: {
-    adrs: [7, 16, 9, 19],
+    adrs: [7, 16, 9, 19, 21],
     files: [
       'src/components/Hero.astro',
       'src/components/Stickers.astro',
@@ -15,7 +15,7 @@ export const buildNotes: Record<SectionId, { adrs: number[]; files: string[] }> 
     ],
   },
   experience: { adrs: [7, 16], files: ['src/components/Experience.astro', 'src/data/career.ts'] },
-  projects: { adrs: [7, 16], files: ['src/components/Projects.astro', 'src/data/projects.ts'] },
+  projects: { adrs: [7, 16, 21], files: ['src/components/Projects.astro', 'src/data/projects.ts'] },
   skills: { adrs: [16], files: ['src/components/Skills.astro'] },
   about: { adrs: [8, 16], files: ['src/components/About.astro'] },
   links: {

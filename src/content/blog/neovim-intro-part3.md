@@ -8,7 +8,7 @@ draft: false
 
 ## はじめに
 
-[Part 2](/blog/neovim-intro-part2)では `init.lua` の構造を理解し、基本オプションとキーマップを書いた。Part 3では、プラグインマネージャ `lazy.nvim` を導入して、Neovimの見た目と機能を拡張していく。
+[Part 2](/blog/neovim-intro-part2/)では `init.lua` の構造を理解し、基本オプションとキーマップを書いた。Part 3では、プラグインマネージャ `lazy.nvim` を導入して、Neovimの見た目と機能を拡張していく。
 
 Part 2まではNeovim標準の機能だけを使っていた。ここからはプラグイン（有志が開発した拡張機能）を追加していく。VSCodeでいう拡張機能のインストールに相当する。
 
